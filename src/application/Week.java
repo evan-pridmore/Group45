@@ -3,10 +3,10 @@ package application;
 import java.util.Date;
 import java.util.Calendar;
 
-class Week extends TimeUnit{
+public class Week extends TimeUnit{
 	private Day[] weekDays = new Day[7] ;
-	Week(Date chosenDate) {
-		super(chosenDate, null);
+	Week(Date chosenDate) throws NullPointerException, NullEventEndPointException {
+		super(chosenDate, null, true);
 		Calendar calendarWeek = Calendar.getInstance();
 		calendarWeek.setTime(chosenDate);
 		
@@ -21,16 +21,15 @@ class Week extends TimeUnit{
 		System.out.println(getStart());
 		long plusSixDays = calendarWeek.getTime().getTime() + 604800000 - 1;
 		super.setEnd(new Date(plusSixDays));
-		
 		System.out.println(getEnd());
 		generateDays();
 	}
 	
-	private void generateDays() {
+	private void generateDays() throws NullEventEndPointException {
 		Date dayStart = getStart();
 		for (int i = 0; i < weekDays.length; i++) {
-			weekDays[i] = new Day(dayStart);
-			dayStart = new Date(dayStart.getTime() + 86400000);
+				weekDays[i] = new Day(dayStart);
+				dayStart = new Date(dayStart.getTime() + 86400000);
 		}
 	}
 }

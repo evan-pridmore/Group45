@@ -2,11 +2,23 @@ package application;
 
 import java.util.Date;
 
+/**
+ *Base class for all time events, should never be constructed directly.
+ */
 class TimeUnit{
 	private Date start;
 	private Date end;
 	
-	protected TimeUnit(Date startDate, Date endDate) {
+	protected TimeUnit(Date startDate, Date endDate) throws NullEventEndPointException {
+		if (startDate == null)
+			throw new NullEventEndPointException("TimeUnit start cannot be null.");
+		start = startDate;
+		end = endDate;
+	}
+	
+	protected TimeUnit(Date startDate, Date endDate, boolean isWeek) throws NullPointerException {
+		if (startDate == null)
+			throw new NullPointerException("Week Constructor was expecting arguement type Date, but recieved null value.");
 		start = startDate;
 		end = endDate;
 	}
@@ -58,10 +70,11 @@ class TimeUnit{
 		return smallerTimeUnit.endsIn(biggerTimeUnit);
 	}
 	
-	public boolean contains(TimeUnit smallerTimeUnit) {
+	public boolean contains(TimeUnit smallerTimeUnit) throws NullEventEndPointException {
 		TimeUnit self = new TimeUnit(start, end);
 		if (smallerTimeUnit.startsIn(self) || smallerTimeUnit.endsIn(self))
 			return true;
 		return false;
+
 	}
 }

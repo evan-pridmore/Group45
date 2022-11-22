@@ -1,12 +1,14 @@
 package application;
 
 import java.util.Date;
-
-public class Event extends TimeUnit{
+/**
+ * Base class for all user created events. Should not be constructed manually.
+ */
+class Event extends TimeUnit {
 	private String name;
 	private int[] colour = new int[3];
 	
-	Event(Date start, Date end, String aName, int[] aColour) throws InvalidColourException {
+	Event(Date start, Date end, String aName, int[] aColour) throws NullEventEndPointException, InvalidColourException {
 		super(start, end);
 		setName(aName);
 		setColour(aColour);
