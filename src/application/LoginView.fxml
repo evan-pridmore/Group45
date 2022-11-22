@@ -10,7 +10,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginViewController">
    <center>
-      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="225.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label alignment="TOP_CENTER" layoutX="17.0" layoutY="12.0" text="Group45 Project" AnchorPane.topAnchor="12.0">
                <font>
@@ -25,6 +25,7 @@
             <TextField fx:id="loginUsername" layoutX="25.0" layoutY="87.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" promptText="Username" />
             <PasswordField fx:id="loginPassword" layoutX="25.0" layoutY="124.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" promptText="Password" />
             <Button layoutX="25.0" layoutY="162.0" mnemonicParsing="false" onAction="#attemptLogin" prefHeight="25.0" prefWidth="150.0" text="Log in" />
+            <Label fx:id="loginErrorLabel" layoutX="25.0" layoutY="200.0" textFill="RED" wrapText="true" />
          </children>
       </AnchorPane>
    </center>
