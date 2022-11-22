@@ -4,8 +4,9 @@ import java.util.Date;
 import java.util.Calendar;
 
 class Week extends TimeUnit{
-	Day[] weekDays = new Day[7] ;
+	private Day[] weekDays = new Day[7] ;
 	Week(Date chosenDate) {
+		super(chosenDate, null);
 		Calendar calendarWeek = Calendar.getInstance();
 		calendarWeek.setTime(chosenDate);
 		

@@ -6,10 +6,9 @@ import java.util.Date;
 class Day extends TimeUnit {
 	private ArrayList<Event> Events = new ArrayList<Event>();
 
-	Day(Date beginning) {
-		super.setStart(beginning);
+	Day(Date start) {
+		super(start, new Date(start.getTime()  + 86400000 - 1));
 		System.out.println(getStart());
-		super.setEnd(new Date(beginning.getTime() + 86400000 - 1));
 		System.out.println(getEnd());
 	}
 	
