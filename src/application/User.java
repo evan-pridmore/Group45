@@ -13,8 +13,22 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	
-	User(String usernameInput, String passwordInput) {
-		
+	User(String usernameInput, String passwordInput) throws InvalidUsernameException, UserAlreadyExistsException {
+		if (!userAlreadyExists(usernameInput)) {
+			setUsername(usernameInput);
+			setPassword(passwordInput);
+			System.out.println(String.format("User Constructor (String, String): User created with username '%s' and password '%s'.", usernameInput, passwordInput));
+			// Add exception handling (invalidUsernameException & invalidPasswordException?)
+
+			try {
+			serializeUser(this);
+			
+			} catch (IOException ioe) {
+				System.out.println(String.format("ERROR (User Constructor (String, String)): Cannot serialize user with username '%s' and password '%s'", getUsername(), getPassword()));
+				System.out.println(ioe.getMessage());
+			}
+		} else 
+			throw new UserAlreadyExistsException(String.format("ERROR (User Constructor (String, String)): User already exists."));
 	}
 	
 	public String getUsername() {
@@ -30,7 +44,7 @@ public class User implements Serializable {
 			username = usernameInput;
 		} else {
 			System.out.println(String.format("ERROR (setUsername): Cannot set username to '%s'.", usernameInput));
-			//throw custom exception (invalidUsernameInput)
+			//throw custom exception (invalidUsernameException?)
 		}
 	}
 	
@@ -39,33 +53,45 @@ public class User implements Serializable {
 			password = passwordInput;
 		} else {
 			System.out.println(String.format("ERROR (setPassword): Cannot set password to '%s'.", passwordInput));
-			//throw custom exception (invalidUsernameInput)
+			//throw custom exception (invalidPasswordException?)
 		}
 	}
 	
+	public static boolean userAlreadyExists(String inputUsername) {
+		File loginDataFile = new File("loginData" + inputUsername + ".ser");
+
+		if (loginDataFile.exists()) {
+			System.out.println(String.format("alreadyExists: User login data with username '%s' already exists!", inputUsername));
+			return true;
+		}
+		return false;
+	}
+	
 	public static void serializeUser(User inputUser) throws IOException {
+		File loginDataFile = new File("loginData" + inputUser.getUsername() + ".ser");
+		
 		try {
-			FileOutputStream fileOut = new FileOutputStream("loginData" + inputUser + ".ser");
+			FileOutputStream fileOut = new FileOutputStream(loginDataFile);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(inputUser);
 			out.close();
 			fileOut.close();
-			System.out.println("(User) Saved login data '%s', '%s' to 'loginData.ser'.");
+			System.out.println("(User) Saved login data '%s', '%s' to '" + loginDataFile + "'.");
 			
 		} catch (IOException ioe) {
-			System.out.println("ERROR (serializeUser): Cannot save user data to loginData.ser");
+			System.out.println("ERROR (serializeUser): Cannot save user data to ''" + loginDataFile + "'.");
 		}
 	}
 	
 	public static User deserializeUser(String inputUsername) throws ClassNotFoundException, IOException, UserDoesNotExistException {
 		User outputUser = null;
 		
-		File loginData = new File("loginData" + inputUsername + ".ser");
+		File loginDataFile = new File("loginData" + inputUsername + ".ser");
 				
-		if (loginData.exists() && loginData.canRead()) {
-			System.out.println(String.format("deserializeUser: data for username '%s' from file '%s'", inputUsername, loginData));
+		if (loginDataFile.exists() && loginDataFile.canRead()) {
+			System.out.println(String.format("deserializeUser: data for username '%s' from file '%s'", inputUsername, loginDataFile));
 			try {
-				FileInputStream fileIn = new FileInputStream(loginData);
+				FileInputStream fileIn = new FileInputStream(loginDataFile);
 				ObjectInputStream in = new ObjectInputStream(fileIn);
 				outputUser = (User) in.readObject();
 				
@@ -73,16 +99,16 @@ public class User implements Serializable {
 				fileIn.close();
 				
 			} catch (IOException ioe) {
-				System.out.println(String.format("ERROR (deserializeUser): Cannot read user data from '%s'", loginData));
+				System.out.println(String.format("ERROR (deserializeUser): Cannot read user data from '%s'", loginDataFile));
 				System.out.println(ioe.getMessage());
 				
 			} catch (ClassNotFoundException cnfe) {
-				System.out.println(String.format("ERROR (deserializeUser): Cannot read user data from '%s'", loginData));
+				System.out.println(String.format("ERROR (deserializeUser): Cannot read user data from '%s'", loginDataFile));
 				System.out.println(cnfe.getMessage());
 				
 			}
 		} else {
-			throw new UserDoesNotExistException(String.format("ERROR (deserializeUser): file '%s' either does not exist or cannot be read.", loginData));
+			throw new UserDoesNotExistException(String.format("ERROR (deserializeUser): file '%s' either does not exist or cannot be read.", loginDataFile));
 		}
 		
 		return outputUser;
