@@ -1,6 +1,7 @@
 package application;
 	
 import java.io.FileInputStream;
+
 import java.util.Date;
 
 import javafx.application.Application;
@@ -15,13 +16,10 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			VBox root = loader.load(new FileInputStream("src/application/WeekView.fxml"));
-			
-			WeekViewController controller = (WeekViewController) loader.getController();
-			controller.applicationStage = primaryStage;
-			
+			BorderPane root = loader.load(new FileInputStream("src/application/LoginView.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
+			primaryStage.setTitle("Group45 Project");
 			primaryStage.show();
 			Week test = new Week(new Date());
 		} catch(Exception e) {
