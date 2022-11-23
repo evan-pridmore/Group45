@@ -17,11 +17,8 @@ public class Week extends TimeUnit{
 		calendarWeek.set(Calendar.SECOND, 0);
 		calendarWeek.set(Calendar.MILLISECOND, 0);
 		super.setStart(calendarWeek.getTime());
-		
-		System.out.println(getStart());
 		long plusSixDays = calendarWeek.getTime().getTime() + 604800000 - 1;
 		super.setEnd(new Date(plusSixDays));
-		System.out.println(getEnd());
 		generateDays();
 	}
 	
