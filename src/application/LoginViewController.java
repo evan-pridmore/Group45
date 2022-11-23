@@ -39,7 +39,7 @@ public class LoginViewController {
 				// This login event is then passed onto Main to change the scene of the application to the CalendarView.
 				// A reference to this user is forwarded to this application to provide access to the events/data
 				// associated with that user.
-				Main.initializeCalendarView(loginEvent, currentUser);
+				CalendarViewController.initializeCalendarView(loginEvent, currentUser);
 			
 			// If the password is incorrect, the label is updated to reflect this.
 			} else {
@@ -90,6 +90,3 @@ public class LoginViewController {
 	}
 	
 }
-	
-	// Requires File ID module to access and compare stored login information? i.e., use a for-loop to scan through a list of stored usernames and correlating passwords?
-	// Look into using HashMaps to create a key:value pair (username:password) pair, wrapped with a try/catch statement.

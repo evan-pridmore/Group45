@@ -16,6 +16,7 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
+	// Add ArrayList for saved events?
 	private static final long serialVersionUID = 5095466992353474477L;
 	private String username;
 	private String password;
