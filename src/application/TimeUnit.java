@@ -75,6 +75,5 @@ class TimeUnit{
 		if (smallerTimeUnit.startsIn(self) || smallerTimeUnit.endsIn(self))
 			return true;
 		return false;
-
 	}
 }

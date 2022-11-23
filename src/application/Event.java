@@ -13,7 +13,7 @@ class Event extends TimeUnit {
 		setName(aName);
 		setColour(aColour);
 	}
-	
+		
 	public void setName(String givenName) {
 		name = givenName;
 	}
@@ -30,5 +30,11 @@ class Event extends TimeUnit {
 	
 	public int[] getColour() {
 		return colour;
-	}	
+	}
+	
+	public boolean equals(Event otherEvent) {
+		if(otherEvent.getStart().equals(getStart()) && otherEvent.getEnd().equals(getEnd()) && otherEvent.getName().equals(getName()))
+			return true;
+		return false;
+	}
 }

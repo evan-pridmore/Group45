@@ -9,5 +9,4 @@ public class TimedEvent extends Event {
 		if (getEnd() == null)
 			throw new NullEventEndPointException("Timed Event end date cannot be null.");
 	}
-
 }

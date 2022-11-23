@@ -9,7 +9,5 @@ public class InstantEvent extends Event {
 	public InstantEvent(Date instant, String aName, int[] aColour) throws NullEventEndPointException, InvalidColourException {
 		super(instant, null, aName, aColour);
 		time = getStart();
-		
 	}
-
 }
