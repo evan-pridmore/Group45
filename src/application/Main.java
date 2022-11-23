@@ -2,13 +2,11 @@ package application;
 	
 import java.io.FileInputStream;
 
-import java.util.Date;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
@@ -21,7 +19,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Group45 Project");
 			primaryStage.show();
-			Week test = new Week(new Date());
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

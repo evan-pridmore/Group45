@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -31,7 +32,7 @@ public class CalendarViewController {
 		try {
 			currentUser = loginUser; 
 			FXMLLoader loader = new FXMLLoader();
-			AnchorPane root = loader.load(new FileInputStream("src/application/CalendarView.fxml"));
+			Parent root = loader.load(new FileInputStream("src/application/WeekView.fxml"));
 			// Login event is used to get a reference to the application Window, which is then casted to Stage.
 			Stage stage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
 			// applicationStage = stage; If it is necessary, we can grab a reference to the stage of this window.
