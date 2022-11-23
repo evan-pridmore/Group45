@@ -36,6 +36,9 @@ public class CalendarViewController {
 			// Login event is used to get a reference to the application Window, which is then casted to Stage.
 			Stage stage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
 			// applicationStage = stage; If it is necessary, we can grab a reference to the stage of this window.
+			
+			WeekViewController controller = (WeekViewController) loader.getController();
+			controller.applicationStage = stage;
 			Scene scene = new Scene(root);
 			stage.setScene(scene);
 			stage.setTitle(currentUser.getUsername() + "'s Calendar");
