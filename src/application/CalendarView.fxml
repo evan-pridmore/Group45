@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -36,7 +37,14 @@
       </TabPane>
       <AnchorPane prefWidth="280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
          <children>
-            <VBox fx:id="upcomingEventsVBox" prefWidth="280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0" />
+            <VBox fx:id="upcomingEventsVBox" prefWidth="280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
+               <children>
+                  <ScrollPane fitToWidth="true" prefHeight="690.0" prefWidth="280.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="690.0" prefWidth="280.0" />
+                    </content>
+                  </ScrollPane>
+               </children></VBox>
             <Label alignment="CENTER" prefWidth="280.0" text="Upcoming Events" textAlignment="CENTER" AnchorPane.topAnchor="5.0">
                <font>
                   <Font size="16.0" />

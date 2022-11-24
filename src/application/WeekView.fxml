@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.input.KeyCombination?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="745.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.WeekViewController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu fx:id="UserMenu" mnemonicParsing="false" text="User">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Switch User" onAction="#presentSwitchUserMenu"/>
+              <MenuItem mnemonicParsing="false" text="Log Out" onAction="#logOut"/>
+            </items>
+          </Menu>
+          <Menu fx:id="EditMenu" mnemonicParsing="false" text="Edit" >
+            <items>
+              <MenuItem mnemonicParsing="false" text="Add Event" accelerator="Ctrl+N" onAction="#presentNewEventMenu" />
+               <MenuItem mnemonicParsing="false" text="Remove Event" accelerator="Ctrl+Delete" onAction="#presentRemoveEventMenu"/>
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <HBox prefHeight="720.0" prefWidth="1280.0">
+         <children>
+            <VBox fx:id="UpcomingWindow" alignment="TOP_CENTER" prefHeight="720.0" prefWidth="130.0">
+               <children>
+                  <Label text="Upcoming Events" />
+               </children>
+            </VBox>
+            <VBox prefHeight="720.0" prefWidth="30.0">
+               <children>
+                  <Label text="00:00">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="02:00">
+                     <VBox.margin>
+                        <Insets top="42.5" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="04:00">
+                     <VBox.margin>
+                        <Insets top="42.5" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="06:00">
+                     <VBox.margin>
+                        <Insets top="42.5" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="08:00">
+                     <VBox.margin>
+                        <Insets top="42.5" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="10:00">
+                     <VBox.margin>
+                        <Insets top="42.5" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="12:00">
+                     <VBox.margin>
+                        <Insets top="42.5" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="14:00">
+                     <VBox.margin>
+                        <Insets top="42.5" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="16:00">
+                     <VBox.margin>
+                        <Insets top="42.5" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="18:00">
+                     <VBox.margin>
+                        <Insets top="42.5" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="20:00">
+                     <VBox.margin>
+                        <Insets top="42.5" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="22:00">
+                     <VBox.margin>
+                        <Insets top="42.5" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="24:00">
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox fx:id="Sunday" prefHeight="720.0" prefWidth="160.0" />
+            <VBox fx:id="Monday" prefHeight="720.0" prefWidth="160.0" />
+            <VBox fx:id="Tuesday" prefHeight="720.0" prefWidth="160.0" />
+            <VBox fx:id="Wednesday" prefHeight="720.0" prefWidth="160.0" />
+            <VBox fx:id="Thursday" prefHeight="720.0" prefWidth="160.0" />
+            <VBox fx:id="Friday" prefHeight="720.0" prefWidth="160.0" />
+            <VBox fx:id="Saturday" prefHeight="720.0" prefWidth="160.0" />
+         </children>
+      </HBox>
+   </children>
+</VBox>
