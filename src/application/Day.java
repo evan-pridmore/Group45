@@ -16,7 +16,7 @@ class Day extends TimeUnit {
 		if (events.size() > 0) {
 			int  index = 0;
 			for (int i = 0; i < events.size(); i++) {
-				if (events.get(i).getStart().before(getStart())) {
+				if (events.get(i).getStart().before(newEvent.getStart())) {
 					index = i + 1;
 				}
 			}
