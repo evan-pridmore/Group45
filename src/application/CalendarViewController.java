@@ -35,10 +35,12 @@ public class CalendarViewController {
 	// Needs to be static and take in a user as an argument
 	public static void initializeCalendarView(ActionEvent loginEvent, User loginUser) {
 		try {
+			Stage loginStage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
+ 			loginStage.close();
+ 			
 			currentUser = loginUser; 
  			Parent root = loader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
- 			// Login event is used to get a reference to the application Window, which is then casted to Stage.
- 			applicationStage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
+ 			applicationStage = new Stage(); 
  			Scene scene = new Scene(root);
  			applicationStage.setScene(scene);
  			applicationStage.setTitle(currentUser.getUsername() + "'s Calendar");
