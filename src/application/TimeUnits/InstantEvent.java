@@ -1,6 +1,9 @@
-package application;
+package application.TimeUnits;
 
 import java.util.Date;
+
+import application.Exceptions.InvalidColourException;
+import application.Exceptions.NullEventEndPointException;
 
 public class InstantEvent extends Event {
 	//Variable that will point at base class' start instance variable for ease of writing as InstantEvents have no start and end, only a time at which they occur.

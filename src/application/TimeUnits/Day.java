@@ -1,9 +1,11 @@
-package application;
+package application.TimeUnits;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-class Day extends TimeUnit {
+import application.Exceptions.NullEventEndPointException;
+
+public class Day extends TimeUnit {
 	private ArrayList<Event> events = new ArrayList<Event>();
 
 	Day(Date start) throws NullEventEndPointException {

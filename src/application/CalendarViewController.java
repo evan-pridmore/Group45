@@ -1,8 +1,6 @@
 package application;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,7 +36,7 @@ public class CalendarViewController {
 	public static void initializeCalendarView(ActionEvent loginEvent, User loginUser) {
 		try {
 			currentUser = loginUser; 
- 			Parent root = loader.load(new FileInputStream("src/application/CalendarView.fxml"));
+ 			Parent root = loader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
  			// Login event is used to get a reference to the application Window, which is then casted to Stage.
  			applicationStage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
  			Scene scene = new Scene(root);

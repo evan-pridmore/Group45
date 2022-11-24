@@ -17,7 +17,7 @@ public class EventManagerController {
 		try {
 			currentUser = loginUser; 
 			applicationStage = calendarViewStage;
-			Parent root = loader.load(new FileInputStream("src/application/EventManagerView.fxml"));
+			Parent root = loader.load(new FileInputStream("src/application/FXML/EventManagerView.fxml"));
 			Scene scene = new Scene(root);
 			applicationStage.setScene(scene);
 			applicationStage.setTitle(currentUser.getUsername() + "'s Events");

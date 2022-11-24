@@ -1,6 +1,8 @@
-package application;
+package application.TimeUnits;
 
 import java.util.Date;
+
+import application.Exceptions.NullEventEndPointException;
 
 /**
  *Base class for all time events, should never be constructed directly.

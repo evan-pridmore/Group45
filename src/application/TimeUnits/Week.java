@@ -1,6 +1,11 @@
-package application;
+package application.TimeUnits;
 
 import java.util.Date;
+
+import application.Exceptions.EventOutsideTimeUnitException;
+import application.Exceptions.InvalidColourException;
+import application.Exceptions.NullEventEndPointException;
+
 import java.util.Calendar;
 
 public class Week extends TimeUnit{
