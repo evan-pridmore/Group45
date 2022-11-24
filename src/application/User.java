@@ -178,4 +178,21 @@ public class User implements Serializable {
 		return outputUser;
 	}
 	
+	/**
+	 * Adds and event to the user's userEvents ArrayList ordered based on start date.
+	 * @param newEvent The event to add to the user.
+	 */
+	public void addEvent(Event newEvent) {
+		if (userEvents.size() > 0) {
+			int  index = 0;
+			for (int i = 0; i < userEvents.size(); i++) {
+				if (userEvents.get(i).getStart().before(newEvent.getStart())) {
+					//Add the event after one at index i.
+					index = i + 1;
+				}
+			}
+			userEvents.add(index, newEvent);
+		}
+	}
+	
 }
