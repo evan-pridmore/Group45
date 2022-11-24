@@ -54,19 +54,4 @@ public class WeekViewController {
     	Scene scene = new Scene(menu);
     	applicationStage.setScene(scene);
     }
-    
-    @FXML
-    private void presentRemoveEventMenu(ActionEvent removeEvent) {
-    	System.out.println("Remove Event Menu");
-    }
-    
-    @FXML
-    private void presentSwitchUserMenu(ActionEvent switchUserEvent) {
-    	System.out.println("Switch User Menu");
-    }
-    
-    @FXML
-    private void logOut(ActionEvent logOutEvent) {
-    	System.out.println("Log out");
-    }
 }
