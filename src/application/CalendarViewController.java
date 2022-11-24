@@ -1,6 +1,7 @@
 package application;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +16,6 @@ import javafx.stage.Stage;
 
 public class CalendarViewController {
 	
-	static FXMLLoader loader = new FXMLLoader();
 	private static Stage applicationStage; 
 	private static User currentUser;
 
@@ -35,6 +35,7 @@ public class CalendarViewController {
 	// Needs to be static and take in a user as an argument
 	public static void initializeCalendarView(ActionEvent loginEvent, User loginUser) {
 		try {
+			FXMLLoader loader = new FXMLLoader();
 			currentUser = loginUser; 
  			Parent root = loader.load(new FileInputStream("src/application/CalendarView.fxml"));
  			// Login event is used to get a reference to the application Window, which is then casted to Stage.
@@ -51,26 +52,42 @@ public class CalendarViewController {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void initializeLoginView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+ 			Parent root = loader.load(new FileInputStream("src/application/LoginView.fxml"));
+ 			Scene scene = new Scene(root);
+ 			applicationStage.setScene(scene);
+			applicationStage.setTitle("Login");
+ 			applicationStage.show();
+						
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
 		
     @FXML
     private void switchUser(ActionEvent switchUserEvent) {
     	System.out.println("switchUser: Attempting to switch user...");
+    	initializeLoginView();
     }
     
     @FXML
     private void logOut(ActionEvent logOutEvent) {
     	System.out.println("logOut: Attempting to log out...");
+    	initializeLoginView();
     }
     
     @FXML
-    private void addEventMenu(ActionEvent addEventEvent) {
-    	System.out.println("addEventMenu: Attempting to initialize EventManagerView...");
-    	EventManagerController.initializeEventManagerView(applicationStage, currentUser);
+    private void addEventMenu(ActionEvent addEventEvent) throws IOException {
+    	EventManagerController.initializeEventManagerView(currentUser);
     }
     
     @FXML
     private void removeEventMenu(ActionEvent removeEventEvent) {
-    	
+    	EventManagerController.initializeEventManagerView(currentUser);
     }
     
 }

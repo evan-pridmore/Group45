@@ -9,19 +9,18 @@ import javafx.stage.Stage;
 
 public class EventManagerController {
 	
-	static FXMLLoader loader = new FXMLLoader();
-	private static Stage applicationStage; 
 	private static User currentUser;
 		
-	public static void initializeEventManagerView(Stage calendarViewStage, User loginUser) {
+	public static void initializeEventManagerView(User loginUser) {
 		try {
 			currentUser = loginUser; 
-			applicationStage = calendarViewStage;
+			Stage stage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
 			Parent root = loader.load(new FileInputStream("src/application/EventManagerView.fxml"));
 			Scene scene = new Scene(root);
-			applicationStage.setScene(scene);
-			applicationStage.setTitle(currentUser.getUsername() + "'s Events");
-			applicationStage.show();
+			stage.setScene(scene);
+			stage.setTitle(currentUser.getUsername() + "'s Events");
+			stage.show();
 			
 			System.out.println("Opened " + currentUser.getUsername() + "'s event manager!");
 			
