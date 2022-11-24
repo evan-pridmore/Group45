@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**A class that creates objects which represent user profiles. The data stored in this class can be saved through the 
  * {@link #serializeUser(User)} and {@link #deserializeUser(String)} methods.
@@ -20,6 +21,8 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 5095466992353474477L;
 	private String username;
 	private String password;
+	
+	private ArrayList<Event> userEvents;
 	
 	/**A constructor that creates a new instance of User and assigns values to the instance variables username and
 	 * password.
@@ -80,6 +83,10 @@ public class User implements Serializable {
 			System.out.println(String.format("ERROR (setPassword): Cannot set password to '%s'.", passwordInput));
 			throw new InvalidPasswordException(String.format("ERROR (setPassword): Cannot set password to '%s'.", passwordInput));
 		}
+	}
+	
+	public ArrayList<Event> getEvents() {
+		return new ArrayList<Event>(userEvents);
 	}
 	
 	/**Checks if the provided username already has a user save file created.
