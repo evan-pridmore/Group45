@@ -1,8 +1,6 @@
 package application;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,8 +53,8 @@ public class CalendarViewController {
 	}
 		
     @FXML
-    private void SwitchUserMenu(ActionEvent switchUserEvent) {
-    	System.out.println("Switch User Menu");
+    private void switchUser(ActionEvent switchUserEvent) {
+    	System.out.println("switchUser: Attempting to switch user...");
     }
     
     @FXML

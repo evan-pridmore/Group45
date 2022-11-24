@@ -56,7 +56,7 @@
         <menus>
             <Menu fx:id="UserMenu" mnemonicParsing="false" text="User">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Switch User" />
+                  <MenuItem mnemonicParsing="false" onAction="#switchUser" text="Switch User" />
                   <MenuItem mnemonicParsing="false" onAction="#logOut" text="Log Out" />
                </items>
             </Menu>

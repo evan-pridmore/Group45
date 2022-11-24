@@ -1,9 +1,8 @@
 package application;
 
-import java.io.IOException;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
 import javafx.event.ActionEvent;
 
 public class LoginViewController {
@@ -16,7 +15,7 @@ public class LoginViewController {
 	
 	@FXML
 	private Label loginErrorLabel;
-		
+	
 	/**This method handles the On Action event attemptLogin from the GUI of loginView.
 	 * 
 	 * @param loginEvent The event of the 'login' button being pressed, provided by the GUI.
@@ -46,11 +45,6 @@ public class LoginViewController {
 				System.out.println("Incorrect password!");
 				loginErrorLabel.setText("Incorrect password!");
 			}
-			
-		} catch (ClassNotFoundException | IOException e) {
-			// This should be a custom exception?
-			System.out.println(String.format("ERROR (attemptLogin): Cannot deserialize user '%s'. ", loginUsername.getText()));
-			System.out.println(e.getMessage());
 			
 		} catch (UserDoesNotExistException udne) {
 			System.out.println(String.format("ERROR (attemptLogin): User '%s' does not exist.", loginUsername.getText()));
