@@ -37,6 +37,7 @@ public class User implements Serializable {
 		if (!userAlreadyExists(usernameInput)) {
 			setUsername(usernameInput);
 			setPassword(passwordInput);
+			userEvents = new ArrayList<Event>(); 
 			System.out.println(String.format("User Constructor (String, String): User created with username '%s' and password '%s'.", usernameInput, passwordInput));
 			
 			// Once instance variables username and password are assigned, the user data is immediately saved.

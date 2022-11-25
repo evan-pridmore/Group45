@@ -37,4 +37,9 @@ class Event extends TimeUnit {
 			return true;
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+		return new String(getStart().toString() + "-->" + getEnd().toString());
+	}
 }

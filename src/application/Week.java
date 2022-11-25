@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 public class Week extends TimeUnit{
 	private Day[] weekDays = new Day[7] ;
+	
 	Week(Date chosenDate) throws NullPointerException, NullEventEndPointException {
 		super(chosenDate, null, true);
 		Calendar calendarWeek = Calendar.getInstance();
@@ -44,6 +45,7 @@ public class Week extends TimeUnit{
 			throw new IndexOutOfBoundsException("Day of week must be 1-7.");
 		}
 	}
+	
 	public void addEvent(Event event) throws NullEventEndPointException, EventOutsideTimeUnitException, InvalidColourException {
 		Week self = new Week(getStart(), getEnd(), weekDays);
 		if (self.contains(event)) {

@@ -27,7 +27,6 @@ public class EventManagerController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-	
 		}	
 	}
 }
