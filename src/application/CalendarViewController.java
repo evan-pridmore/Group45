@@ -1,6 +1,8 @@
 package application;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,9 +67,9 @@ public class CalendarViewController {
     }
     
     @FXML
-    private void addEventMenu(ActionEvent addEventEvent) {
+    private void addEventMenu(ActionEvent addEventEvent) throws FileNotFoundException, IOException {
     	System.out.println("addEventMenu: Attempting to initialize EventManagerView...");
-    	EventManagerController.initializeEventManagerView(applicationStage, currentUser);
+    	EventManagementController.initializeEventManagerView(applicationStage, currentUser);
     }
     
     @FXML
