@@ -41,11 +41,12 @@ public class CalendarViewController {
 	// Needs to be static and take in a user as an argument
 	public static void initializeCalendarView(ActionEvent loginEvent, User loginUser) {
 		try {
-			FXMLLoader loader = new FXMLLoader();
+			Stage loginStage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
+ 			loginStage.close();
+      
 			currentUser = loginUser; 
- 			Parent root = loader.load(new FileInputStream("src/application/CalendarView.fxml"));
- 			// Login event is used to get a reference to the application Window, which is then casted to Stage.
- 			applicationStage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
+ 			Parent root = loader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
+ 			applicationStage = new Stage(); 
  			Scene scene = new Scene(root);
  			applicationStage.setScene(scene);
  			applicationStage.setTitle(currentUser.getUsername() + "'s Calendar");
@@ -103,9 +104,9 @@ public class CalendarViewController {
     }
     
     @FXML
-    private void addEventMenu(ActionEvent addEventEvent) throws IOException {
-    	System.out.println("addEventMenu: Attempting to add event...");
-    	EventManagement.initializeEventManagerView(currentUser);
+    private void addEventMenu(ActionEvent addEventEvent) throws FileNotFoundException, IOException {
+    	System.out.println("addEventMenu: Attempting to initialize EventManagerView...");
+    	EventManagementController.initializeEventManagerView(applicationStage, currentUser);
     }
     
     @FXML

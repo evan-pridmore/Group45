@@ -4,7 +4,7 @@ import java.util.Date;
 /**
  * Base class for all user created events. Should not be constructed manually.
  */
-class Event extends TimeUnit {
+public class Event extends TimeUnit {
 	private String name;
 	private int[] colour = new int[3];
 	
