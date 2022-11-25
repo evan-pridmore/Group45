@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -16,32 +18,43 @@
       <TabPane layoutX="268.0" layoutY="8.0" prefHeight="720.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
         <tabs>
           <Tab text="Day">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <VBox fx:id="dayViewVBox" layoutX="145.0" layoutY="131.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="0.0" />
-                     </children></AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Week">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-            <Tab text="Month">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
+                  <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1000.0">
+                     <children>
+                        <Label fx:id="dayViewDateLabel" text="Day">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="BASELINE_CENTER" prefHeight="650.0" prefWidth="1000.0">
+                           <children>
+                              <VBox alignment="TOP_CENTER" prefHeight="650.0" prefWidth="100.0" />
+                              <ScrollPane id="DayViewScrollPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="300.0" style="-fx-vbar-policy: NEVER; -fx-hbar-policy: NEVER;">
+                                 <content>
+                                    <VBox fx:id="dayViewVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="300.0" />
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content></Tab>
+          <Tab text="Week">
+          </Tab>
+          <Tab text="Month">
+          </Tab>
         </tabs>
       </TabPane>
       <AnchorPane prefWidth="280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
          <children>
-            <VBox fx:id="upcomingEventsVBox" prefWidth="280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
+            <VBox prefWidth="280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
                <children>
-                  <ScrollPane fitToWidth="true" prefHeight="690.0" prefWidth="280.0">
+                  <ScrollPane fitToWidth="true" prefHeight="690.0" prefWidth="280.0" style="-fx-vbar-policy: NEVER;">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="690.0" prefWidth="280.0" />
+                        <VBox fx:id="upcomingEventsVBox" />
                     </content>
                   </ScrollPane>
                </children></VBox>
@@ -56,7 +69,7 @@
         <menus>
             <Menu fx:id="UserMenu" mnemonicParsing="false" text="User">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Switch User" />
+                  <MenuItem mnemonicParsing="false" onAction="#switchUser" text="Switch User" />
                   <MenuItem mnemonicParsing="false" onAction="#logOut" text="Log Out" />
                </items>
             </Menu>

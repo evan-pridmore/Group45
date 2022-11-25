@@ -17,7 +17,7 @@ public class Main extends Application {
 			BorderPane root = loader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Group45 Project");
+			primaryStage.setTitle("Login");
 			primaryStage.show();
 			
 		} catch(Exception e) {
