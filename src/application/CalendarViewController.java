@@ -105,12 +105,12 @@ public class CalendarViewController {
     @FXML
     private void addEventMenu(ActionEvent addEventEvent) throws IOException {
     	System.out.println("addEventMenu: Attempting to add event...");
-    	EventManagerController.initializeEventManagerView(currentUser);
+    	EventManagement.initializeEventManagerView(currentUser);
     }
     
     @FXML
     private void removeEventMenu(ActionEvent removeEventEvent) {
     	System.out.println("removeEventMenu: Attempting to remove event...");
-    	EventManagerController.initializeEventManagerView(currentUser);
+    	EventManagement.initializeEventManagerView(currentUser);
     }
 }
