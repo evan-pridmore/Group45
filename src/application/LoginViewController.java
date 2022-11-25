@@ -2,10 +2,6 @@ package application;
 
 import java.io.IOException;
 
-import application.Exceptions.InvalidPasswordException;
-import application.Exceptions.InvalidUsernameException;
-import application.Exceptions.UserAlreadyExistsException;
-import application.Exceptions.UserDoesNotExistException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;

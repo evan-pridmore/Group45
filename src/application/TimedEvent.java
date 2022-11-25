@@ -1,9 +1,6 @@
-package application.TimeUnits;
+package application;
 
 import java.util.Date;
-
-import application.Exceptions.InvalidColourException;
-import application.Exceptions.NullEventEndPointException;
 
 public class TimedEvent extends Event {
 

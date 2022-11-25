@@ -1,4 +1,4 @@
-package application.Exceptions;
+package application;
 
 public class UserAlreadyExistsException extends Exception {
 

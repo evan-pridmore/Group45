@@ -1,4 +1,4 @@
-package application.Exceptions;
+package application;
 
 public class UserDoesNotExistException extends Exception {
 
