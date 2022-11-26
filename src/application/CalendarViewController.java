@@ -18,7 +18,8 @@ import javafx.stage.Stage;
 
 public class CalendarViewController {
 	
-	private static Stage applicationStage; 
+	public static Stage applicationStage; 
+	public static Scene applicationScene;
 	private static User currentUser;
 	private static Date selectedDate = new Date();
 	
@@ -44,15 +45,15 @@ public class CalendarViewController {
 	// Needs to be static and take in a user as an argument
 	public static void initializeCalendarView(ActionEvent loginEvent, User loginUser) {
     	System.out.println("initializeCalendarView: Attempting to initialize CalendarView...");
+		currentUser = loginUser; 
 
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			currentUser = loginUser; 
  			Parent root = loader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
  			// Login event is used to get a reference to the application Window, which is then casted to Stage.
  			applicationStage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
- 			Scene scene = new Scene(root);
- 			applicationStage.setScene(scene);
+ 			applicationScene = new Scene(root);
+ 			applicationStage.setScene(applicationScene);
  			applicationStage.setTitle(currentUser.getUsername() + "'s Calendar");
  			applicationStage.centerOnScreen();
  			
@@ -70,8 +71,8 @@ public class CalendarViewController {
 		try {
 			FXMLLoader loader = new FXMLLoader();
  			Parent root = loader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
- 			Scene scene = new Scene(root);
- 			applicationStage.setScene(scene);
+ 			applicationScene = new Scene(root);
+ 			applicationStage.setScene(applicationScene);
 			applicationStage.setTitle("Login");
  			applicationStage.centerOnScreen();
  			applicationStage.show();
