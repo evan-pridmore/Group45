@@ -15,24 +15,14 @@ import javafx.event.ActionEvent;
 
 public class EventManagementController {
 	
-	private static Stage applicationStage; 
-	private static User currentUser;
+	private User currentUser;
 	
 	@FXML
 	private VBox allEventPanel;
 
-	public static void initializeEventManagerView(Stage calendarViewStage, User loginUser) throws FileNotFoundException, IOException {
+	public void initializeEventManagerView(Stage manageStage, User loginUser) throws FileNotFoundException, IOException {
 			currentUser = loginUser; 
-			applicationStage = calendarViewStage;
-			Stage eventsStage = new Stage();
-			eventsStage.initModality(Modality.APPLICATION_MODAL);
-			eventsStage.setTitle(currentUser.getUsername() + "'s Events");
-			
-			Parent root = new FXMLLoader().load(new FileInputStream("src/application/FXML/EventsViewerView.fxml"));
-			Scene scene = new Scene(root);
-			
-			eventsStage.setScene(scene);
-			eventsStage.show();
+			manageStage.show();
 			
 			System.out.println("Opened " + currentUser.getUsername() + "'s event manager!");
 	}

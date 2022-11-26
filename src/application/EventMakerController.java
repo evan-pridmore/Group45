@@ -8,8 +8,11 @@ import java.util.Date;
 
 import application.Exceptions.EventOutsideTimeUnitException;
 import application.Exceptions.NullEventEndPointException;
+import application.TimeUnits.Day;
+import application.TimeUnits.Event;
 import application.TimeUnits.InstantEvent;
 import application.TimeUnits.TimedEvent;
+import application.TimeUnits.Week;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -95,6 +98,7 @@ public class EventMakerController {
 		
 		InstantEvent newEvent = new InstantEvent(time, name, colour);
 		currentUser.addEvent(newEvent);
+		System.out.println(currentUser.getEvents().size());
 	}
 	
 }

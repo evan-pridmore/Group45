@@ -43,7 +43,12 @@ class TimeUnit{
 	}
 	
 	public boolean containedIn(TimeUnit biggerTimeUnit) {
-		if (biggerTimeUnit.getStart().before(start) && biggerTimeUnit.getEnd().after(end)) 
+		if (end == null) {
+			if (biggerTimeUnit.getStart().before(start) && biggerTimeUnit.getEnd().after(start))
+				return true;
+		}
+				
+		else if (biggerTimeUnit.getStart().before(start) && biggerTimeUnit.getEnd().after(end))
 			return true;
 		return false;
 	}
@@ -74,7 +79,9 @@ class TimeUnit{
 	
 	public boolean contains(TimeUnit smallerTimeUnit) throws NullEventEndPointException {
 		TimeUnit self = new TimeUnit(start, end);
-		if (smallerTimeUnit.startsIn(self) || smallerTimeUnit.endsIn(self))
+		if (smallerTimeUnit.getEnd() == null)
+			return smallerTimeUnit.containedIn(self);
+		else if (smallerTimeUnit.startsIn(self) || smallerTimeUnit.endsIn(self))
 			return true;
 		return false;
 	}

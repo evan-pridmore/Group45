@@ -144,6 +144,11 @@ public class User implements Serializable {
 				}		
 			}
 		}
+		else {
+			Week newWeek = new Week(newEvent.getStart());
+			userEvents.add(newWeek);
+			addEvent(newEvent);
+		}
 	}
 	
 	/**Checks if the provided username already has a user save file created.

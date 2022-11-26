@@ -16,13 +16,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class CalendarViewController {
 	
-	private static Stage applicationStage; 
-	private static User currentUser;
-	private static FXMLLoader loader = new FXMLLoader();
+	private User currentUser;
+	private Stage applicationStage;
 	
 	@FXML
     private Menu EditMenu;
@@ -41,69 +41,60 @@ public class CalendarViewController {
 	
 	// Opens a new application window depending on the user that has logged-in from the loginView.
 	// Needs to be static and take in a user as an argument
-	public static void initializeCalendarView(ActionEvent loginEvent, User loginUser) {
-		try {
-			Stage loginStage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
- 			loginStage.close();
-      
+	public void initializeCalendarView(Stage newStage, ActionEvent loginEvent, User loginUser) throws NullEventEndPointException {
 			currentUser = loginUser; 
- 			Parent root = loader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
- 			applicationStage = new Stage(); 
- 			Scene scene = new Scene(root);
- 			applicationStage.setScene(scene);
- 			applicationStage.setTitle(currentUser.getUsername() + "'s Calendar");
- 			applicationStage.show();
-			
+			applicationStage = newStage;
 			System.out.println("Welcome " + currentUser.getUsername() + "!");
-
+			applicationStage.show();
 			generateDayView();
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
 	}
 	
-	public static void initializeLoginView() {
-		try {
+	public void initializeLoginView() throws FileNotFoundException, IOException {
 			FXMLLoader loader = new FXMLLoader();
  			Parent root = loader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
  			Scene scene = new Scene(root);
  			applicationStage.setScene(scene);
 			applicationStage.setTitle("Login");
  			applicationStage.show();
-						
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
 	}
 	
-	private static void generateDayView() throws NullEventEndPointException {		
+	private void generateDayView() throws NullEventEndPointException {		
     	System.out.println("generateDayView: Attempting to generate day view...");
 	}
 		
     @FXML
-    private void switchUser(ActionEvent switchUserEvent) {
+    private void switchUser(ActionEvent switchUserEvent) throws FileNotFoundException, IOException {
     	System.out.println("switchUser: Attempting to switch user...");
     	initializeLoginView();
     }
     
     @FXML
-    private void logOut(ActionEvent logOutEvent) {
+    private void logOut(ActionEvent logOutEvent) throws FileNotFoundException, IOException {
     	System.out.println("logOut: Attempting to log out...");
     	initializeLoginView();
     }
     
     @FXML
     private void addEventMenu(ActionEvent addEventEvent) throws FileNotFoundException, IOException {
-    	System.out.println("addEventMenu: Attempting to initialize EventManagerView...");
-    	EventManagementController.initializeEventManagerView(applicationStage, currentUser);
+  	System.out.println("addEventMenu: Attempting to initialize EventManagerView...");
+    	
+    	Stage eventsStage = new Stage();
+		eventsStage.initModality(Modality.APPLICATION_MODAL);
+		eventsStage.setTitle(currentUser.getUsername() + "'s Events");
+		
+    	FXMLLoader loader = new FXMLLoader();
+    	Parent root = loader.load(new FileInputStream("src/application/FXML/EventsViewerView.fxml"));
+		Scene scene = new Scene(root);
+		eventsStage.setScene(scene);
+		
+		EventManagementController controller = loader.getController();		
+    	controller.initializeEventManagerView(eventsStage, currentUser);
     }
     
     @FXML
     private void removeEventMenu(ActionEvent removeEventEvent) throws FileNotFoundException, IOException {
     	System.out.println("removeEventMenu: Attempting to remove event...");
-    	EventManagementController.initializeEventManagerView(applicationStage, currentUser);
+     	
+    	addEventMenu(removeEventEvent);
     }
 }

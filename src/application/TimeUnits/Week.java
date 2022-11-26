@@ -25,8 +25,6 @@ public class Week extends TimeUnit{
 		long plusSixDays = calendarWeek.getTime().getTime() + 604800000 - 1;
 		super.setEnd(new Date(plusSixDays));
 		generateDays();
-		System.out.println(getStart());
-		System.out.println(getEnd());
 	}
 	
 	private Week(Date start, Date end, Day[] weekArray) throws NullEventEndPointException {

@@ -1,9 +1,20 @@
 package application;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import application.Exceptions.InvalidPasswordException;
 import application.Exceptions.InvalidUsernameException;
+import application.Exceptions.NullEventEndPointException;
 import application.Exceptions.UserAlreadyExistsException;
 import application.Exceptions.UserDoesNotExistException;
 import javafx.event.ActionEvent;
@@ -22,9 +33,12 @@ public class LoginViewController {
 	/**This method handles the On Action event attemptLogin from the GUI of loginView.
 	 * 
 	 * @param loginEvent The event of the 'login' button being pressed, provided by the GUI.
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 * @throws NullEventEndPointException 
 	 */
 	@FXML
-	public void attemptLogin(ActionEvent loginEvent) {
+	public void attemptLogin(ActionEvent loginEvent) throws FileNotFoundException, IOException, NullEventEndPointException {
 		loginErrorLabel.setText("");
 		System.out.println(String.format("Attempted Login:%n--> Username: '%s'%n--> Password: '%s'", loginUsername.getText(), loginPassword.getText()));
 		
@@ -38,10 +52,20 @@ public class LoginViewController {
 				System.out.println(String.format("Logged in user '%s'!", currentUser.getUsername()));
 				loginErrorLabel.setText(String.format("Logged in user '%s'!", currentUser.getUsername()));
 				
-				// This login event is then passed onto Main to change the scene of the application to the CalendarView.
-				// A reference to this user is forwarded to this application to provide access to the events/data
-				// associated with that user.
-				CalendarViewController.initializeCalendarView(loginEvent, currentUser);
+				Stage loginStage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
+	 			loginStage.close();
+	      
+	 			FXMLLoader loader = new FXMLLoader();
+	 			Parent root = loader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
+	 			
+	 			Stage applicationStage = new Stage(); 
+	 			Scene scene = new Scene(root);
+	 			applicationStage.setScene(scene);
+	 			applicationStage.setTitle(currentUser.getUsername() + "'s Calendar");
+	 			
+	 			CalendarViewController controller = (CalendarViewController) loader.getController();
+	 			controller.initializeCalendarView(applicationStage, loginEvent, currentUser);
+	 			
 			
 			// If the password is incorrect, the label is updated to reflect this.
 			} else {
