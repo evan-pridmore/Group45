@@ -9,6 +9,12 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import application.Exceptions.InvalidPasswordException;
+import application.Exceptions.InvalidUsernameException;
+import application.Exceptions.UserAlreadyExistsException;
+import application.Exceptions.UserDoesNotExistException;
+import application.TimeUnits.Event;
+
 /**A class that creates objects which represent user profiles. The data stored in this class can be saved through the 
  * {@link #serializeUser(User)} and {@link #deserializeUser(String)} methods.
  * 

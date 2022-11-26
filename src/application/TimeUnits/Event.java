@@ -1,6 +1,9 @@
-package application;
+package application.TimeUnits;
 
 import java.util.Date;
+
+import application.Exceptions.InvalidColourException;
+import application.Exceptions.NullEventEndPointException;
 /**
  * Base class for all user created events. Should not be constructed manually.
  */

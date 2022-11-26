@@ -2,7 +2,10 @@ package application;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
+import application.Exceptions.InvalidPasswordException;
+import application.Exceptions.InvalidUsernameException;
+import application.Exceptions.UserAlreadyExistsException;
+import application.Exceptions.UserDoesNotExistException;
 import javafx.event.ActionEvent;
 
 public class LoginViewController {

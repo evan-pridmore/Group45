@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import application.Exceptions.NullEventEndPointException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,7 +47,7 @@ public class CalendarViewController {
  			loginStage.close();
       
 			currentUser = loginUser; 
- 			Parent root = loader.load(new FileInputStream("src/application/CalendarView.fxml"));
+ 			Parent root = loader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
  			applicationStage = new Stage(); 
  			Scene scene = new Scene(root);
  			applicationStage.setScene(scene);
@@ -66,7 +67,7 @@ public class CalendarViewController {
 	public static void initializeLoginView() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
- 			Parent root = loader.load(new FileInputStream("src/application/LoginView.fxml"));
+ 			Parent root = loader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
  			Scene scene = new Scene(root);
  			applicationStage.setScene(scene);
 			applicationStage.setTitle("Login");
