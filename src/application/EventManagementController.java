@@ -38,13 +38,9 @@ public class EventManagementController {
 	}
 	
 	public void addEvent(ActionEvent addEvent) throws FileNotFoundException, IOException {
-		Stage manageStage = new Stage();
-		manageStage.initModality(Modality.APPLICATION_MODAL);
-		manageStage.setTitle("New Event");
-		
-		Parent eventTypeSelector = new FXMLLoader().load(new FileInputStream("src/application/FXML/EventMakerView.fxml"));
-		Scene test = new Scene(eventTypeSelector);
-		manageStage.setScene(test);
-		manageStage.show();
+		FXMLLoader loader = new FXMLLoader();
+		Parent eventMaker = loader.load(new FileInputStream("src/application/FXML/EventMakerView.fxml"));
+		EventMakerController controller = (EventMakerController) loader.getController();
+		controller.initalizeEventMakerController(currentUser, eventMaker);
 	}
 }

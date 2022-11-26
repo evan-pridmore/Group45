@@ -3,7 +3,6 @@ package application.TimeUnits;
 import java.util.Date;
 
 import application.Exceptions.EventOutsideTimeUnitException;
-import application.Exceptions.InvalidColourException;
 import application.Exceptions.NullEventEndPointException;
 
 import java.util.Calendar;
@@ -11,7 +10,7 @@ import java.util.Calendar;
 public class Week extends TimeUnit{
 	private Day[] weekDays = new Day[7] ;
 	
-	Week(Date chosenDate) throws NullPointerException, NullEventEndPointException {
+	public Week(Date chosenDate) throws NullPointerException, NullEventEndPointException {
 		super(chosenDate, null, true);
 		Calendar calendarWeek = Calendar.getInstance();
 		calendarWeek.setTime(chosenDate);
@@ -53,7 +52,7 @@ public class Week extends TimeUnit{
 		}
 	}
 	
-	public void addEvent(Event event) throws NullEventEndPointException, EventOutsideTimeUnitException, InvalidColourException {
+	public void addEvent(Event event) throws NullEventEndPointException, EventOutsideTimeUnitException {
 		Week self = new Week(getStart(), getEnd(), weekDays);
 		if (self.contains(event)) {
 			for (Day day : weekDays) {
@@ -71,7 +70,7 @@ public class Week extends TimeUnit{
 							day.addEvent(new TimedEvent(event.getStart(), day.getEnd(), event.getName(), event.getColour()));
 						}
 						else if (event.endsIn(day)) {
-							day.addEvent(new TimedEvent (day.getStart(), event.getEnd(), null, event.getColour()));
+							day.addEvent(new TimedEvent (new Date(day.getStart().getTime() + 1), event.getEnd(), null, event.getColour()));
 						}
 					}
 				}

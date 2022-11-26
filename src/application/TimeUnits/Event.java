@@ -2,16 +2,16 @@ package application.TimeUnits;
 
 import java.util.Date;
 
-import application.Exceptions.InvalidColourException;
 import application.Exceptions.NullEventEndPointException;
+import javafx.scene.paint.Color;
 /**
  * Base class for all user created events. Should not be constructed manually.
  */
 public class Event extends TimeUnit {
 	private String name;
-	private int[] colour = new int[3];
+	private Color colour;
 	
-	Event(Date start, Date end, String aName, int[] aColour) throws NullEventEndPointException, InvalidColourException {
+	Event(Date start, Date end, String aName, Color aColour) throws NullEventEndPointException {
 		super(start, end);
 		setName(aName);
 		setColour(aColour);
@@ -25,13 +25,11 @@ public class Event extends TimeUnit {
 		return name;
 	}
 	
-	public void setColour(int[] newColour) throws InvalidColourException {
-		if (newColour.length != 3)
-			throw new InvalidColourException();
+	public void setColour(Color newColour) {
 		colour = newColour;
 	}
 	
-	public int[] getColour() {
+	public Color getColour() {
 		return colour;
 	}
 	
