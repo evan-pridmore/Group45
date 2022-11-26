@@ -21,7 +21,6 @@ public class CalendarViewController {
 	public static Stage applicationStage; 
 	public static Scene applicationScene;
 	private static User currentUser;
-	private static Date selectedDate = new Date();
 	
 	@FXML
     private Menu EditMenu;
@@ -41,57 +40,16 @@ public class CalendarViewController {
 	@FXML
 	private static Label weekViewDateLabel;
 	
-	// Opens a new application window depending on the user that has logged-in from the loginView.
-	// Needs to be static and take in a user as an argument
-	public static void initializeCalendarView(ActionEvent loginEvent, User loginUser) {
-    	System.out.println("initializeCalendarView: Attempting to initialize CalendarView...");
-		currentUser = loginUser; 
-
-		try {
-			FXMLLoader loader = new FXMLLoader();
- 			Parent root = loader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
- 			// Login event is used to get a reference to the application Window, which is then casted to Stage.
- 			applicationStage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
- 			applicationScene = new Scene(root);
- 			applicationStage.setScene(applicationScene);
- 			applicationStage.setTitle(currentUser.getUsername() + "'s Calendar");
- 			applicationStage.centerOnScreen();
- 			
-  			applicationStage.show();
-  						
-		} catch (Exception e) { e.printStackTrace(); }
-		
-		System.out.println("Today's date is: " + selectedDate);
-		System.out.println("initializeCalendarView: CalendarView successfully initialized.");
-	}
-	
-	public static void initializeLoginView() {
-    	System.out.println("initializeLoginView: Attempting to initialize LoginView...");
-
-		try {
-			FXMLLoader loader = new FXMLLoader();
- 			Parent root = loader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
- 			applicationScene = new Scene(root);
- 			applicationStage.setScene(applicationScene);
-			applicationStage.setTitle("Login");
- 			applicationStage.centerOnScreen();
- 			applicationStage.show();
-						
-		} catch (Exception e) { e.printStackTrace(); }
-		
-		System.out.println("initializeLoginView: LoginView successfully initialized.");
-	}
-	
     @FXML
     private void switchUser(ActionEvent switchUserEvent) {
     	System.out.println("switchUser: Attempting to switch user...");
-    	initializeLoginView();
+    	ApplicationController.getApplicationController().initializeLoginView();
     }
     
     @FXML
     private void logOut(ActionEvent logOutEvent) {
     	System.out.println("logOut: Attempting to log out...");
-    	initializeLoginView();
+    	ApplicationController.getApplicationController().initializeLoginView();
     }
     
     @FXML
@@ -105,4 +63,11 @@ public class CalendarViewController {
     	System.out.println("removeEventMenu: Attempting to remove event...");
     	EventManagement.initializeEventManagerView(currentUser);
     }
+    
+/*	FXMLLoader loader = new FXMLLoader();
+		Parent eventMaker = loader.load(new FileInputStream("src/application/FXML/EventMakerView.fxml"));
+		EventMakerController controller = (EventMakerController) loader.getController();
+		controller.initalizeEventMakerController(currentUser, eventMaker);
+ */
+    
 }

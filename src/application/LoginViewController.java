@@ -40,9 +40,9 @@ public class LoginViewController {
 				
 				// This login event is then passed onto Main to change the scene of the application to the CalendarView.
 				// A reference to this user is forwarded to this application to provide access to the events/data
-				// associated with that user.
-				CalendarViewController.initializeCalendarView(loginEvent, currentUser);
-			
+				// associated with that user.	
+				ApplicationController.getApplicationController().initializeCalendarView(loginEvent, currentUser);
+				
 			// If the password is incorrect, the label is updated to reflect this.
 			} else {
 				System.out.println("Incorrect password!");

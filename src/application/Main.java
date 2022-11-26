@@ -16,6 +16,12 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			BorderPane root = loader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
 			Scene scene = new Scene(root);
+			
+			ApplicationController appController = (ApplicationController) loader.getController();
+			appController.setApplicationController();
+			appController.setApplicationStage(primaryStage);
+			appController.setApplicationScene(scene);
+			
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Login");
  			primaryStage.centerOnScreen();
