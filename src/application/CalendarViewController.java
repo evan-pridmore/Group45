@@ -1,6 +1,7 @@
 package application;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class CalendarViewController {
 	
 	private static Stage applicationStage; 
 	private static User currentUser;
-	private static ArrayList<Event> userEvents;
+	private static FXMLLoader loader = new FXMLLoader();
 	
 	@FXML
     private Menu EditMenu;
@@ -45,7 +46,7 @@ public class CalendarViewController {
  			loginStage.close();
       
 			currentUser = loginUser; 
- 			Parent root = loader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
+ 			Parent root = loader.load(new FileInputStream("src/application/CalendarView.fxml"));
  			applicationStage = new Stage(); 
  			Scene scene = new Scene(root);
  			applicationStage.setScene(scene);
@@ -79,16 +80,6 @@ public class CalendarViewController {
 	
 	private static void generateDayView() throws NullEventEndPointException {		
     	System.out.println("generateDayView: Attempting to generate day view...");
-    	
-    	userEvents = currentUser.getEvents();
-    	
-		System.out.println("Searching for events in userEvents...");
-    	for (Event e : userEvents) {
-    		System.out.println("Found one instance of event in userEvents...");
-			Rectangle EventBlock = new Rectangle();
-			dayViewVBox.getChildren().add(EventBlock);
-			System.out.println(e.toString());
-    	}
 	}
 		
     @FXML

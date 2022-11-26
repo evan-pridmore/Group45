@@ -28,7 +28,7 @@ public class EventManagementController {
 			eventsStage.initModality(Modality.APPLICATION_MODAL);
 			eventsStage.setTitle(currentUser.getUsername() + "'s Events");
 			
-			Parent root = new FXMLLoader().load(new FileInputStream("src/application/FXML/EventsViewerView.fxml"));
+			Parent root = new FXMLLoader().load(new FileInputStream("src/application/EventsViewerView.fxml"));
 			Scene scene = new Scene(root);
 			
 			eventsStage.setScene(scene);
@@ -42,7 +42,7 @@ public class EventManagementController {
 		manageStage.initModality(Modality.APPLICATION_MODAL);
 		manageStage.setTitle("New Event");
 		
-		Parent eventTypeSelector = new FXMLLoader().load(new FileInputStream("src/application/FXML/EventMakerView.fxml"));
+		Parent eventTypeSelector = new FXMLLoader().load(new FileInputStream("src/application/EventMakerView.fxml"));
 		Scene test = new Scene(eventTypeSelector);
 		manageStage.setScene(test);
 		manageStage.show();

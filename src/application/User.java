@@ -22,7 +22,7 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	
-	private ArrayList<Event> userEvents;
+	private ArrayList<Event> userEvents = new ArrayList<Event>();
 	
 	/**A constructor that creates a new instance of User and assigns values to the instance variables username and
 	 * password.
@@ -79,7 +79,7 @@ public class User implements Serializable {
 	}
 	
 	public ArrayList<Event> getEvents() {
-		return new ArrayList<Event>(userEvents);
+		return userEvents;
 	}
 	
 	/**
