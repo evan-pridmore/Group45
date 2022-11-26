@@ -10,8 +10,6 @@ public class Day extends TimeUnit {
 
 	Day(Date start) throws NullEventEndPointException {
 		super(start, new Date(start.getTime()  + 86400000 - 1));
-		System.out.println(getStart());
-		System.out.println(getEnd());
 	}
 	
 	public void addEvent(Event newEvent) {

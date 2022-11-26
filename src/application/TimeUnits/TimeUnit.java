@@ -18,9 +18,9 @@ class TimeUnit{
 		end = endDate;
 	}
 	
-	protected TimeUnit(Date startDate, Date endDate, boolean isWeek) throws NullPointerException {
+	protected TimeUnit(Date startDate, Date endDate, boolean isBig) throws NullPointerException {
 		if (startDate == null)
-			throw new NullPointerException("Week Constructor was expecting arguement type Date, but recieved null value.");
+			throw new NullPointerException("Month/Week Constructor was expecting arguement type Date, but recieved null value.");
 		start = startDate;
 		end = endDate;
 	}
