@@ -18,11 +18,10 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Login");
+ 			primaryStage.centerOnScreen();
 			primaryStage.show();
 			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		} catch(Exception e) { e.printStackTrace(); }
 	}
 	
 	public static void main(String[] args) {
