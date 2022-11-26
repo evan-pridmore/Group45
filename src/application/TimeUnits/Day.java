@@ -6,6 +6,7 @@ import java.util.Date;
 import application.Exceptions.NullEventEndPointException;
 
 public class Day extends TimeUnit {
+	private static final long serialVersionUID = -2390691817137550430L;
 	private ArrayList<Event> events = new ArrayList<Event>();
 
 	Day(Date start) throws NullEventEndPointException {

@@ -6,6 +6,7 @@ import application.Exceptions.NullEventEndPointException;
 import javafx.scene.paint.Color;
 
 public class InstantEvent extends Event {
+	private static final long serialVersionUID = 8018666614595537151L;
 	//Variable that will point at base class' start instance variable for ease of writing as InstantEvents have no start and end, only a time at which they occur.
 	private Date time;
 	

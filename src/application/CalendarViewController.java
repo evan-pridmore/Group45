@@ -45,8 +45,9 @@ public class CalendarViewController {
 			currentUser = loginUser; 
 			applicationStage = newStage;
 			System.out.println("Welcome " + currentUser.getUsername() + "!");
+			System.out.println("You have " + currentUser.getEvents().size() + " events.");
+			
 			applicationStage.show();
-			generateDayView();
 	}
 	
 	public void initializeLoginView() throws FileNotFoundException, IOException {
@@ -58,10 +59,7 @@ public class CalendarViewController {
  			applicationStage.show();
 	}
 	
-	private void generateDayView() throws NullEventEndPointException {		
-    	System.out.println("generateDayView: Attempting to generate day view...");
-	}
-		
+
     @FXML
     private void switchUser(ActionEvent switchUserEvent) throws FileNotFoundException, IOException {
     	System.out.println("switchUser: Attempting to switch user...");

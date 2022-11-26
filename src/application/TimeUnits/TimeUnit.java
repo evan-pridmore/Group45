@@ -1,5 +1,6 @@
 package application.TimeUnits;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import application.Exceptions.NullEventEndPointException;
@@ -7,7 +8,8 @@ import application.Exceptions.NullEventEndPointException;
 /**
  *Base class for all time events, should never be constructed directly.
  */
-class TimeUnit{
+class TimeUnit implements Serializable{
+	private static final long serialVersionUID = -2458286694103395827L;
 	private Date start;
 	private Date end;
 	

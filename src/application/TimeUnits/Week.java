@@ -7,7 +7,8 @@ import application.Exceptions.NullEventEndPointException;
 
 import java.util.Calendar;
 
-public class Week extends TimeUnit{
+public class Week extends TimeUnit {
+	private static final long serialVersionUID = 4639573022345939820L;
 	private Day[] weekDays = new Day[7] ;
 	
 	public Week(Date chosenDate) throws NullPointerException, NullEventEndPointException {

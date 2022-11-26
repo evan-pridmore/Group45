@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
  * Base class for all user created events. Should not be constructed manually.
  */
 public class Event extends TimeUnit {
+	private static final long serialVersionUID = 1632201054631730351L;
 	private String name;
 	private Color colour;
 	
