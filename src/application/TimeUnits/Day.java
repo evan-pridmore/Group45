@@ -23,4 +23,8 @@ public class Day extends TimeUnit {
 			events.add(index, newEvent);
 		}
 	}
+	
+	public ArrayList<Event> getEvents() {
+		return events;
+	}
 }
