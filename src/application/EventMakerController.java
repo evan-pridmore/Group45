@@ -83,6 +83,7 @@ public class EventMakerController {
 		
 		TimedEvent newEvent = new TimedEvent(start, end, name, colour);
 		currentUser.addEvent(newEvent);
+		User.serializeUser(currentUser);
 	}
 	
 	@FXML
@@ -99,6 +100,7 @@ public class EventMakerController {
 		InstantEvent newEvent = new InstantEvent(time, name, colour);
 		currentUser.addEvent(newEvent);
 		System.out.println(currentUser.getEvents().size());
+		User.serializeUser(currentUser);
 	}
 	
 }
