@@ -1,6 +1,7 @@
 package application;
 	
 import java.io.FileInputStream;
+import java.lang.ModuleLayer.Controller;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,10 +18,14 @@ public class Main extends Application {
 			BorderPane root = loader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
 			Scene scene = new Scene(root);
 			
-			ApplicationController appController = (ApplicationController) loader.getController();
+			ApplicationController appController = new ApplicationController();
 			appController.setApplicationController();
 			appController.setApplicationStage(primaryStage);
 			appController.setApplicationScene(scene);
+			
+			// LoginViewController loginController = (LoginViewController) loader.getController();
+			LoginViewController loginController = (LoginViewController) loader.getController();
+			ApplicationController.setLoginViewController(loginController);
 			
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Login");

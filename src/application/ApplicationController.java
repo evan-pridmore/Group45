@@ -13,8 +13,8 @@ import javafx.stage.Stage;
 public class ApplicationController {
 
 	private static ApplicationController appController;
-	private LoginViewController loginController;
-	private CalendarViewController calendarController;
+	private static LoginViewController loginController;
+	private static CalendarViewController calendarController;
 	
 	private Stage applicationStage;
 	private Scene applicationScene;
@@ -26,8 +26,16 @@ public class ApplicationController {
 		return applicationStage;
 	}
 	
+	public void setApplicationStage(Stage stageInput) {
+		applicationStage = stageInput;
+	}
+	
 	public Scene getApplicationScene() {
 		return applicationScene;
+	}
+	
+	public void setApplicationScene(Scene sceneInput) {
+		applicationScene = sceneInput;
 	}
 	
 	public User getCurrentUser() {
@@ -38,6 +46,7 @@ public class ApplicationController {
 		return selectedDate;
 	}
 	
+	
 	public void setApplicationController() {
 		appController = this;
 	}
@@ -46,32 +55,23 @@ public class ApplicationController {
 		return appController;
 	}
 	
-	/*
-	public void setLoginViewController(LoginViewController controllerInput) {
+	
+	public static void setLoginViewController(LoginViewController controllerInput) {
 		loginController = controllerInput;
 	}
-	*/
 	
-	public LoginViewController getLoginViewController() {
+	public static LoginViewController getLoginViewController() {
 		return loginController;
 	}
 	
-	/*
-	public void setLoginViewController(CalendarViewController controllerInput) {
+	
+	
+	public static void setCalendarViewController(CalendarViewController controllerInput) {
 		calendarController = controllerInput;
 	}
-	*/
 	
-	public  CalendarViewController getCalendarViewController() {
+	public static CalendarViewController getCalendarViewController() {
 		return calendarController;
-	}
-	
-	public void setApplicationStage(Stage stageInput) {
-		applicationStage = stageInput;
-	}
-	
-	public void setApplicationScene(Scene sceneInput) {
-		applicationScene = sceneInput;
 	}
 	
 	// Opens a new application window depending on the user that has logged-in from the loginView.
