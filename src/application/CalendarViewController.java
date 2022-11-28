@@ -101,8 +101,8 @@ public class CalendarViewController {
     }
     
     @FXML
-    private void removeEventMenu(ActionEvent removeEventEvent) {
+    private void removeEventMenu(ActionEvent removeEventEvent) throws FileNotFoundException, IOException {
     	System.out.println("removeEventMenu: Attempting to remove event...");
-    	EventManagement.initializeEventManagerView(currentUser);
+    	EventManagementController.initializeEventManagerView(applicationStage, currentUser);
     }
 }
