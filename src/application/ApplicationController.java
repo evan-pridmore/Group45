@@ -1,75 +1,95 @@
 package application;
 
+import java.io.FileInputStream;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ApplicationController {
 
 	protected static ApplicationController appController;
-	private static LoginViewController loginController;
-	private static CalendarViewController calendarController;
-	private static EventManagementController eventManagementController;
+	protected static LoginViewController loginController;
+	protected static CalendarViewController calendarController;
+	protected static EventManagementController eventManagementController;
 	
-	private static Stage appStage;
-	private static Scene appScene;
-	
+	private static Stage appStage;	
 	
 	private static User currentUser; 
-
-	public Stage getAppStage() {
-		return appStage;
+	
+	// Define static controllers for each view to standardize across instances. 
+	static void setLoginController(LoginViewController inputController) {
+		loginController = inputController;
 	}
 	
-	public void setAppStage(Stage stageInput) {
-		appStage = stageInput;
+	static void setCalendarController(CalendarViewController inputController) {
+		calendarController = inputController;
 	}
 	
-	public static Scene getAppScene() {
-		return appScene;
+	static void setEventManagementController(EventManagementController inputController) {
+		eventManagementController = inputController;
 	}
 
-	public static void setAppScene(Scene appScene) {
-		ApplicationController.appScene = appScene;
+	// Define components of GUI to standardize across instances.
+	static void setAppStage(Stage inputStage) {
+		appStage = inputStage;
 	}
-
-	public User getCurrentUser() {
+	
+	// Define current logged in user across application.
+	static void setCurrentUser(User inputUser) {
+		currentUser = inputUser;
+	}
+	
+	// Getter methods.
+	static User getCurrentUser() {
 		return currentUser;
 	}
 	
-	public void setCurrentUser(User userInput) {
-		currentUser = userInput;
-	}
-	
-	public ApplicationController getApplicationController() {
-		return appController;
-	}
-	
-	public void setLoginViewController(LoginViewController controllerInput) {
-		loginController = controllerInput;
-	}
-	
-	public void setCalendarViewController(CalendarViewController controllerInput) {
-		calendarController = controllerInput;
-	}
-
-		// Opens a new application window depending on the user that has logged-in from the loginView.
-		// Needs to be static and take in a user as an argument
-		public void initializeCalendarView() {
-	    	System.out.println("initializeCalendarView: Attempting to initialize CalendarView...");
-
-			try {
-	  				  						
-			} catch (Exception e) { e.printStackTrace(); }
-
-		}
-		
-		public void initializeLoginView() {
-	    	System.out.println("initializeLoginView: Attempting to initialize LoginView...");
-
-			try {
-							
-			} catch (Exception e) { e.printStackTrace(); }
+	static void initializeLoginView() {
+    	System.out.println("initializeLoginView: Attempting to initialize LoginView...");
+		try {
+			FXMLLoader loginLoader = new FXMLLoader();
+			Parent rootScene = loginLoader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
 			
-			System.out.println("initializeLoginView: LoginView successfully initialized.");
+			if (loginController == null) {
+				System.out.println("loginController null");
+				loginController = loginLoader.getController();
+			} else {
+				System.out.println("loginController not null");
+				loginLoader.setController(loginController);
+			}
+			
+			appStage.setTitle("Login");
+			appStage.setScene(new Scene(rootScene));
+			appStage.show();
+  				  							
+		} catch (Exception e) { e.printStackTrace(); }
+		
+		System.out.println("initializeLoginView: LoginView successfully initialized.");
 		}
+	
+	// Opens a new application window depending on the user that has logged-in from the loginView.
+	// Needs to be static and take in a user as an argument
+	static void initializeCalendarView() {
+    	System.out.println("initializeCalendarView: Attempting to initialize CalendarView...");
+		try {
+			FXMLLoader calendarLoader = new FXMLLoader();
+			Parent rootScene = calendarLoader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
+			
+			if (calendarController == null) {
+				System.out.println("calendarController null");
+				calendarController = calendarLoader.getController();
+			} else {
+				System.out.println("calendarController not null");
+				calendarLoader.setController(calendarController);
+			}
+											
+			appStage.setTitle(String.format("%s's Calendar", currentUser.getUsername()));
+			appStage.setScene(new Scene(rootScene));
+			appStage.show();
+		} catch (Exception e) { e.printStackTrace(); }
+
+	}
+	
 }

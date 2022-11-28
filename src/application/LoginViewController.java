@@ -37,8 +37,8 @@ public class LoginViewController extends ApplicationController {
 				System.out.println(String.format("Logged in user '%s'!", currentUser.getUsername()));
 				loginErrorLabel.setText(String.format("Logged in user '%s'!", currentUser.getUsername()));
 					
-				appController.setCurrentUser(currentUser);
-				appController.initializeCalendarView();
+				ApplicationController.setCurrentUser(currentUser);
+				ApplicationController.initializeCalendarView();
 				
 			// If the password is incorrect, the label is updated to reflect this.
 			} else {
