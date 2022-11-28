@@ -6,9 +6,8 @@ import application.Exceptions.InvalidPasswordException;
 import application.Exceptions.InvalidUsernameException;
 import application.Exceptions.UserAlreadyExistsException;
 import application.Exceptions.UserDoesNotExistException;
-import javafx.event.ActionEvent;
 
-public class LoginViewController {
+public class LoginViewController extends ApplicationController {
 	
 	@FXML
     private TextField loginUsername;
@@ -24,7 +23,7 @@ public class LoginViewController {
 	 * @param loginEvent The event of the 'login' button being pressed, provided by the GUI.
 	 */
 	@FXML
-	public void attemptLogin(ActionEvent loginEvent) {
+	public void attemptLogin() {
 		loginErrorLabel.setText("");
 		System.out.println(String.format("Attempted Login:%n--> Username: '%s'%n--> Password: '%s'", loginUsername.getText(), loginPassword.getText()));
 		
@@ -37,12 +36,9 @@ public class LoginViewController {
 			if (currentUser.getPassword().equals(loginPassword.getText())) {
 				System.out.println(String.format("Logged in user '%s'!", currentUser.getUsername()));
 				loginErrorLabel.setText(String.format("Logged in user '%s'!", currentUser.getUsername()));
-				
-				// This login event is then passed onto Main to change the scene of the application to the CalendarView.
-				// A reference to this user is forwarded to this application to provide access to the events/data
-				// associated with that user.	
-				
-				ApplicationController.getApplicationController().initializeCalendarView(loginEvent, currentUser);
+					
+				appController.setCurrentUser(currentUser);
+				appController.initializeCalendarView();
 				
 			// If the password is incorrect, the label is updated to reflect this.
 			} else {

@@ -1,26 +1,28 @@
 package application;
 
 import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ApplicationController {
 
-	private static ApplicationController appController;
+	protected static ApplicationController appController;
 	private static LoginViewController loginController;
 	private static CalendarViewController calendarController;
+	private static EventManagementController eventManagementController;
 	
-	private Stage applicationStage;
-	private Scene applicationScene;
+	private static Stage applicationStage;
 	
-	private User currentUser; 
-	private static Date selectedDate = new Date();
+	public SimpleDateFormat DateFormatPhrase = new SimpleDateFormat("EEEE, MMMM dd");
+	
+	private static User currentUser; 
+	private Date selectedDate = new Date();
 	
 	public Stage getApplicationStage() {
 		return applicationStage;
@@ -30,71 +32,69 @@ public class ApplicationController {
 		applicationStage = stageInput;
 	}
 	
-	public Scene getApplicationScene() {
-		return applicationScene;
-	}
-	
-	public void setApplicationScene(Scene sceneInput) {
-		applicationScene = sceneInput;
-	}
-	
 	public User getCurrentUser() {
 		return currentUser;
 	}
 	
-	public Date getSelectedDate() {
-		return selectedDate;
+	public void setCurrentUser(User userInput) {
+		currentUser = userInput;
 	}
 	
+	public String getSelectedDate() {
+		DateFormatPhrase.format(selectedDate);
+		return DateFormatPhrase.format(selectedDate);
+	}
+	
+	public void setSelectedDate(Date dateInput) {
+		selectedDate = dateInput;
+	}
+	
+	public ApplicationController getApplicationController() {
+		return appController;
+	}
 	
 	public void setApplicationController() {
 		appController = this;
 	}
 	
-	public static ApplicationController getApplicationController() {
-		return appController;
-	}
-	
-	
-	public static void setLoginViewController(LoginViewController controllerInput) {
+	public void setLoginViewController(LoginViewController controllerInput) {
 		loginController = controllerInput;
 	}
 	
-	public static LoginViewController getLoginViewController() {
-		return loginController;
-	}
-	
-	
-	
-	public static void setCalendarViewController(CalendarViewController controllerInput) {
+	public void setCalendarViewController(CalendarViewController controllerInput) {
 		calendarController = controllerInput;
 	}
 	
-	public static CalendarViewController getCalendarViewController() {
-		return calendarController;
+	public EventManagementController getEventManagementController() {
+		return eventManagementController;
 	}
-	
-	// Opens a new application window depending on the user that has logged-in from the loginView.
+
+	public void setEventManagementController(EventManagementController controllerInput) {
+		eventManagementController = controllerInput;
+	}
+
+		// Opens a new application window depending on the user that has logged-in from the loginView.
 		// Needs to be static and take in a user as an argument
-		public void initializeCalendarView(ActionEvent loginEvent, User loginUser) {
+		public void initializeCalendarView() {
 	    	System.out.println("initializeCalendarView: Attempting to initialize CalendarView...");
-			currentUser = loginUser; 
 
 			try {
 				FXMLLoader loader = new FXMLLoader();
 	 			Parent root = loader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
+				loader.setController(calendarController);
+				
+				System.out.println("initializeCalendarView: Contoller set to '" + loader.getController() + "'.");
 	 			
-	 			calendarController = (CalendarViewController) loader.getController();
-	 			
-	 			// Login event is used to get a reference to the application Window, which is then casted to Stage.
-	 			applicationStage = (Stage)((Node)loginEvent.getSource()).getScene().getWindow();
-	 			applicationScene = new Scene(root);
-	 			applicationStage.setScene(applicationScene);
+	 			Scene scene = new Scene(root);
+	 			applicationStage.setScene(scene);
 	 			applicationStage.setTitle(currentUser.getUsername() + "'s Calendar");
 	 			applicationStage.centerOnScreen();
 	 			
+	 			System.out.println(calendarController);
+	 			calendarController.updateDateLabels();
+	 			
 	  			applicationStage.show();
-	  						
+	  				  						
 			} catch (Exception e) { e.printStackTrace(); }
 			
 			System.out.println("Today's date is: " + selectedDate);
@@ -107,9 +107,13 @@ public class ApplicationController {
 			try {
 				FXMLLoader loader = new FXMLLoader();
 	 			Parent root = loader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
-	 			applicationScene = new Scene(root);
-	 			applicationStage.setScene(applicationScene);
-				applicationStage.setTitle("Login");
+				loader.setController(loginController);
+
+				System.out.println("initializeLoginView: Contoller set to '" + loader.getController() + "'.");
+				
+	 			Scene scene = new Scene(root);
+	 			applicationStage.setScene(scene);
+	 			applicationStage.setTitle("Login");
 	 			applicationStage.centerOnScreen();
 	 			applicationStage.show();
 							
@@ -117,5 +121,4 @@ public class ApplicationController {
 			
 			System.out.println("initializeLoginView: LoginView successfully initialized.");
 		}
-
 }

@@ -1,36 +1,57 @@
 package application;
 	
 import java.io.FileInputStream;
-import java.lang.ModuleLayer.Controller;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
+		System.out.println("Main: Starting application...");
+
 		try {
-			FXMLLoader loader = new FXMLLoader();
-			BorderPane root = loader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
-			Scene scene = new Scene(root);
-			
+			// Initializing ApplicationController
+			System.out.print("Main: Initializing ApplicationController...");
 			ApplicationController appController = new ApplicationController();
 			appController.setApplicationController();
+			System.out.println("     Done.");
+
+			// Initializing LoginViewController
+			System.out.print("Main: Initializing LoginViewController...");
+			FXMLLoader loginLoader = new FXMLLoader();
+			loginLoader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
+			LoginViewController loginController = loginLoader.getController();
+			appController.setLoginViewController(loginController);
+			System.out.println("     Done.");
+			
+			// Initializing CalendarViewController
+			System.out.print("Main: Initializing CalendarViewController...");
+			FXMLLoader calendarLoader = new FXMLLoader();
+			calendarLoader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
+			CalendarViewController calendarController = calendarLoader.getController();
+			appController.setCalendarViewController(calendarController);
+			System.out.println("     Done.");
+			
+			// Initializing EventManagementController
+			System.out.print("Main: Initializing EventManagementController... ");
+			FXMLLoader eventManagerLoader = new FXMLLoader();
+			eventManagerLoader.load(new FileInputStream("src/application/FXML/EventsViewerView.fxml"));
+			EventManagementController eventManagerController = eventManagerLoader.getController();
+			appController.setEventManagementController(eventManagerController);
+			System.out.println("     Done.");
+			
+			System.out.println("");
+			
 			appController.setApplicationStage(primaryStage);
-			appController.setApplicationScene(scene);
+
+			// Initializing application GUI...
+			appController.initializeLoginView();
 			
-			// LoginViewController loginController = (LoginViewController) loader.getController();
-			LoginViewController loginController = (LoginViewController) loader.getController();
-			ApplicationController.setLoginViewController(loginController);
-			
-			primaryStage.setScene(scene);
-			primaryStage.setTitle("Login");
- 			primaryStage.centerOnScreen();
-			primaryStage.show();
+	    	System.out.println(String.format("Main: initialized controllers.%n--> appController = %s %n--> loginController = %s %n-->calendarController = %s %n--> currentUser = %s", appController, loginController, calendarController, eventManagerController));
+	    	System.out.println("");
 			
 		} catch(Exception e) { e.printStackTrace(); }
 	}
