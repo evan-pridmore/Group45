@@ -12,9 +12,11 @@ import application.TimeUnits.Event;
 import application.TimeUnits.Week;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class CalendarViewController extends ApplicationController  {
@@ -46,9 +48,9 @@ public class CalendarViewController extends ApplicationController  {
 	@FXML
 	private Label monthDateLabel;
 	
-	@FXML
-	void initialize() {
-		updateDateLabels(currentDate);
+	void updateGUI() {
+		updateDateLabels(new Date());
+		updateUpcomingEvents();
 	}
 	
     @FXML
@@ -78,10 +80,28 @@ public class CalendarViewController extends ApplicationController  {
     @FXML
     void openAdminPreferences(ActionEvent openAdminPreferencesEvent) {
     	System.out.println("openAdminPreferences: ...");
+    	dayDateLabel.setText("Date Label Changed");
+    	Rectangle testEvent = new Rectangle(200, 75, Color.LIGHTBLUE);
+    	Rectangle testEvent2 = new Rectangle(200, 75, Color.LIGHTYELLOW);
+    	Rectangle testEvent3 = new Rectangle(200, 75, Color.PINK);
+
+    	upcomingEventsVBox.getChildren().addAll(testEvent, testEvent2, testEvent3);
+    	
+    	upcomingEventsVBox.setSpacing(5);
+    	Insets upcomingEventsInsets = new Insets(0, 5, 0, 5);
+    	VBox.setMargin(testEvent, upcomingEventsInsets);
+    	VBox.setMargin(testEvent2, upcomingEventsInsets);
+    	VBox.setMargin(testEvent3, upcomingEventsInsets);
+    }
+    
+    void updateUpcomingEvents() {
+    	System.out.println("updateUpcomingEvents: Updating upcomingEventsVbox...");
 
     }
     
     void updateDateLabels(Date inputDate) {
+    	System.out.println("updateDateLabels: Updating date labels...");
+
     	String formattedDate = dateLabelFormat.format(inputDate);
     	System.out.println("updateSelectedDateLabels: Attempting to update labels...");
     	dayDateLabel.setText(formattedDate);

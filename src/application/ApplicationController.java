@@ -84,7 +84,9 @@ public class ApplicationController {
 				System.out.println("calendarController not null");
 				calendarLoader.setController(calendarController);
 			}
-											
+			
+			calendarController.updateGUI();
+			
 			appStage.setTitle(String.format("%s's Calendar", currentUser.getUsername()));
 			appStage.setScene(new Scene(rootScene));
 			appStage.show();
