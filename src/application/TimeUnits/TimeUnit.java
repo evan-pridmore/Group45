@@ -35,7 +35,7 @@ public class TimeUnit implements Serializable {
 	
 	protected void setStart(LocalDateTime startDate) {
 		//Store the DateTime in UTC so that event times are preserved when changing time zones.
-		start = startDate.atZone(ZoneOffset.UTC);
+		start = startDate.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC);
 	}
 	
 	
@@ -46,7 +46,7 @@ public class TimeUnit implements Serializable {
 	
 	protected void setEnd(LocalDateTime endDate) {
 		//Store the DateTime in UTC so that event times are preserved when changing time zones.
-		end = endDate.atZone(ZoneOffset.UTC);
+		end = endDate.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC);
 	}
 	
 	public ZonedDateTime getEnd() {

@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import application.Exceptions.EventOutsideTimeUnitException;
@@ -27,6 +28,7 @@ import javafx.stage.Stage;
 
 public class EventMakerController {
 	private User currentUser;
+	private Stage manageStage = new Stage();
 	
 	@FXML
 	private DatePicker eventStartDate;
@@ -57,50 +59,52 @@ public class EventMakerController {
 	
 	public void initalizeEventMakerController(User loginUser, Parent sceneView) throws FileNotFoundException, IOException {
 		currentUser = loginUser;
-		Stage manageStage = new Stage();
 		manageStage.initModality(Modality.APPLICATION_MODAL);
 		manageStage.setTitle("New Event");
 		
 		Scene scene = new Scene(sceneView);
 		manageStage.setScene(scene);
+		manageStage.setOnCloseRequest(eventMakerClose -> closeEventMaker());
 		manageStage.show();
+		
 	}
 
 	@FXML
 	private void addTimedEvent(ActionEvent event) throws NullEventEndPointException, EventOutsideTimeUnitException {
-		LocalDateTime startAsLocalDateTime = eventStartDate.getValue().atStartOfDay();
-		startAsLocalDateTime = startAsLocalDateTime.plusHours(eventStartHour.getValue());
-		startAsLocalDateTime = startAsLocalDateTime.plusMinutes(eventStartMinute.getValue());
-		Date start = Date.from(startAsLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
+		LocalDateTime start = eventStartDate.getValue().atStartOfDay().plusHours(eventStartHour.getValue()).plusMinutes(eventStartMinute.getValue());
 		
-		LocalDateTime endAsLocalDateTime = eventEndDate.getValue().atStartOfDay();
-		endAsLocalDateTime = endAsLocalDateTime.plusHours(eventEndHour.getValue());
-		Date end = Date.from(endAsLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
-		
+		LocalDateTime end = eventEndDate.getValue().atStartOfDay().plusHours(eventEndHour.getValue()).plusMinutes(eventEndMinute.getValue());
+	
 		String name = eventName.getText();
 		
 		Color colour = eventColour.getValue();
 		
 		TimedEvent newEvent = new TimedEvent(start, end, name, colour);
 		currentUser.addEvent(newEvent);
+		
+		manageStage.close();
 		User.serializeUser(currentUser);
+		
 	}
 	
 	@FXML
 	private void addInstantEvent(ActionEvent event) throws NullEventEndPointException, EventOutsideTimeUnitException {
-		LocalDateTime timeAsLocalDateTime = deadlineTimeDate.getValue().atStartOfDay();
-		timeAsLocalDateTime = timeAsLocalDateTime.plusHours(deadlineTimeHour.getValue());
-		timeAsLocalDateTime = timeAsLocalDateTime.plusMinutes(deadlineTimeMinute.getValue());
-		Date time = Date.from(timeAsLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
-		
+		LocalDateTime time = deadlineTimeDate.getValue().atStartOfDay().plusHours(deadlineTimeHour.getValue()).plusMinutes(deadlineTimeMinute.getValue());
+
 		String name = deadlineName.getText();
 		
 		Color colour = deadlineColour.getValue();
 		
 		InstantEvent newEvent = new InstantEvent(time, name, colour);
 		currentUser.addEvent(newEvent);
+		
 		System.out.println(currentUser.getEvents().size());
+		manageStage.close();
 		User.serializeUser(currentUser);
+	}
+	
+	private void closeEventMaker() {
+		System.out.println("Test");
 	}
 	
 }

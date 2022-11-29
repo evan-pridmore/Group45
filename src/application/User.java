@@ -102,48 +102,36 @@ public class User implements Serializable {
 	 */
 	public void addEvent(Event newEvent) throws NullEventEndPointException, EventOutsideTimeUnitException {
 		if (userEvents.size() > 0) {
+			//Add InstantEvents to existing weeks.
 			if (newEvent instanceof InstantEvent) {
 				for (Week week : userEvents) {
 					if (week.contains(newEvent)) {
 						week.addEvent(newEvent);
-						return;
 					}
 				}
-				Week newWeek = new Week(newEvent.getStart());
-				newWeek.addEvent(newEvent);
-				userEvents.add(newWeek);
-				return;
-				}
+			}
+			//Add TimedEvents to existing weeks.
 			else if (newEvent instanceof TimedEvent) {
 				for (Week week : userEvents) {
 					if (newEvent.containedIn(week)) {
 						week.addEvent(newEvent);
-						return;
 					}
-					else if (newEvent.startsIn(week) || newEvent.endsIn(week)) {
+					else if (newEvent.startsIn(week)) {
 						TimedEvent firstPart = new TimedEvent(newEvent.getStart(), week.getEnd(), newEvent.getName(), newEvent.getColour());
-						TimedEvent secondPart = new TimedEvent(new Date(week.getEnd().getTime() + 1), newEvent.getEnd(),newEvent.getName(), newEvent.getColour());
+						TimedEvent secondPart = new TimedEvent(week.getEnd().plusNanos(1000000000), newEvent.getEnd(), newEvent.getName(), newEvent.getColour());
 						addEvent(firstPart);
 						addEvent(secondPart);
-						return;
 					}
 				}
-	
+			}
+			//If user has no weeks with the event, create a new one containing the event start and try again.
+			else {
 				Week newWeek = new Week(newEvent.getStart());
 				userEvents.add(newWeek);
-				if (newEvent.containedIn(newWeek)) {
-					newWeek.addEvent(newEvent);
-					return;
-				}
-				else {
-					TimedEvent firstPart = new TimedEvent(newEvent.getStart(), newWeek.getEnd(), newEvent.getName(), newEvent.getColour());
-					TimedEvent secondPart = new TimedEvent(new Date(newWeek.getEnd().getTime() + 1), newEvent.getEnd(),newEvent.getName(), newEvent.getColour());
-					addEvent(firstPart);
-					addEvent(secondPart);
-					return;
-				}		
+				addEvent(newEvent);
 			}
 		}
+		//Add a week to the user if they have none.
 		else {
 			Week newWeek = new Week(newEvent.getStart());
 			userEvents.add(newWeek);
