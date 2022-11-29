@@ -8,7 +8,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
 import application.Exceptions.EventOutsideTimeUnitException;
 import application.Exceptions.InvalidPasswordException;
@@ -24,7 +23,7 @@ import application.TimeUnits.Week;
 /**A class that creates objects which represent user profiles. The data stored in this class can be saved through the 
  * {@link #serializeUser(User)} and {@link #deserializeUser(String)} methods.
  * 
- * @author evanpridmore
+ * @author evan-pridmore
  *
  */
 public class User implements Serializable {
@@ -175,10 +174,10 @@ public class User implements Serializable {
 			out.close();
 			fileOut.close();
 			
-			System.out.println(String.format("serializeUser: Successfully saved login data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), loginDataFile));
+			System.out.println(String.format("serializeUser: Successfully saved user data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), loginDataFile));
 			
 		} catch (IOException ioe) {
-			System.out.println(String.format("ERROR serializeUser: Failed to save login data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), loginDataFile));
+			System.out.println(String.format("ERROR serializeUser: Failed to save user data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), loginDataFile));
 		}
 	}
 	

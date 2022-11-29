@@ -1,14 +1,8 @@
 package application;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -18,6 +12,15 @@ import application.Exceptions.NullEventEndPointException;
 import application.Exceptions.UserAlreadyExistsException;
 import application.Exceptions.UserDoesNotExistException;
 
+/**A controller that manages {@link LoginView.fxml} and is associated GUI components (e.g., buttons, labels, textfields, etc.)
+ * 
+ * Extends {@link ApplicationController} which provides a range of static variables.
+ * 
+ * This should ONLY manage the associated GUI, and should NOT initialize any other stages, scenes, windows, views, etc.
+ * (to switch windows or create new stages, add an initialize method in {@link ApplicationController}
+ * 
+ * @author evan-pridmore
+ */
 public class LoginViewController extends ApplicationController {
 	
 	@FXML
@@ -51,8 +54,8 @@ public class LoginViewController extends ApplicationController {
 				System.out.println(String.format("Logged in user '%s'!", currentUser.getUsername()));
 				loginErrorLabel.setText(String.format("Logged in user '%s'!", currentUser.getUsername()));
 					
-				ApplicationController.setCurrentUser(currentUser);
-				ApplicationController.initializeCalendarView();
+				setCurrentUser(currentUser);
+				initializeCalendarView();
 				
 			// If the password is incorrect, the label is updated to reflect this.
 			} else {

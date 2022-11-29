@@ -1,35 +1,29 @@
 package application;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Date;
 
 import application.Exceptions.EventOutsideTimeUnitException;
 import application.Exceptions.NullEventEndPointException;
-import application.TimeUnits.Day;
-import application.TimeUnits.Event;
 import application.TimeUnits.InstantEvent;
 import application.TimeUnits.TimedEvent;
-import application.TimeUnits.Week;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
-public class EventMakerController {
-	private User currentUser;
-	private Stage manageStage = new Stage();
-	
+/**A controller that manages {@link EventMakerView.fxml} and is associated GUI components (e.g., buttons, labels, textfields, etc.)
+ * 
+ * Extends {@link ApplicationController} which provides a range of static variables.
+ * 
+ * This should ONLY manage the associated GUI, and should NOT initialize any other stages, scenes, windows, views, etc.
+ * (to switch windows or create new stages, add an initialize method in {@link ApplicationController}
+ * 
+ * @author evan-pridmore
+ */
+public class EventMakerController extends ApplicationController {	
 	@FXML
 	private DatePicker eventStartDate;
 	@FXML
@@ -56,18 +50,6 @@ public class EventMakerController {
 	private ColorPicker eventColour;
 	@FXML
 	private ColorPicker deadlineColour;
-	
-	public void initalizeEventMakerController(User loginUser, Parent sceneView) throws FileNotFoundException, IOException {
-		currentUser = loginUser;
-		manageStage.initModality(Modality.APPLICATION_MODAL);
-		manageStage.setTitle("New Event");
-		
-		Scene scene = new Scene(sceneView);
-		manageStage.setScene(scene);
-		manageStage.setOnCloseRequest(eventMakerClose -> closeEventMaker());
-		manageStage.show();
-		
-	}
 
 	@FXML
 	private void addTimedEvent(ActionEvent event) throws NullEventEndPointException, EventOutsideTimeUnitException {
@@ -80,10 +62,10 @@ public class EventMakerController {
 		Color colour = eventColour.getValue();
 		
 		TimedEvent newEvent = new TimedEvent(start, end, name, colour);
-		currentUser.addEvent(newEvent);
+		getCurrentUser().addEvent(newEvent);
 		
-		manageStage.close();
-		User.serializeUser(currentUser);
+		getEventsStage().close();
+		User.serializeUser(getCurrentUser());
 		
 	}
 	
@@ -96,14 +78,14 @@ public class EventMakerController {
 		Color colour = deadlineColour.getValue();
 		
 		InstantEvent newEvent = new InstantEvent(time, name, colour);
-		currentUser.addEvent(newEvent);
+		getCurrentUser().addEvent(newEvent);
 		
-		System.out.println(currentUser.getEvents().size());
-		manageStage.close();
-		User.serializeUser(currentUser);
+		System.out.println(getCurrentUser().getEvents().size());
+		getEventsStage().close();
+		User.serializeUser(getCurrentUser());
 	}
 	
-	private void closeEventMaker() {
+	void closeEventMaker() {
 		System.out.println("Test");
 	}
 	
