@@ -62,6 +62,7 @@ public class ApplicationController {
 			
 			appStage.setTitle("Login");
 			appStage.setScene(new Scene(rootScene));
+			appStage.centerOnScreen();
 			appStage.show();
   				  							
 		} catch (Exception e) { e.printStackTrace(); }
@@ -89,7 +90,9 @@ public class ApplicationController {
 			
 			appStage.setTitle(String.format("%s's Calendar", currentUser.getUsername()));
 			appStage.setScene(new Scene(rootScene));
+			appStage.centerOnScreen();
 			appStage.show();
+			
 		} catch (Exception e) { e.printStackTrace(); }
 
 	}
