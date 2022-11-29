@@ -18,17 +18,19 @@ import javafx.scene.control.Menu;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class CalendarViewController extends ApplicationController  {
 	
-	public SimpleDateFormat dateLabelFormat = new SimpleDateFormat("EEEE, MMMM dd");
-	public Date currentDate = new Date();
+public SimpleDateFormat dateLabelFormat = new SimpleDateFormat("EEEE, MMMM dd");
+public Date currentDate = new Date();
 	
 	@FXML
-    private Menu EditMenu;
+  private Menu EditMenu;
 
-    @FXML
-    private Menu UserMenu;
+  @FXML
+  private Menu UserMenu;
 	
 	@FXML
 	private VBox upcomingEventsVBox;
@@ -108,5 +110,28 @@ public class CalendarViewController extends ApplicationController  {
     	weekDateLabel.setText(formattedDate);
     	monthDateLabel.setText(formattedDate);
     	
+/* TIme_Unit_Rewrite BEGIN
+    private void addEventMenu(ActionEvent addEventEvent) throws FileNotFoundException, IOException {
+  	System.out.println("addEventMenu: Attempting to initialize EventManagerView...");
+    	
+    	Stage eventsStage = new Stage();
+		eventsStage.initModality(Modality.APPLICATION_MODAL);
+		eventsStage.setTitle(currentUser.getUsername() + "'s Events");
+		
+    	FXMLLoader loader = new FXMLLoader();
+    	Parent root = loader.load(new FileInputStream("src/application/FXML/EventsViewerView.fxml"));
+		Scene scene = new Scene(root);
+		eventsStage.setScene(scene);
+		
+		EventManagementController controller = loader.getController();		
+    	controller.initializeEventManagerView(eventsStage, currentUser);
+    }
+    
+    @FXML
+    private void removeEventMenu(ActionEvent removeEventEvent) throws FileNotFoundException, IOException {
+    	System.out.println("removeEventMenu: Attempting to remove event...");
+     	
+    	addEventMenu(removeEventEvent);
+*/ TIme_Unit_Rewrite EN
     }
 }

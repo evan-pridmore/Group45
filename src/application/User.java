@@ -8,12 +8,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
+import application.Exceptions.EventOutsideTimeUnitException;
 import application.Exceptions.InvalidPasswordException;
 import application.Exceptions.InvalidUsernameException;
+import application.Exceptions.NullEventEndPointException;
 import application.Exceptions.UserAlreadyExistsException;
 import application.Exceptions.UserDoesNotExistException;
 import application.TimeUnits.Event;
+import application.TimeUnits.InstantEvent;
+import application.TimeUnits.TimedEvent;
+import application.TimeUnits.Week;
 
 /**A class that creates objects which represent user profiles. The data stored in this class can be saved through the 
  * {@link #serializeUser(User)} and {@link #deserializeUser(String)} methods.
@@ -28,7 +34,7 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	
-	private ArrayList<Event> userEvents = new ArrayList<Event>();
+	private ArrayList<Week> userEvents = new ArrayList<Week>();
 	
 	/**A constructor that creates a new instance of User and assigns values to the instance variables username and
 	 * password.
@@ -43,7 +49,7 @@ public class User implements Serializable {
 		if (!userAlreadyExists(usernameInput)) {
 			setUsername(usernameInput);
 			setPassword(passwordInput);
-			userEvents = new ArrayList<Event>(); 
+			userEvents = new ArrayList<Week>(); 
 			System.out.println(String.format("User Constructor (String, String): User created with username '%s' and password '%s'.", usernameInput, passwordInput));
 			
 			// Once instance variables username and password are assigned, the user data is immediately saved.
@@ -84,24 +90,52 @@ public class User implements Serializable {
 		}
 	}
 	
-	public ArrayList<Event> getEvents() {
+	public ArrayList<Week> getEvents() {
 		return userEvents;
 	}
 	
 	/**
 	 * Adds and event to the user's userEvents ArrayList ordered based on start date.
 	 * @param newEvent The event to add to the user.
+	 * @throws EventOutsideTimeUnitException 
+	 * @throws NullEventEndPointException 
 	 */
-	public void addEvent(Event newEvent) {
+	public void addEvent(Event newEvent) throws NullEventEndPointException, EventOutsideTimeUnitException {
 		if (userEvents.size() > 0) {
-			int  index = 0;
-			for (int i = 0; i < userEvents.size(); i++) {
-				if (userEvents.get(i).getStart().before(newEvent.getStart())) {
-					//Add the event after one at index i.
-					index = i + 1;
+			//Add InstantEvents to existing weeks.
+			if (newEvent instanceof InstantEvent) {
+				for (Week week : userEvents) {
+					if (week.contains(newEvent)) {
+						week.addEvent(newEvent);
+					}
 				}
 			}
-			userEvents.add(index, newEvent);
+			//Add TimedEvents to existing weeks.
+			else if (newEvent instanceof TimedEvent) {
+				for (Week week : userEvents) {
+					if (newEvent.containedIn(week)) {
+						week.addEvent(newEvent);
+					}
+					else if (newEvent.startsIn(week)) {
+						TimedEvent firstPart = new TimedEvent(newEvent.getStart(), week.getEnd(), newEvent.getName(), newEvent.getColour());
+						TimedEvent secondPart = new TimedEvent(week.getEnd().plusNanos(1000000000), newEvent.getEnd(), newEvent.getName(), newEvent.getColour());
+						addEvent(firstPart);
+						addEvent(secondPart);
+					}
+				}
+			}
+			//If user has no weeks with the event, create a new one containing the event start and try again.
+			else {
+				Week newWeek = new Week(newEvent.getStart());
+				userEvents.add(newWeek);
+				addEvent(newEvent);
+			}
+		}
+		//Add a week to the user if they have none.
+		else {
+			Week newWeek = new Week(newEvent.getStart());
+			userEvents.add(newWeek);
+			addEvent(newEvent);
 		}
 	}
 	

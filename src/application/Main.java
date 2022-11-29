@@ -1,5 +1,11 @@
 package application;
 
+import java.io.FileInputStream;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Date
+
+import application.TimeUnits.Week;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -15,6 +21,7 @@ public class Main extends Application {
 		ApplicationController.initializeLoginView();
 			
 		try {
+			Week test = new Week(ZonedDateTime.now());
 			
 		} catch(Exception e) { e.printStackTrace(); }
 	}

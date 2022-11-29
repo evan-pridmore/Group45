@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.Integer?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -12,8 +13,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.collections.FXCollections?>
 
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="application.EventMakerController">
    <children>
       <TabPane prefHeight="300.0" prefWidth="300.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -33,7 +35,7 @@
                                                 <Insets right="5.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <DatePicker />
+                                          <DatePicker fx:id="eventStartDate" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0">
@@ -43,8 +45,62 @@
                                                 <Insets right="4.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <ChoiceBox prefWidth="87.0" />
-                                          <ChoiceBox prefWidth="87.0" />
+                                          <ChoiceBox fx:id="eventStartHour" prefWidth="87.0">
+                                          	<items>
+                                          		<FXCollections fx:factory="observableArrayList">
+                                          			<Integer fx:value="0" />
+						      	            		<Integer fx:value="1" />
+						      	            		<Integer fx:value="2" />
+						      	            		<Integer fx:value="3" />
+						      	            		<Integer fx:value="4" />
+						      	            		<Integer fx:value="5" />
+						      	            		<Integer fx:value="6" />
+						      	            		<Integer fx:value="7" />
+						      	            		<Integer fx:value="8" />
+							            			<Integer fx:value="9" />
+							            			<Integer fx:value="10" />
+							            			<Integer fx:value="11" />
+							            			<Integer fx:value="12" />
+							            			<Integer fx:value="13" />
+							            			<Integer fx:value="14" />
+							            			<Integer fx:value="15" />
+							            			<Integer fx:value="16" />
+						      	            		<Integer fx:value="17" />
+						      	            		<Integer fx:value="18" />
+						      	            		<Integer fx:value="19" />
+						      	            		<Integer fx:value="20" />
+						      	            		<Integer fx:value="21" />
+						      	            		<Integer fx:value="22" />
+						      	            		<Integer fx:value="23" />
+                                          		</FXCollections>
+                                          	</items>
+                                          </ChoiceBox>
+                                          <ChoiceBox fx:id="eventStartMinute" prefWidth="87.0">
+                                          	<items>
+                                          		<FXCollections fx:factory="observableArrayList">
+                                          			<Integer fx:value="0" />
+                                          			<Integer fx:value="1" />
+                                          			<Integer fx:value="2" />
+                                          			<Integer fx:value="3" />
+                                          			<Integer fx:value="4" />
+						      	            		<Integer fx:value="5" />
+						      	            		<Integer fx:value="10" />
+						      	            		<Integer fx:value="15" />
+						      	            		<Integer fx:value="20" />
+						      	            		<Integer fx:value="25" />
+						      	            		<Integer fx:value="30" />
+						      	            		<Integer fx:value="35" />
+						      	            		<Integer fx:value="40" />
+							            			<Integer fx:value="45" />
+							            			<Integer fx:value="50" />
+							            			<Integer fx:value="55" />
+							            			<Integer fx:value="56" />
+							            			<Integer fx:value="57" />
+							            			<Integer fx:value="58" />
+							            			<Integer fx:value="59" />
+                                          		</FXCollections>
+                                          	</items>
+                                          </ChoiceBox>
                                        </children>
                                     </HBox>
                                  </children>
@@ -62,7 +118,7 @@
                                                 <Insets right="5.0" />
                                              </padding>
                                           </Label>
-                                          <DatePicker />
+                                          <DatePicker fx:id="eventEndDate" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0">
@@ -72,8 +128,62 @@
                                                 <Insets right="4.0" />
                                              </padding>
                                           </Label>
-                                          <ChoiceBox prefWidth="87.0" />
-                                          <ChoiceBox prefWidth="87.0" />
+                                          <ChoiceBox fx:id="eventEndHour" prefWidth="87.0">
+                                          	<items>
+                                          		<FXCollections fx:factory="observableArrayList">
+                                          			<Integer fx:value="0" />
+						      	            		<Integer fx:value="1" />
+						      	            		<Integer fx:value="2" />
+						      	            		<Integer fx:value="3" />
+						      	            		<Integer fx:value="4" />
+						      	            		<Integer fx:value="5" />
+						      	            		<Integer fx:value="6" />
+						      	            		<Integer fx:value="7" />
+						      	            		<Integer fx:value="8" />
+							            			<Integer fx:value="9" />
+							            			<Integer fx:value="10" />
+							            			<Integer fx:value="11" />
+							            			<Integer fx:value="12" />
+							            			<Integer fx:value="13" />
+							            			<Integer fx:value="14" />
+							            			<Integer fx:value="15" />
+							            			<Integer fx:value="16" />
+						      	            		<Integer fx:value="17" />
+						      	            		<Integer fx:value="18" />
+						      	            		<Integer fx:value="19" />
+						      	            		<Integer fx:value="20" />
+						      	            		<Integer fx:value="21" />
+						      	            		<Integer fx:value="22" />
+						      	            		<Integer fx:value="23" />
+                                          		</FXCollections>
+                                          	</items>
+                                          </ChoiceBox>
+                                          <ChoiceBox fx:id="eventEndMinute" prefWidth="87.0" >
+                                          	<items>
+                                          		<FXCollections fx:factory="observableArrayList">
+                                          			<Integer fx:value="0" />
+                                          			<Integer fx:value="1" />
+                                          			<Integer fx:value="2" />
+                                          			<Integer fx:value="3" />
+                                          			<Integer fx:value="4" />
+						      	            		<Integer fx:value="5" />
+						      	            		<Integer fx:value="10" />
+						      	            		<Integer fx:value="15" />
+						      	            		<Integer fx:value="20" />
+						      	            		<Integer fx:value="25" />
+						      	            		<Integer fx:value="30" />
+						      	            		<Integer fx:value="35" />
+						      	            		<Integer fx:value="40" />
+							            			<Integer fx:value="45" />
+							            			<Integer fx:value="50" />
+							            			<Integer fx:value="55" />
+							            			<Integer fx:value="56" />
+							            			<Integer fx:value="57" />
+							            			<Integer fx:value="58" />
+							            			<Integer fx:value="59" />
+                                          		</FXCollections>
+                                          	</items>
+                                          </ChoiceBox>
                                        </children>
                                     </HBox>
                                  </children>
@@ -86,7 +196,7 @@
                                     <Label text="Name" />
                                     <HBox alignment="CENTER">
                                        <children>
-                                          <TextField />
+                                          <TextField fx:id="eventName" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -97,13 +207,13 @@
                               <VBox alignment="CENTER">
                                  <children>
                                     <Label text="Colour" />
-                                    <ColorPicker prefWidth="174.0" />
+                                    <ColorPicker fx:id="eventColour" prefWidth="174.0" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </VBox>
-                              <Button mnemonicParsing="false" prefWidth="174.0" text="Create New Event">
+                              <Button mnemonicParsing="false" onAction="#addTimedEvent" prefWidth="174.0" text="Create New Event">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
@@ -130,7 +240,7 @@
                                                 <Insets right="5.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <DatePicker />
+                                          <DatePicker fx:id="deadlineTimeDate" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0">
@@ -140,8 +250,62 @@
                                                 <Insets right="4.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <ChoiceBox prefWidth="87.0" />
-                                          <ChoiceBox prefWidth="87.0" />
+                                          <ChoiceBox fx:id="deadlineTimeHour" prefWidth="87.0">
+                                          	<items>
+                                          		<FXCollections fx:factory="observableArrayList">
+                                          			<Integer fx:value="0" />
+						      	            		<Integer fx:value="1" />
+						      	            		<Integer fx:value="2" />
+						      	            		<Integer fx:value="3" />
+						      	            		<Integer fx:value="4" />
+						      	            		<Integer fx:value="5" />
+						      	            		<Integer fx:value="6" />
+						      	            		<Integer fx:value="7" />
+						      	            		<Integer fx:value="8" />
+							            			<Integer fx:value="9" />
+							            			<Integer fx:value="10" />
+							            			<Integer fx:value="11" />
+							            			<Integer fx:value="12" />
+							            			<Integer fx:value="13" />
+							            			<Integer fx:value="14" />
+							            			<Integer fx:value="15" />
+							            			<Integer fx:value="16" />
+						      	            		<Integer fx:value="17" />
+						      	            		<Integer fx:value="18" />
+						      	            		<Integer fx:value="19" />
+						      	            		<Integer fx:value="20" />
+						      	            		<Integer fx:value="21" />
+						      	            		<Integer fx:value="22" />
+						      	            		<Integer fx:value="23" />
+                                          		</FXCollections>
+                                          	</items>
+                                          </ChoiceBox>
+                                          <ChoiceBox fx:id="deadlineTimeMinute" prefWidth="87.0">
+                                          	<items>
+                                          		<FXCollections fx:factory="observableArrayList">
+                                          			<Integer fx:value="0" />
+                                          			<Integer fx:value="1" />
+                                          			<Integer fx:value="2" />
+                                          			<Integer fx:value="3" />
+                                          			<Integer fx:value="4" />
+						      	            		<Integer fx:value="5" />
+						      	            		<Integer fx:value="10" />
+						      	            		<Integer fx:value="15" />
+						      	            		<Integer fx:value="20" />
+						      	            		<Integer fx:value="25" />
+						      	            		<Integer fx:value="30" />
+						      	            		<Integer fx:value="35" />
+						      	            		<Integer fx:value="40" />
+							            			<Integer fx:value="45" />
+							            			<Integer fx:value="50" />
+							            			<Integer fx:value="55" />
+							            			<Integer fx:value="56" />
+							            			<Integer fx:value="57" />
+							            			<Integer fx:value="58" />
+							            			<Integer fx:value="59" />
+                                          		</FXCollections>
+                                          	</items>
+                                          </ChoiceBox>
                                        </children>
                                     </HBox>
                                  </children>
@@ -154,7 +318,7 @@
                                     <Label text="Name" />
                                     <HBox alignment="CENTER">
                                        <children>
-                                          <TextField />
+                                          <TextField fx:id="deadlineName" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -165,13 +329,13 @@
                               <VBox alignment="CENTER">
                                  <children>
                                     <Label text="Colour" />
-                                    <ColorPicker prefWidth="174.0" />
+                                    <ColorPicker fx:id="deadlineColour" prefWidth="174.0" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </VBox>
-                              <Button mnemonicParsing="false" prefWidth="174.0" text="Create New Event">
+                              <Button mnemonicParsing="false" onAction="#addInstantEvent" prefWidth="174.0" text="Create New Deadline">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
