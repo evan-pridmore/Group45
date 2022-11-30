@@ -51,7 +51,10 @@ public class TimeUnit implements Serializable {
 	
 	public ZonedDateTime getEnd() {
 		//Return the DateTime in the local time zone.
-		return end.withZoneSameInstant(ZoneId.systemDefault());
+		if (end != null)
+			return end.withZoneSameInstant(ZoneId.systemDefault());
+		else
+			return null;
 	}
 	
 	/**
@@ -87,7 +90,7 @@ public class TimeUnit implements Serializable {
 	 * @return True if the called on {@link TimeUnit} starts within otherTimeUnit, else false.
 	 */
 	public boolean startsIn(TimeUnit otherTimeUnit) {
-		if (otherTimeUnit.getStart().isBefore(start) && !(otherTimeUnit.getEnd().isBefore(end))) 
+		if (end != null && otherTimeUnit.getStart().isBefore(start) && !(otherTimeUnit.getEnd().isBefore(end))) 
 			return true;
 		return false;
 	}
@@ -108,7 +111,7 @@ public class TimeUnit implements Serializable {
 	 * @return True if the called on {@link TimeUnit} ends within otherTimeUnit, else false.
 	 */
 	public boolean endsIn(TimeUnit otherTimeUnit) {
-		if (otherTimeUnit.getEnd().isAfter(end) && !(otherTimeUnit.getStart().isAfter(start))) 
+		if (end != null && otherTimeUnit.getEnd().isAfter(end) && !(otherTimeUnit.getStart().isAfter(start))) 
 			return true;
 		return false;
 	}
