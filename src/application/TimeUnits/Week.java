@@ -49,6 +49,14 @@ public class Week extends TimeUnit {
 	}
 	
 	/**
+	 * 
+	 * @return The array of {@link Day}s contained in the week.
+	 */
+	public Day[] getDays() {
+		return weekDays;
+	}
+	
+	/**
 	 * Gets a {@link Day} object held within the week.
 	 * @param weekDay an int from 1-7 corresponding to the number of the day in the week.
 	 * @return The day of the week tied to the weekDay provided.
@@ -71,16 +79,16 @@ public class Week extends TimeUnit {
 	public void addEvent(Event event) throws NullEventEndPointException, EventOutsideTimeUnitException {
 		Week self = new Week(getStart(), getEnd(), weekDays);
 		if (self.contains(event)) {
-			for (Day day : weekDays) {
-				if (event instanceof InstantEvent && event.containedIn(day))
-					day.addEvent(event);
-				else if (event instanceof TimedEvent && day.contains(event)) {
+			for (int i = 0; i < weekDays.length; i++) {
+				if (event instanceof InstantEvent && event.containedIn(weekDays[i]))
+					weekDays[i].addEvent(event);
+				else if (event instanceof TimedEvent && weekDays[i].contains(event)) {
 					if (event.containedIn(self))
-						day.addEvent(event);
-					else if (event.startsIn(day)) {
+						weekDays[i].addEvent(event);
+					else if (event.startsIn(weekDays[i])) {
 						//Spilt up and recursively call addEvent on the event split at the day.
-						TimedEvent firstPart = new TimedEvent(event.getStart(), day.getEnd(), event.getName(), event.getColour());
-						TimedEvent secondPart = new TimedEvent(day.getStart().plusNanos(1000000000), event.getEnd(), event.getName(), event.getColour());
+						TimedEvent firstPart = new TimedEvent(event.getStart(), weekDays[i].getEnd(), event.getName(), event.getColour());
+						TimedEvent secondPart = new TimedEvent(weekDays[i].getStart().plusNanos(1000000000), event.getEnd(), event.getName(), event.getColour());
 						addEvent(firstPart);
 						addEvent(secondPart);
 						break;

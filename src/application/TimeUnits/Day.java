@@ -21,15 +21,15 @@ public class Day extends TimeUnit {
 	 * @param newEvent {@link Event} to add to the {@link Day}.
 	 */
 	public void addEvent(Event newEvent) {
+		int  index = 0;
 		if (events.size() > 0) {
-			int  index = 0;
 			for (int i = 0; i < events.size(); i++) {
 				if (events.get(i).getStart().isBefore(newEvent.getStart())) {
 					index = i + 1;
 				}
 			}
-			events.add(index, newEvent);
 		}
+		events.add(index, newEvent);
 	}
 	
 	/**

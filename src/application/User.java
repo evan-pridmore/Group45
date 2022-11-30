@@ -106,14 +106,20 @@ public class User implements Serializable {
 				for (Week week : userEvents) {
 					if (week.contains(newEvent)) {
 						week.addEvent(newEvent);
+						return;
 					}
 				}
+				//If user has no weeks with the event, create a new one containing the event start and try again.
+				Week newWeek = new Week(newEvent.getStart());
+				userEvents.add(newWeek);
+				addEvent(newEvent);
 			}
 			//Add TimedEvents to existing weeks.
 			else if (newEvent instanceof TimedEvent) {
 				for (Week week : userEvents) {
 					if (newEvent.containedIn(week)) {
 						week.addEvent(newEvent);
+						return;
 					}
 					else if (newEvent.startsIn(week)) {
 						TimedEvent firstPart = new TimedEvent(newEvent.getStart(), week.getEnd(), newEvent.getName(), newEvent.getColour());
@@ -122,9 +128,7 @@ public class User implements Serializable {
 						addEvent(secondPart);
 					}
 				}
-			}
-			//If user has no weeks with the event, create a new one containing the event start and try again.
-			else {
+				//If user has no weeks with the event, create a new one containing the event start and try again.
 				Week newWeek = new Week(newEvent.getStart());
 				userEvents.add(newWeek);
 				addEvent(newEvent);
