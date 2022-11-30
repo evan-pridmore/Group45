@@ -9,10 +9,21 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import application.Exceptions.EventOutsideTimeUnitException;
+import application.Exceptions.InvalidPasswordException;
+import application.Exceptions.InvalidUsernameException;
+import application.Exceptions.NullEventEndPointException;
+import application.Exceptions.UserAlreadyExistsException;
+import application.Exceptions.UserDoesNotExistException;
+import application.TimeUnits.Event;
+import application.TimeUnits.InstantEvent;
+import application.TimeUnits.TimedEvent;
+import application.TimeUnits.Week;
+
 /**A class that creates objects which represent user profiles. The data stored in this class can be saved through the 
  * {@link #serializeUser(User)} and {@link #deserializeUser(String)} methods.
  * 
- * @author evanpridmore
+ * @author evan-pridmore
  *
  */
 public class User implements Serializable {
@@ -22,7 +33,7 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	
-	private ArrayList<Event> userEvents;
+	private ArrayList<Week> userEvents = new ArrayList<Week>();
 	
 	/**A constructor that creates a new instance of User and assigns values to the instance variables username and
 	 * password.
@@ -37,20 +48,15 @@ public class User implements Serializable {
 		if (!userAlreadyExists(usernameInput)) {
 			setUsername(usernameInput);
 			setPassword(passwordInput);
+			userEvents = new ArrayList<Week>(); 
 			System.out.println(String.format("User Constructor (String, String): User created with username '%s' and password '%s'.", usernameInput, passwordInput));
 			
-			try {
 			// Once instance variables username and password are assigned, the user data is immediately saved.
 			serializeUser(this);
 			
-			} catch (IOException ioe) {
-				System.out.println(String.format("ERROR (User Constructor (String, String)): Cannot serialize user with username '%s' and password '%s'", getUsername(), getPassword()));
-				System.out.println(ioe.getMessage());
-			}
-			
 		} else 
-			// If a user already exists under the provided username, a UserAlreadyExistsException is thrown. 
-			throw new UserAlreadyExistsException(String.format("ERROR (User Constructor (String, String)): User already exists."));
+		// If a user already exists under the provided username, a UserAlreadyExistsException is thrown. 
+		throw new UserAlreadyExistsException(String.format("ERROR (User Constructor (String, String)): User already exists."));
 	}
 	
 	public String getUsername() {
@@ -63,30 +69,73 @@ public class User implements Serializable {
 	
 	public void setUsername(String usernameInput) throws InvalidUsernameException {
 		// Checks if the provided username is null (Additional username restrictions can be added here).
-		if (usernameInput != null) {
+		if (usernameInput != null && !(usernameInput.trim().isEmpty())) {
 			username = new String(usernameInput);
 			
 		} else {
 			// If the username is invalid, an InvalidUsernameException is thrown.
-			System.out.println(String.format(String.format("ERROR (setUsername): Cannot set username to '%s'.", usernameInput)));
 			throw new InvalidUsernameException(String.format("ERROR (setUsername): Cannot set username to '%s'.", usernameInput));
 			}
 	}
 	
 	public void setPassword(String passwordInput) throws InvalidPasswordException {
 		// Checks if the provided password is null (Additional password restrictions can be added here).
-		if (passwordInput != null) {
+		if (passwordInput != null && !(passwordInput.trim().isEmpty())) {
 			password = new String(passwordInput);
 			
 		} else {
 			// If the password is invalid, an InvalidPasswordException is thrown.
-			System.out.println(String.format("ERROR (setPassword): Cannot set password to '%s'.", passwordInput));
 			throw new InvalidPasswordException(String.format("ERROR (setPassword): Cannot set password to '%s'.", passwordInput));
 		}
 	}
 	
-	public ArrayList<Event> getEvents() {
-		return new ArrayList<Event>(userEvents);
+	public ArrayList<Week> getEvents() {
+		return userEvents;
+	}
+	
+	/**
+	 * Adds and event to the user's userEvents ArrayList ordered based on start date.
+	 * @param newEvent The event to add to the user.
+	 * @throws EventOutsideTimeUnitException 
+	 * @throws NullEventEndPointException 
+	 */
+	public void addEvent(Event newEvent) throws NullEventEndPointException, EventOutsideTimeUnitException {
+		if (userEvents.size() > 0) {
+			//Add InstantEvents to existing weeks.
+			if (newEvent instanceof InstantEvent) {
+				for (Week week : userEvents) {
+					if (week.contains(newEvent)) {
+						week.addEvent(newEvent);
+					}
+				}
+			}
+			//Add TimedEvents to existing weeks.
+			else if (newEvent instanceof TimedEvent) {
+				for (Week week : userEvents) {
+					if (newEvent.containedIn(week)) {
+						week.addEvent(newEvent);
+					}
+					else if (newEvent.startsIn(week)) {
+						TimedEvent firstPart = new TimedEvent(newEvent.getStart(), week.getEnd(), newEvent.getName(), newEvent.getColour());
+						TimedEvent secondPart = new TimedEvent(week.getEnd().plusNanos(1000000000), newEvent.getEnd(), newEvent.getName(), newEvent.getColour());
+						addEvent(firstPart);
+						addEvent(secondPart);
+					}
+				}
+			}
+			//If user has no weeks with the event, create a new one containing the event start and try again.
+			else {
+				Week newWeek = new Week(newEvent.getStart());
+				userEvents.add(newWeek);
+				addEvent(newEvent);
+			}
+		}
+		//Add a week to the user if they have none.
+		else {
+			Week newWeek = new Week(newEvent.getStart());
+			userEvents.add(newWeek);
+			addEvent(newEvent);
+		}
 	}
 	
 	/**Checks if the provided username already has a user save file created.
@@ -99,7 +148,7 @@ public class User implements Serializable {
 		File loginDataFile = new File("loginData" + inputUsername + ".ser");
 
 		if (loginDataFile.exists()) {
-			System.out.println(String.format("useralreadyExists: User login data with username '%s' already exists!", inputUsername));
+			System.out.println(String.format("ERROR (useralreadyExists): User login data with username '%s' already exists!", inputUsername));
 			return true;
 		}
 		
@@ -112,7 +161,7 @@ public class User implements Serializable {
 	 * @param inputUser The instance of User to be serialized (stored as a user data file).
 	 * @throws IOException Occurs if there is an error saving a user data file.
 	 */
-	public static void serializeUser(User inputUser) throws IOException {
+	public static void serializeUser(User inputUser) {
 		// An instance of File is created to reference the desired user save file data, unique to the user.
 		File loginDataFile = new File("loginData" + inputUser.getUsername() + ".ser");
 		
@@ -125,10 +174,10 @@ public class User implements Serializable {
 			out.close();
 			fileOut.close();
 			
-			System.out.println(String.format("serializeUser: Successfully saved login data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), loginDataFile));
+			System.out.println(String.format("serializeUser: Successfully saved user data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), loginDataFile));
 			
 		} catch (IOException ioe) {
-			System.out.println(String.format("ERROR serializeUser: Failed to save login data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), loginDataFile));
+			System.out.println(String.format("ERROR serializeUser: Failed to save user data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), loginDataFile));
 		}
 	}
 	
@@ -141,7 +190,7 @@ public class User implements Serializable {
 	 * @throws IOException
 	 * @throws UserDoesNotExistException
 	 */
-	public static User deserializeUser(String inputUsername) throws ClassNotFoundException, IOException, UserDoesNotExistException {
+	public static User deserializeUser(String inputUsername) throws UserDoesNotExistException {
 		User outputUser = null;
 		
 		// An instance of File is created to reference the desired user save file data, unique to the user.
@@ -177,22 +226,4 @@ public class User implements Serializable {
 		
 		return outputUser;
 	}
-	
-	/**
-	 * Adds and event to the user's userEvents ArrayList ordered based on start date.
-	 * @param newEvent The event to add to the user.
-	 */
-	public void addEvent(Event newEvent) {
-		if (userEvents.size() > 0) {
-			int  index = 0;
-			for (int i = 0; i < userEvents.size(); i++) {
-				if (userEvents.get(i).getStart().before(newEvent.getStart())) {
-					//Add the event after one at index i.
-					index = i + 1;
-				}
-			}
-			userEvents.add(index, newEvent);
-		}
-	}
-	
 }

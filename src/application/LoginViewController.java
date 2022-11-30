@@ -1,12 +1,27 @@
 package application;
 
-import java.io.IOException;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.event.ActionEvent;
 
-public class LoginViewController {
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import application.Exceptions.InvalidPasswordException;
+import application.Exceptions.InvalidUsernameException;
+import application.Exceptions.NullEventEndPointException;
+import application.Exceptions.UserAlreadyExistsException;
+import application.Exceptions.UserDoesNotExistException;
+
+/**A controller that manages {@link LoginView.fxml} and is associated GUI components (e.g., buttons, labels, textfields, etc.)
+ * 
+ * Extends {@link ApplicationController} which provides a range of static variables.
+ * 
+ * This should ONLY manage the associated GUI, and should NOT initialize any other stages, scenes, windows, views, etc.
+ * (to switch windows or create new stages, add an initialize method in {@link ApplicationController}
+ * 
+ * @author evan-pridmore
+ */
+public class LoginViewController extends ApplicationController {
 	
 	@FXML
     private TextField loginUsername;
@@ -16,13 +31,16 @@ public class LoginViewController {
 	
 	@FXML
 	private Label loginErrorLabel;
-		
+	
 	/**This method handles the On Action event attemptLogin from the GUI of loginView.
 	 * 
 	 * @param loginEvent The event of the 'login' button being pressed, provided by the GUI.
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 * @throws NullEventEndPointException 
 	 */
 	@FXML
-	public void attemptLogin(ActionEvent loginEvent) {
+	public void attemptLogin() {
 		loginErrorLabel.setText("");
 		System.out.println(String.format("Attempted Login:%n--> Username: '%s'%n--> Password: '%s'", loginUsername.getText(), loginPassword.getText()));
 		
@@ -35,22 +53,15 @@ public class LoginViewController {
 			if (currentUser.getPassword().equals(loginPassword.getText())) {
 				System.out.println(String.format("Logged in user '%s'!", currentUser.getUsername()));
 				loginErrorLabel.setText(String.format("Logged in user '%s'!", currentUser.getUsername()));
+					
+				setCurrentUser(currentUser);
+				initializeCalendarView();
 				
-				// This login event is then passed onto Main to change the scene of the application to the CalendarView.
-				// A reference to this user is forwarded to this application to provide access to the events/data
-				// associated with that user.
-				CalendarViewController.initializeCalendarView(loginEvent, currentUser);
-			
 			// If the password is incorrect, the label is updated to reflect this.
 			} else {
 				System.out.println("Incorrect password!");
 				loginErrorLabel.setText("Incorrect password!");
 			}
-			
-		} catch (ClassNotFoundException | IOException e) {
-			// This should be a custom exception?
-			System.out.println(String.format("ERROR (attemptLogin): Cannot deserialize user '%s'. ", loginUsername.getText()));
-			System.out.println(e.getMessage());
 			
 		} catch (UserDoesNotExistException udne) {
 			System.out.println(String.format("ERROR (attemptLogin): User '%s' does not exist.", loginUsername.getText()));

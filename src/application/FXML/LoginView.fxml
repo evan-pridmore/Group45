@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LoginViewController">
+<BorderPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="application.LoginViewController">
    <center>
       <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -31,17 +31,17 @@
                         <Insets left="20.0" right="20.0" top="10.0" />
                      </VBox.margin>
                   </TextField>
-                  <PasswordField fx:id="loginPassword" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" promptText="Password">
+                  <PasswordField fx:id="loginPassword" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" promptText="Password">
                      <VBox.margin>
                         <Insets left="20.0" right="20.0" top="10.0" />
                      </VBox.margin>
                   </PasswordField>
-                  <Button mnemonicParsing="false" onAction="#attemptLogin" prefHeight="25.0" prefWidth="150.0" text="Log in">
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#attemptLogin" prefHeight="25.0" prefWidth="150.0" text="Log in">
                      <VBox.margin>
                         <Insets left="20.0" right="20.0" top="20.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#signUp" prefHeight="25.0" prefWidth="150.0" text="Sign up">
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#signUp" prefHeight="25.0" prefWidth="150.0" text="Sign up">
                      <VBox.margin>
                         <Insets left="20.0" right="20.0" top="10.0" />
                      </VBox.margin>

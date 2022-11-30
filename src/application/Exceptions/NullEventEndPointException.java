@@ -1,4 +1,4 @@
-package application;
+package application.Exceptions;
 
 public class NullEventEndPointException extends Exception {
 
