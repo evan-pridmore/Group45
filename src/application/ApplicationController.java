@@ -174,6 +174,7 @@ public class ApplicationController {
     		
 			Scene scene = new Scene(root);
 			managementStage.setScene(scene);
+			
 			managementStage.show();
 			    		
     	} catch (Exception e) { e.printStackTrace(); }

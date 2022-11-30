@@ -8,9 +8,9 @@ import application.TimeUnits.InstantEvent;
 import application.TimeUnits.TimedEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
@@ -27,21 +27,21 @@ public class EventMakerController extends ApplicationController {
 	@FXML
 	private DatePicker eventStartDate;
 	@FXML
-	private ChoiceBox<Integer> eventStartHour;
+	private Spinner<Integer> eventStartHour;
 	@FXML
-	private ChoiceBox<Integer> eventStartMinute;
+	private Spinner<Integer> eventStartMinute;
 	@FXML
 	private DatePicker eventEndDate;
 	@FXML
-	private ChoiceBox<Integer> eventEndHour;
+	private Spinner<Integer> eventEndHour;
 	@FXML
-	private ChoiceBox<Integer> eventEndMinute;
+	private Spinner<Integer> eventEndMinute;
 	@FXML
 	private DatePicker deadlineTimeDate;
 	@FXML
-	private ChoiceBox<Integer> deadlineTimeHour;
+	private Spinner<Integer> deadlineTimeHour;
 	@FXML
-	private ChoiceBox<Integer> deadlineTimeMinute;
+	private Spinner<Integer> deadlineTimeMinute;
 	@FXML
 	private TextField eventName;
 	@FXML
