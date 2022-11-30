@@ -65,11 +65,12 @@ public class TimeUnit implements Serializable {
 	public boolean containedIn(TimeUnit biggerTimeUnit) {
 		//Only check the start date if the end date is null. (InstantEvents)
 		if (end == null) {
-			if (biggerTimeUnit.getStart().isBefore(start) && biggerTimeUnit.getEnd().isAfter(start))
+			System.out.println("A");
+			if (biggerTimeUnit.getStart().minusNanos(1).isBefore(start) && biggerTimeUnit.getEnd().plusNanos(1).isAfter(start))
 				return true;
 		}
 				
-		else if (biggerTimeUnit.getStart().isBefore(start) && biggerTimeUnit.getEnd().isAfter(end))
+		else if (biggerTimeUnit.getStart().minusNanos(1).isBefore(start) && biggerTimeUnit.getEnd().plusNanos(1).isAfter(end))
 			return true;
 		return false;
 	}
@@ -90,7 +91,7 @@ public class TimeUnit implements Serializable {
 	 * @return True if the called on {@link TimeUnit} starts within otherTimeUnit, else false.
 	 */
 	public boolean startsIn(TimeUnit otherTimeUnit) {
-		if (end != null && otherTimeUnit.getStart().isBefore(start) && !(otherTimeUnit.getEnd().isBefore(end))) 
+		if (end != null && otherTimeUnit.getStart().minusNanos(1).isBefore(start) && !(otherTimeUnit.getEnd().plusNanos(1).isBefore(end))) 
 			return true;
 		return false;
 	}
@@ -111,7 +112,7 @@ public class TimeUnit implements Serializable {
 	 * @return True if the called on {@link TimeUnit} ends within otherTimeUnit, else false.
 	 */
 	public boolean endsIn(TimeUnit otherTimeUnit) {
-		if (end != null && otherTimeUnit.getEnd().isAfter(end) && !(otherTimeUnit.getStart().isAfter(start))) 
+		if (end != null && otherTimeUnit.getEnd().plusNanos(1).isAfter(end) && !(otherTimeUnit.getStart().plusNanos(1).isAfter(start))) 
 			return true;
 		return false;
 	}
