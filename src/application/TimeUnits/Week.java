@@ -7,6 +7,7 @@ import application.Exceptions.EventOutsideTimeUnitException;
 import application.Exceptions.NullEventEndPointException;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoField;
 import java.util.Calendar;
 
 
@@ -16,6 +17,7 @@ import java.util.Calendar;
 public class Week extends TimeUnit {
 	private static final long serialVersionUID = 4639573022345939820L;
 	private Day[] weekDays = new Day[7] ;
+	private int weekNum;
 	
 	public Week(ZonedDateTime chosenDate) throws NullPointerException, NullEventEndPointException {
 		super(chosenDate, null);
@@ -32,6 +34,9 @@ public class Week extends TimeUnit {
 		
 		//Create the days in the week.
 		generateDays();
+		
+		//Set weekNum to the number week of the year.
+		weekNum = chosenDate.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
 	}
 
 	private Week(ZonedDateTime start, ZonedDateTime end, Day[] weekArray) throws NullEventEndPointException {
@@ -61,6 +66,10 @@ public class Week extends TimeUnit {
 		catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException("Day of week must be 1-7.");
 		}
+	}
+	
+	public int getWeekNum() {
+		return weekNum;
 	}
 	
 	/**

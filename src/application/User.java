@@ -93,6 +93,19 @@ public class User implements Serializable {
 		return userEvents;
 	}
 	
+	public void dumpEvents() {
+		System.out.println(String.format("%ndumpEvents: Printing all events for user %s...", this.getUsername()));
+    	for (Week w : this.getEvents()) {
+    		System.out.println("--> Week with weekNum '" + w.getWeekNum() + "' exists.");
+    		for (int dayIndex = 1 ; dayIndex < 8; dayIndex ++) {
+    			System.out.println("	--> '" + dayIndex + "' has '" + w.getDay(dayIndex).getEvents().size() + "' events.");
+    			for (Event e : w.getDay(dayIndex).getEvents()) {
+    				System.out.println("		--> Event with name '" + e.getName() + "' exists.");
+    			}
+    		}
+    	}
+	}
+	
 	/**
 	 * Adds and event to the user's userEvents ArrayList ordered based on start date.
 	 * @param newEvent The event to add to the user.
