@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 public class Event extends TimeUnit {
 	private static final long serialVersionUID = 1632201054631730351L;
 	private String name;
-	private Color colour;
+	private double[] colour = new double[4];
 	
 Event(ZonedDateTime start, ZonedDateTime end, String aName, Color aColour) throws NullEventEndPointException {
 		super(start, end);
@@ -45,14 +45,17 @@ Event(ZonedDateTime start, ZonedDateTime end, String aName, Color aColour) throw
 	 * @param newColour {@link Color} to set to.
 	 */
 	public void setColour(Color newColour) {
-		colour = newColour;
+		colour[0] = newColour.getRed();
+		colour[1] = newColour.getGreen();
+		colour[2] = newColour.getBlue();
+		colour[3] = newColour.getOpacity();
 	}
 	
 	/**
 	 * @return The {@link Color} of the {@link Event}.
 	 */
 	public Color getColour() {
-		return colour;
+		return new Color(colour[0], colour[1], colour[2], colour[3]);
 	}
 	
 	/**
