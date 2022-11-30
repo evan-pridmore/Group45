@@ -68,11 +68,11 @@ public Date currentDate = new Date();
     @FXML
     void addEventMenu(ActionEvent addEventEvent) throws FileNotFoundException, IOException {
     	System.out.println("addEventMenu: Attempting to initialize EventManagerView...");
-    	initializeEventViewerView();
+    	initializeEventMakerView();
     }
     
     @FXML
-    void removeEventMenu(ActionEvent removeEventEvent) throws FileNotFoundException, IOException {
+    void manageEventsMenu(ActionEvent removeEventEvent) throws FileNotFoundException, IOException {
     	System.out.println("removeEventMenu: Attempting to remove event...");
     	initializeEventViewerView();
     }

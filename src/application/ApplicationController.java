@@ -29,9 +29,11 @@ public class ApplicationController {
 	private static LoginViewController loginController;
 	private static CalendarViewController calendarController; 
 	private static EventManagementController eventManagementController;
+	private static EventMakerController eventMakerController;
 	
 	private static Stage appStage;
-	private static Stage eventsStage;
+	private static Stage managementStage;
+	private static Stage makerStage;
 	
 	private static User currentUser; 
 	
@@ -55,9 +57,13 @@ public class ApplicationController {
 		appStage = inputStage;
 	}
 	
-	protected static Stage getEventsStage() {
+	protected static Stage getManagementStage() {
 		// This stage is specific to the 'event management' windows.
-		return eventsStage;
+		return managementStage;
+	}
+	
+	protected static Stage getMakerStage() {
+		return makerStage;
 	}
 	
 	// Define current logged in user across application and provide access to currentUser across controllers.
@@ -147,12 +153,12 @@ public class ApplicationController {
     	try {
     		// Create new stage (window) for EventViewerView
 			
-    		if (eventsStage == null)
+    		if (managementStage == null)
     			System.out.println("eventsStage null");
-    			eventsStage = new Stage();
+    			managementStage = new Stage();
     		
-			eventsStage.initModality(Modality.APPLICATION_MODAL);
-			eventsStage.setTitle(currentUser.getUsername() + "'s Events");
+			managementStage.initModality(Modality.APPLICATION_MODAL);
+			managementStage.setTitle(currentUser.getUsername() + "'s Events");
 		
     		FXMLLoader eventManagementLoader = new FXMLLoader();
     		Parent root = eventManagementLoader.load(new FileInputStream("src/application/FXML/EventsViewerView.fxml"));
@@ -167,8 +173,8 @@ public class ApplicationController {
     		}
     		
 			Scene scene = new Scene(root);
-			eventsStage.setScene(scene);
-			eventsStage.show();
+			managementStage.setScene(scene);
+			managementStage.show();
 			    		
     	} catch (Exception e) { e.printStackTrace(); }
 	}
@@ -183,25 +189,32 @@ public class ApplicationController {
     	System.out.println("intializeEventMakerView: Attempting to initialize EventMakerView...");
 		
 		try {
+			
+			if (makerStage == null)
+    			System.out.println("makerStage null");
+    			makerStage = new Stage();
+    		
+			makerStage.initModality(Modality.APPLICATION_MODAL);
+			makerStage.setTitle("New Event");
+			
 			FXMLLoader eventMakerLoader = new FXMLLoader();
 			Parent root = eventMakerLoader.load(new FileInputStream("src/application/FXML/EventMakerView.fxml"));
 			
     		// Setting appropriate static controller to prevent the creation of additional instances.
-    		if (eventManagementController == null) {
-				System.out.println("eventManagementController null");
-				eventManagementController = eventMakerLoader.getController();
+    		if (eventMakerController == null) {
+				System.out.println("eventMakerController null");
+				eventMakerController = eventMakerLoader.getController();
     		} else {
-				System.out.println("eventManagementController not null");
-				eventMakerLoader.setController(eventManagementController);
+				System.out.println("eventMakerController not null");
+				eventMakerLoader.setController(eventMakerController);
     		}
     		
-    		// eventsStage.initModality(Modality.APPLICATION_MODAL);
-    		eventsStage.setTitle("New Event");
     		
     		Scene scene = new Scene(root);
-    		eventsStage.setScene(scene);
-    		// eventsStage.setOnCloseRequest(eventMakerClose -> eventManagementController.closeEventMaker());
-    		eventsStage.show();
+    		makerStage.setScene(scene);
+
+    		makerStage.setOnCloseRequest(eventMakerClose -> eventMakerController.closeEventMaker());
+    		makerStage.show();
 			
 		} catch (Exception e) { e.printStackTrace(); }
 	}

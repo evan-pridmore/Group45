@@ -64,7 +64,7 @@ public class EventMakerController extends ApplicationController {
 		TimedEvent newEvent = new TimedEvent(start, end, name, colour);
 		getCurrentUser().addEvent(newEvent);
 		
-		getEventsStage().close();
+		getMakerStage().close();
 		User.serializeUser(getCurrentUser());
 		
 	}
@@ -81,7 +81,7 @@ public class EventMakerController extends ApplicationController {
 		getCurrentUser().addEvent(newEvent);
 		
 		System.out.println(getCurrentUser().getEvents().size());
-		getEventsStage().close();
+		getMakerStage().close();
 		User.serializeUser(getCurrentUser());
 	}
 	

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CalendarViewController">
+<AnchorPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CalendarViewController">
    <children>
       <TabPane layoutX="268.0" layoutY="8.0" prefHeight="720.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
         <tabs>
@@ -511,7 +511,7 @@
             <Menu fx:id="EditMenu" mnemonicParsing="false" text="Edit">
                <items>
                   <MenuItem accelerator="Ctrl+N" mnemonicParsing="false" onAction="#addEventMenu" text="Add Event" />
-                  <MenuItem accelerator="Ctrl+Delete" mnemonicParsing="false" onAction="#removeEventMenu" text="Remove Event" />
+                  <MenuItem accelerator="Ctrl+M" mnemonicParsing="false" onAction="#manageEventsMenu" text="Manage Events" />
                   <MenuItem accelerator="Ctrl+Delete" mnemonicParsing="false" onAction="#openAdminPreferences" text="Admin Preferences" />
                </items>
             </Menu>
