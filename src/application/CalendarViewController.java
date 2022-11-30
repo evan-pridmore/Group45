@@ -92,6 +92,8 @@ public Date currentDate = new Date();
     	VBox.setMargin(testEvent, upcomingEventsInsets);
     	VBox.setMargin(testEvent2, upcomingEventsInsets);
     	VBox.setMargin(testEvent3, upcomingEventsInsets);
+    	
+    	getCurrentUser().dumpEvents();
     }
     
     /**A method that updates the GUI specifically in {@link CalendarView.fxml} through the {@link CalendarViewController} class. <p>

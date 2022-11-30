@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 
 import application.Exceptions.EventOutsideTimeUnitException;
@@ -91,6 +92,19 @@ public class User implements Serializable {
 	
 	public ArrayList<Week> getEvents() {
 		return userEvents;
+	}
+	
+	public void dumpEvents() {
+		System.out.println(String.format("%ndumpEvents: Printing all events for user %s...", this.getUsername()));
+    	for (Week w : this.getEvents()) {
+    		System.out.println("--> Week number " + w.getStart().get(ChronoField.ALIGNED_WEEK_OF_YEAR) + " exists.");
+    		for (int dayIndex = 1 ; dayIndex < 8; dayIndex ++) {
+    			System.out.println("	--> '" + dayIndex + "' has '" + w.getDay(dayIndex).getEvents().size() + "' events.");
+    			for (Event e : w.getDay(dayIndex).getEvents()) {
+    				System.out.println("		--> Event with name '" + e.getName() + "' exists.");
+    			}
+    		}
+    	}
 	}
 	
 	/**
