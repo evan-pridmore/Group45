@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="300.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="application.EventManagementController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EventManagementController">
    <children>
-      <ScrollPane prefHeight="550.0" prefWidth="300.0">
+      <ScrollPane hbarPolicy="NEVER" prefHeight="600.0" prefWidth="400.0" vbarPolicy="NEVER">
          <content>
-            <VBox fx:id="allEventPanel" prefWidth="285.0" />
+            <VBox fx:id="allEventPanel" prefWidth="400.0">
+               <children>
+                  <TreeView fx:id="eventTree" onContextMenuRequested="#selectEvent" onMouseClicked="#selectEvent" />
+               </children></VBox>
          </content>
       </ScrollPane>
-      <Button layoutY="550.0" mnemonicParsing="false" onAction="#addEvent" prefHeight="50.0" prefWidth="300.0" text="Add Event" />
    </children>
 </AnchorPane>
