@@ -60,12 +60,12 @@ public class LoginViewController extends ApplicationController {
 			// If the password is incorrect, the label is updated to reflect this.
 			} else {
 				System.out.println("Incorrect password!");
-				loginErrorLabel.setText("Incorrect password!");
+				loginErrorLabel.setText(String.format("ERROR: Incorrect password entered for user '%s'.", loginUsername.getText()));
 			}
 			
 		} catch (UserDoesNotExistException udne) {
 			System.out.println(String.format("ERROR (attemptLogin): User '%s' does not exist.", loginUsername.getText()));
-			loginErrorLabel.setText(udne.getMessage());
+			loginErrorLabel.setText(String.format("ERROR: Could not find an existing user with the username '%s'", loginUsername.getText()));
 		}
 	} 
 	
@@ -86,17 +86,17 @@ public class LoginViewController extends ApplicationController {
 		} catch (InvalidUsernameException iue) {
 			System.out.println(String.format("ERROR (signUp): Cannot create new user with username '%s'.", loginUsername.getText()));
 			System.out.println(iue.getMessage());
-			loginErrorLabel.setText(iue.getMessage());
+			loginErrorLabel.setText(String.format("ERROR: Invalid username entered."));
 			
 		} catch (InvalidPasswordException ipe) {
 			System.out.println(String.format("ERROR (signUp): Cannot create new user with password '%s' and password '%s'.", loginPassword.getText()));
 			System.out.println(ipe.getMessage());
-			loginErrorLabel.setText(ipe.getMessage());
+			loginErrorLabel.setText(String.format("ERROR: Invalid password entered."));
 			
 		} catch (UserAlreadyExistsException uaee) {
 			System.out.println(String.format("ERROR (signUp): User with username '%s' already exists.", loginUsername.getText()));
 			System.out.println(uaee.getMessage());
-			loginErrorLabel.setText(uaee.getMessage());
+			loginErrorLabel.setText(String.format("ERROR: User with username '%s' already exists.", loginUsername.getText()));
 		}
 	}
 	

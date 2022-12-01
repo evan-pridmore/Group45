@@ -1,6 +1,7 @@
 package application;
 
 import java.io.FileInputStream;
+import java.time.ZonedDateTime;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,6 +38,8 @@ public class ApplicationController {
 	
 	private static User currentUser; 
 	
+	private static ZonedDateTime selectedDate;
+	
 // Define static 'getter' and 'setter' methods.
 	// Define static controllers for each view to standardize across instances. 
 	protected static void setLoginController(LoginViewController inputController) {
@@ -64,6 +67,14 @@ public class ApplicationController {
 	
 	protected static Stage getMakerStage() {
 		return makerStage;
+	}
+	
+	protected static ZonedDateTime getSelectedDate() {
+		return selectedDate;
+	}
+	
+	protected static void setSelectedDate(ZonedDateTime inputDate) {
+		selectedDate = inputDate;
 	}
 	
 	// Define current logged in user across application and provide access to currentUser across controllers.

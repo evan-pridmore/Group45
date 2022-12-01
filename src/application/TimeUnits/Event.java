@@ -13,7 +13,7 @@ public class Event extends TimeUnit {
 	private String name;
 	private double[] colour = new double[4];
 	
-Event(ZonedDateTime start, ZonedDateTime end, String aName, Color aColour) throws NullEventEndPointException {
+	Event(ZonedDateTime start, ZonedDateTime end, String aName, Color aColour) throws NullEventEndPointException {
 		super(start, end);
 		setName(aName);
 		setColour(aColour);
