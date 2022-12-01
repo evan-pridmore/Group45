@@ -78,7 +78,6 @@ public class EventManagementController extends ApplicationController {
 								else {
 									yearMonthEventList.get(yearList.indexOf(year)).get(yearMonthList.get(yearList.indexOf(year)).indexOf(month)).add(event);
 								}
-								
 							}
 						}
 					}

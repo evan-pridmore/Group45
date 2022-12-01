@@ -27,6 +27,6 @@ public class InstantEvent extends Event {
 	
 	@Override
 	public String toString() {
-		return new String(getName() + ": " + getStart().toString());
+		return String.format("%s: %s/%s/%s - %s", getName(), getStart().getYear(), getStart().getMonthValue(), getStart().getDayOfMonth(), getStart().toLocalTime().toString());
 	}
 }

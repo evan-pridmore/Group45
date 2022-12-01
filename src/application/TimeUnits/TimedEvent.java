@@ -27,6 +27,9 @@ public class TimedEvent extends Event {
 	
 	@Override
 	public String toString() {
-		return new String(getName() + ": " + getStart().toString() + "-->" + getEnd().toString());
+		if(getStart().getYear() == getEnd().getYear() && getStart().getDayOfYear() == getEnd().getDayOfYear()) 
+			return String.format("%s: %s/%s/%s %s-%s", getName(), getStart().getYear(), getStart().getMonthValue(), getStart().getDayOfMonth(), getStart().toLocalTime().toString(), getEnd().toLocalTime().toString());
+		else
+			return String.format("%s: %s/%s/%s %s --> %s/%s/%s %s", getName(), getStart().getYear(), getStart().getMonthValue(), getStart().getDayOfMonth(), getStart().toLocalTime().toString(), getEnd().getYear(), getEnd().getMonthValue(), getEnd().getDayOfMonth(), getEnd().toLocalTime().toString());
 	}
 }
