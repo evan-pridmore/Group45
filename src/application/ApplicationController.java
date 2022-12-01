@@ -32,6 +32,9 @@ public class ApplicationController {
 	private static EventManagementController eventManagementController;
 	private static EventMakerController eventMakerController;
 	
+	private static Scene loginScene;
+	private static Scene calendarScene;
+	
 	private static Stage appStage;
 	private static Stage managementStage;
 	private static Stage makerStage;
@@ -135,21 +138,27 @@ public class ApplicationController {
 	protected static void initializeCalendarView() {
     	System.out.println("initializeCalendarView: Attempting to initialize CalendarView...");
 		try {
-			FXMLLoader calendarLoader = new FXMLLoader();
-			Parent rootScene = calendarLoader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
 			
-			if (calendarController == null) {
-				System.out.println("calendarController null");
-				calendarController = calendarLoader.getController();
-			} else {
-				System.out.println("calendarController not null");
-				calendarLoader.setController(calendarController);
+			if (calendarScene == null) {
+				System.out.println("calendarScene null");
+				FXMLLoader calendarLoader = new FXMLLoader();
+				Parent rootScene = calendarLoader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
+				
+				calendarScene = new Scene(rootScene);
+				
+				if (calendarController == null) {
+					System.out.println("calendarController null");
+					calendarController = calendarLoader.getController();
+				} else {
+					System.out.println("calendarController not null");
+					calendarLoader.setController(calendarController);
+				}
 			}
 			
 			calendarController.updateGUI();
 			
 			appStage.setTitle(String.format("%s's Calendar", currentUser.getUsername()));
-			appStage.setScene(new Scene(rootScene));
+			appStage.setScene(calendarScene);
 			appStage.centerOnScreen();
 			appStage.show();
 			
@@ -177,6 +186,7 @@ public class ApplicationController {
 		
     		FXMLLoader eventManagementLoader = new FXMLLoader();
     		Parent root = eventManagementLoader.load(new FileInputStream("src/application/FXML/EventsViewerView.fxml"));
+    		
     		
     		// Setting appropriate static controller to prevent the creation of additional instances.
     		if (eventManagementController == null) {
