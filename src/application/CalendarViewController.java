@@ -80,7 +80,6 @@ public Date currentDate = new Date();
     @FXML
     void openAdminPreferences(ActionEvent openAdminPreferencesEvent) {
     	System.out.println("openAdminPreferences: ...");
-    	dayDateLabel.setText("Date Label Changed");
     	Rectangle testEvent = new Rectangle(200, 75, Color.LIGHTBLUE);
     	Rectangle testEvent2 = new Rectangle(200, 75, Color.LIGHTYELLOW);
     	Rectangle testEvent3 = new Rectangle(200, 75, Color.PINK);

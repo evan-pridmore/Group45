@@ -2,6 +2,7 @@ package application;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class LoginViewController extends ApplicationController {
 	@FXML
 	public void attemptLogin() {
 		loginErrorLabel.setText("");
+		loginErrorLabel.setTextFill(Color.RED);
 		System.out.println(String.format("Attempted Login:%n--> Username: '%s'%n--> Password: '%s'", loginUsername.getText(), loginPassword.getText()));
 		
 		try {
@@ -52,20 +54,21 @@ public class LoginViewController extends ApplicationController {
 			// entered in loginPassword. 
 			if (currentUser.getPassword().equals(loginPassword.getText())) {
 				System.out.println(String.format("Logged in user '%s'!", currentUser.getUsername()));
+				loginErrorLabel.setTextFill(Color.GREEN);
 				loginErrorLabel.setText(String.format("Logged in user '%s'!", currentUser.getUsername()));
-					
+		
 				setCurrentUser(currentUser);
 				initializeCalendarView();
 				
 			// If the password is incorrect, the label is updated to reflect this.
 			} else {
 				System.out.println("Incorrect password!");
-				loginErrorLabel.setText(String.format("ERROR: Incorrect password entered for user '%s'.", loginUsername.getText()));
+				loginErrorLabel.setText(String.format("Incorrect password"));
 			}
 			
 		} catch (UserDoesNotExistException udne) {
 			System.out.println(String.format("ERROR (attemptLogin): User '%s' does not exist.", loginUsername.getText()));
-			loginErrorLabel.setText(String.format("ERROR: Could not find an existing user with the username '%s'", loginUsername.getText()));
+			loginErrorLabel.setText(String.format("User does not exist"));
 		}
 	} 
 	
@@ -82,21 +85,23 @@ public class LoginViewController extends ApplicationController {
 			// A new instance of User is created with the information provided in the loginUsername and loginPassword 
 			// TextFields.
 			new User(loginUsername.getText(), loginPassword.getText());
+			loginErrorLabel.setTextFill(Color.GREEN);
+			loginErrorLabel.setText("User created!");
 			
 		} catch (InvalidUsernameException iue) {
 			System.out.println(String.format("ERROR (signUp): Cannot create new user with username '%s'.", loginUsername.getText()));
 			System.out.println(iue.getMessage());
-			loginErrorLabel.setText(String.format("ERROR: Invalid username entered."));
+			loginErrorLabel.setText(String.format("Invalid username entered"));
 			
 		} catch (InvalidPasswordException ipe) {
 			System.out.println(String.format("ERROR (signUp): Cannot create new user with password '%s' and password '%s'.", loginPassword.getText()));
 			System.out.println(ipe.getMessage());
-			loginErrorLabel.setText(String.format("ERROR: Invalid password entered."));
+			loginErrorLabel.setText(String.format("Invalid password entered"));
 			
 		} catch (UserAlreadyExistsException uaee) {
 			System.out.println(String.format("ERROR (signUp): User with username '%s' already exists.", loginUsername.getText()));
 			System.out.println(uaee.getMessage());
-			loginErrorLabel.setText(String.format("ERROR: User with username '%s' already exists.", loginUsername.getText()));
+			loginErrorLabel.setText(String.format("User already exists"));
 		}
 	}
 	
