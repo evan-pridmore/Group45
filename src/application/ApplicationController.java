@@ -50,6 +50,10 @@ public class ApplicationController {
 		calendarController = inputController;
 	}
 	
+	protected static CalendarViewController getCalendarController() {
+		return calendarController;
+	}
+	
 	protected static void setEventManagementController(EventManagementController inputController) {
 		eventManagementController = inputController;
 	}
