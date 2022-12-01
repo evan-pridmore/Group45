@@ -80,7 +80,6 @@ public class EventMakerController extends ApplicationController {
 		InstantEvent newEvent = new InstantEvent(time, name, colour);
 		getCurrentUser().addEvent(newEvent);
 		
-		System.out.println(getCurrentUser().getEvents().size());
 		getMakerStage().close();
 		User.serializeUser(getCurrentUser());
 	}
