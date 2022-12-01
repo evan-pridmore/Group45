@@ -20,9 +20,6 @@ import javafx.scene.layout.VBox;
  * @author evan-pridmore
  */
 public class EventManagementController extends ApplicationController {
-	
-	@FXML
-	private VBox allEventPanel;	
 	@FXML
 	private TreeView<String> eventTree;
 		
