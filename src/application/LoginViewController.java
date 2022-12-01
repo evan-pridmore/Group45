@@ -53,10 +53,10 @@ public class LoginViewController extends ApplicationController {
 			// Checks whether the password of this instance of User and compares whether its password equals the password 
 			// entered in loginPassword. 
 			if (currentUser.getPassword().equals(loginPassword.getText())) {
-				System.out.println(String.format("Logged in user '%s'!", currentUser.getUsername()));
 				loginErrorLabel.setTextFill(Color.GREEN);
-				loginErrorLabel.setText(String.format("Logged in user '%s'!", currentUser.getUsername()));
-		
+				loginErrorLabel.setText(String.format("Logged in user '%s'!", currentUser.getUsername()));	
+				System.out.println(String.format("Logged in user '%s'!", currentUser.getUsername()));
+
 				setCurrentUser(currentUser);
 				initializeCalendarView();
 				
@@ -104,5 +104,4 @@ public class LoginViewController extends ApplicationController {
 			loginErrorLabel.setText(String.format("User already exists"));
 		}
 	}
-	
 }

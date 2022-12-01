@@ -1,13 +1,9 @@
 package application;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
-import java.util.Date;
 
 import application.TimeUnits.*;
 import javafx.event.ActionEvent;
@@ -15,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -32,7 +29,8 @@ import javafx.scene.shape.Rectangle;
 public class CalendarViewController extends ApplicationController  {
 	
 	public DateTimeFormatter dateLabelFormat = DateTimeFormatter.ofPattern("EEEE, MMMM dd");
-	
+	public DateTimeFormatter simpleTimeFormat = DateTimeFormatter.ofPattern("(dd) HH:mm");
+
 	@FXML
 	private Menu EditMenu;
 
@@ -46,7 +44,7 @@ public class CalendarViewController extends ApplicationController  {
 	private Label upcomingEventsLabel;
 	
 	@FXML
-	private VBox dayViewVBox;
+	private AnchorPane dayViewAnchorPane;
 	
 	@FXML
 	private Label dayDateLabel;
@@ -96,18 +94,8 @@ public class CalendarViewController extends ApplicationController  {
     	VBox.setMargin(testEvent2, upcomingEventsInsets);
     	VBox.setMargin(testEvent3, upcomingEventsInsets);
     	
-     	// getCurrentUser().dumpEvents();
-     
-     	/*
-     	try {
-     	TimedEvent AdminTestEvent = new TimedEvent(ZonedDateTime.now(), ZonedDateTime.now().plusHours(1), "AdminTest", Color.RED);
- 		getCurrentUser().addEvent(AdminTestEvent);
- 		User.serializeUser(getCurrentUser());
- 		System.out.println("AdminTest: Event created with name '" + AdminTestEvent.getName() + "'.");
- 		
-     	} catch (Exception e) {e.printStackTrace();}
-     	*/
-     	
+     	getCurrentUser().dumpEvents();
+    	
 		updateDayView();
     }
     
@@ -130,43 +118,7 @@ public class CalendarViewController extends ApplicationController  {
     void updateDayView() {
      	// Get events from currentUser that exist within the specified date     	
      	System.out.println(String.format("%nupdateDayView: Updating day view..."));
-     	
-     	System.out.print("--> Clearing dayViewVBox...");
-     	dayViewVBox.getChildren().clear();
-     	System.out.println(String.format("	Cleared.%n"));
-
-
-     	System.out.println(String.format("--> User has '" + getCurrentUser().getEvents().size() + "' weeks stored in user data.%n"));
-
-     	ArrayList<Week> userEventsTemp = getCurrentUser().getEvents();
-
-     	int weekOfYear = getSelectedDate().get(ChronoField.ALIGNED_WEEK_OF_YEAR);
-     	int dayOfWeek = getSelectedDate().get(ChronoField.DAY_OF_WEEK);
-     	System.out.println("--> Attempting to get day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
-
-     	System.out.print("	--> Attempting to get week '" + weekOfYear + "' of the year...");
-
-     	boolean weekExists = false;
-     	for (Week w: userEventsTemp) {
-     		if (w.getWeekNum() == weekOfYear) {
-     			// Week 'weekOfYear' exists in userEvents.
-     			System.out.println("	Success!");
-     			weekExists = true;
-
-     			Day dayTemp = w.getDay(dayOfWeek); 
-
-     	    	System.out.println("		--> Attempting to get '" + dayTemp.getEvents().size() + "' events from day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
-     	    	for (Event e : dayTemp.getEvents()) {
-     	        	System.out.println("			--> Event '" + e.getName() + "' found.");
-     	    		dayViewVBox.getChildren().add(generateEventBlock(e));
-     	        	System.out.println(String.format("				--> Created event block for event '" + e.getName() + "'."));
-     	    	}
-     	    	System.out.println();
-     		}
-     	}
-     	if (!weekExists)
-     		System.out.println("--> Week does NOT exist in user events.");
-
+     	updateEventPane(getSelectedDate(), dayViewAnchorPane);
      	System.out.println("updateDayView: Done.");
      }
     
@@ -186,8 +138,61 @@ public class CalendarViewController extends ApplicationController  {
     	
     }
     
-	static Rectangle generateEventBlock(Event inputEvent) {
- 		Rectangle eventBlock = new Rectangle(240, 75, inputEvent.getColour());
+    void updateEventPane(ZonedDateTime inputDay, AnchorPane inputPane) {
+    	// Gets the events corresponding to a particular day, and adds it to the appropriate VBox.
+    	System.out.println(String.format("updateVBoxEvents: Updating VBox '%s' with events corresponding to day '%s'...", inputPane, inputDay));
+    	
+    	// Clearing VBox to prevent duplicate event blocks from being added...     	
+     	System.out.print(String.format("--> Clearing '%s' ...", inputPane));
+     	inputPane.getChildren().clear();
+     	System.out.println(String.format("	Cleared.%n"));
+
+     	// Specifying the specific date to find events in...
+     	System.out.println(String.format("--> User has '" + getCurrentUser().getEvents().size() + "' weeks stored in user data.%n"));
+    	int weekOfYear = getSelectedDate().get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+     	int dayOfWeek = getSelectedDate().get(ChronoField.DAY_OF_WEEK);
+     	System.out.println("--> Attempting to get day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
+
+     	// Getting the specified week of the specified date...
+     	System.out.print("	--> Attempting to get week '" + weekOfYear + "' of the year...");
+     	boolean weekExists = false;
+       	for (Week w: getCurrentUser().getEvents()) {
+     		if (w.getWeekNum() == weekOfYear) {
+     			// Week 'weekOfYear' exists in userEvents.
+     			System.out.println("	Success!");
+     			
+     			// Getting the specified day in the specified week.
+     			Day dayTemp = w.getDay(dayOfWeek); 
+     			System.out.println("		--> Attempting to get '" + dayTemp.getEvents().size() + "' events from day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
+     	    	for (Event e : dayTemp.getEvents()) {
+     	        	System.out.println("			--> Event '" + e.getName() + "' found.");
+     	        	addEventBlock(e, inputPane);
+     	        	System.out.println(String.format("				--> Created event block for event '" + e.getName() + "'."));
+     	    	}
+
+     		}
+     	if (!weekExists)
+     		System.out.println("--> Week does NOT exist in user events.");
+       	}
+    }
+    
+	static Rectangle addEventBlock(Event inputEvent, AnchorPane inputPane) {
+		// Each hour in every pane is 60px. Thus, each minute is 1px.
+		
+		// Start POSITION should be equal to the number of minutes from the beginning of the day.		
+		double startPos = inputEvent.getStart().get(ChronoField.MINUTE_OF_DAY) + 7;
+		double endPos = inputEvent.getEnd().get(ChronoField.MINUTE_OF_DAY) + 7;
+		
+		// Height should be equal to the difference between startPos and endPos
+		double height = endPos - startPos;
+		
+		System.out.println(String.format("Event '%s' has a start time of '%s' ('%s' px) and and end time of '%s' ('%s' px)", inputEvent.getName(), inputEvent.getStart().toString().substring(11, 16), startPos, inputEvent.getEnd().toString().substring(11, 16), endPos));
+		
+ 		Rectangle eventBlock = new Rectangle(240, height, inputEvent.getColour());
+ 		
+ 		inputPane.setTopAnchor(eventBlock, startPos);
+ 		
+ 		inputPane.getChildren().add(eventBlock);
 
  		return eventBlock;
  	}

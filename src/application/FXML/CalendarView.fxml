@@ -160,11 +160,7 @@
                                                 </Label>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="dayViewVBox" alignment="TOP_CENTER" layoutX="54.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="250.0" style="-fx-background-color: #ebebeb;">
-                                             <children>
-                                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="This is a test  (Try scrolling!)" />
-                                             </children>
-                                          </VBox>
+                                          <AnchorPane fx:id="dayViewAnchorPane" layoutX="54.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="250.0" style="-fx-background-color: #ebebeb;" />
                                        </children>
                                     </Pane>
                                  </content>
