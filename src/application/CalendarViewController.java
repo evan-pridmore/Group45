@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -191,7 +192,51 @@ public class CalendarViewController extends ApplicationController  {
     void updateUpcomingEvents() {
     	// This should NOT be dependent on 'selectedDate' because it is relative to the current date not the selected date.
     	System.out.println(String.format("%nupdateUpcomingEvents: Updating upcomingEventsVbox..."));
-
+    	
+     	// Clearing VBox to prevent duplicate event blocks from being added...     	
+     	System.out.print(String.format("Clearing pane..."));
+     	upcomingEventsVBox.getChildren().clear();
+     	System.out.println(String.format("	Cleared."));
+    	
+    	// Get the 10 CLOSEST events from the CURRENT DATE.
+    	int eventCount = 0;
+    	int addWeek = 0;
+    	ZonedDateTime currentDate = ZonedDateTime.now();
+    	
+    	int weekOfYear = currentDate.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+     	int dayOfWeek = getConvertedDayOfWeek(currentDate);	
+    	
+     	while (addWeek < 4) {
+         	System.out.print("--> Attempting to get week '" + (weekOfYear + addWeek) + "' of the year...");
+         	boolean weekExists = false;
+           	for (Week w: getCurrentUser().getEvents()) {
+         		if (w.getWeekNum() == weekOfYear + addWeek) {
+         			// Week 'weekOfYear' exists in userEvents.
+         			System.out.println("	Success!");
+         			
+         			// Getting the specified day in the specified week.
+         			Day dayTemp = w.getDay(dayOfWeek); 
+         			System.out.println("	--> Attempting to get '" + dayTemp.getEvents().size() + "' events from day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
+         	    	for (Event e : dayTemp.getEvents()) {
+             			if (eventCount < 10) {
+             				System.out.println("		--> Event '" + e.getName() + "' found.");
+             				addEventBlock(e, upcomingEventsVBox);
+             				System.out.println(String.format("			--> Created event block for event '" + e.getName() + "'."));
+             				eventCount ++;
+             			}
+         	    	}
+         		}
+         	if (!weekExists)
+         		System.out.println("	Week does NOT exist in user events.");
+           	}
+           	addWeek ++;
+     	}
+     	if (eventCount == 0) {
+     		System.out.println("There are NO upcoming events in the next four weeks.");
+     		Label noUpcomingEventsLabel = new Label("No upcoming events.");
+	 		upcomingEventsVBox.setAlignment(Pos.TOP_CENTER);	 		
+     		upcomingEventsVBox.getChildren().add(noUpcomingEventsLabel);
+     	}
     }
     
     void updateDateLabels(ZonedDateTime inputDate) {
@@ -237,7 +282,7 @@ public class CalendarViewController extends ApplicationController  {
      	    	}
      		}
      	if (!weekExists)
-     		System.out.println("--> Week does NOT exist in user events.");
+     		System.out.println("Week does NOT exist in user events.");
        	}
     }
     
@@ -319,4 +364,44 @@ public class CalendarViewController extends ApplicationController  {
 			System.out.println("Event block creation error.");
 		}
  	}
+
+	static void addEventBlock(Event inputEvent, VBox inputPane) {
+		System.out.println(String.format("addUpcomingEventBlock: Creating upcomingEventBlock for event '%s'...", inputEvent.getName()));
+		
+    	Insets eventBlockLabelInsets = new Insets(0, 5, 0, 5);
+    	Insets eventBlockInsets = new Insets(2, 5, 2, 5);
+    	
+    	Rectangle eventBlock = new Rectangle(190, 60, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+ 		Label eventBlockLabel = new Label(inputEvent.getName());
+ 		
+ 		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
+ 		
+ 		eventBlockLabel.setStyle("-fx-font-weight: Bold");
+ 		eventBlockLabel.setMaxWidth(190);
+ 		eventBlockLabel.setWrapText(true);
+ 		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
+ 		eventBlockLabel.setPadding(eventBlockLabelInsets);
+ 		
+ 		if (inputEvent.getColour().getBrightness() > 0.6) {
+	 		eventBlockLabel.setTextFill(Color.BLACK);
+ 		} else {
+	 		eventBlockLabel.setTextFill(Color.WHITE);
+ 		}
+ 		
+ 		StackPane eventBlockPane = new StackPane(eventBlock, eventBlockLabel);
+ 		StackPane.setAlignment(eventBlockLabel, Pos.TOP_CENTER);
+ 		
+ 		inputPane.setMargin(eventBlockPane, eventBlockInsets);
+ 		inputPane.getChildren().add(eventBlockPane);
+		
+		if (inputEvent instanceof TimedEvent) {
+			System.out.println(String.format("		--> Timed event '%s' has a start time of '%s' and and end time of '%s'.", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16), inputEvent.getEnd().toString().substring(11, 16)));
+			
+			
+		} else if (inputEvent instanceof InstantEvent) {
+			System.out.println(String.format("		--> Instant event '%s' has a time of '%s'.", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16)));
+	 		
+		}
+	}
+	
 }
