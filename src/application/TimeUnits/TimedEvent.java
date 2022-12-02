@@ -27,6 +27,6 @@ public class TimedEvent extends Event {
 	
 	@Override
 	public String toString() {
-		return new String(getName() + ": " + getStart().toString() + "-->" + getEnd().toString());
+		return new String("TimedEvent " + getName() + ": " + getStart().toString() + "-->" + getEnd().toString());
 	}
 }

@@ -27,6 +27,6 @@ public class InstantEvent extends Event {
 	
 	@Override
 	public String toString() {
-		return new String(getName() + ": " + getStart().toString());
+		return new String("Instant Event " + getName() + ": " + getStart().toString());
 	}
 }

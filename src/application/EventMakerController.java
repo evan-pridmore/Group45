@@ -64,8 +64,11 @@ public class EventMakerController extends ApplicationController {
 		TimedEvent newEvent = new TimedEvent(start, end, name, colour);
 		getCurrentUser().addEvent(newEvent);
 		
+		System.out.println("addTimedEvent: Event created (" + newEvent.toString() + ")");
+		
 		getMakerStage().close();
 		User.serializeUser(getCurrentUser());
+		getCalendarController().updateGUI();
 		
 	}
 	
@@ -80,9 +83,13 @@ public class EventMakerController extends ApplicationController {
 		InstantEvent newEvent = new InstantEvent(time, name, colour);
 		getCurrentUser().addEvent(newEvent);
 		
-		System.out.println(getCurrentUser().getEvents().size());
+		System.out.println("addInstantEvent: Event created (" + newEvent.toString() + ")");
+		
+		// System.out.println(getCurrentUser().getEvents().size());
 		getMakerStage().close();
 		User.serializeUser(getCurrentUser());
+		getCalendarController().updateGUI();
+
 	}
 	
 	void closeEventMaker() {

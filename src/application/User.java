@@ -101,7 +101,7 @@ public class User implements Serializable {
     		for (int dayIndex = 1 ; dayIndex < 8; dayIndex ++) {
     			System.out.println("	--> '" + dayIndex + "' has '" + w.getDay(dayIndex).getEvents().size() + "' events.");
     			for (Event e : w.getDay(dayIndex).getEvents()) {
-    				System.out.println("		--> Event with name '" + e.getName() + "' exists.");
+    				System.out.println("		--> Event with name '" + e.getName() + "' exists. (" + e.toString() + ")");
     			}
     		}
     	}
