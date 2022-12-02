@@ -8,7 +8,9 @@ import application.TimeUnits.Week;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 
 /**A controller that manages {@link EventViewerView.fxml} and is associated GUI components (e.g., buttons, labels, textfields, etc.)
  * 
@@ -19,23 +21,26 @@ import javafx.scene.layout.VBox;
  * 
  * @author evan-pridmore
  */
-public class EventManagementController extends ApplicationController {
+public class EventViewerController extends ApplicationController {
 	@FXML
 	private TreeView<String> eventTree;
+	private ArrayList<Integer> yearList;
+	private ArrayList<ArrayList<String>> yearMonthList;
+	private ArrayList<ArrayList<ArrayList<Event>>> yearMonthEventList = new ArrayList<ArrayList<ArrayList<Event>>>();
+	private ArrayList<ArrayList<ArrayList<String>>> yearMonthEventNameList = new ArrayList<ArrayList<ArrayList<String>>>();
+	
 		
 	public void makeTree() {
 		User user = getCurrentUser();
 		
 			TreeItem<String> rootItem = new TreeItem<String>("All Events");
 			if (!(eventTree.getRoot() == null)) {
-				System.out.println("CCC");
 				eventTree.getRoot().getChildren().clear();
 			}
 		
-		ArrayList<Integer> yearList = new ArrayList<Integer>();
-		ArrayList<ArrayList<String>> yearMonthList = new ArrayList<ArrayList<String>>();
-		ArrayList<ArrayList<ArrayList<Event>>> yearMonthEventList = new ArrayList<ArrayList<ArrayList<Event>>>();
-		
+		yearList = new ArrayList<Integer>();
+		yearMonthList = new ArrayList<ArrayList<String>>();
+		yearMonthEventList = new ArrayList<ArrayList<ArrayList<Event>>>();
 		
 		for (Week week : user.getEvents()) {
 			for (Day day : week.getDays()) {
@@ -48,32 +53,41 @@ public class EventManagementController extends ApplicationController {
 							yearList.add(event.getStart().getYear());
 							yearMonthList.add(new ArrayList<String>());
 							yearMonthEventList.add(new ArrayList<ArrayList<Event>>());
+							yearMonthEventNameList.add(new ArrayList<ArrayList<String>>());
 							
 							yearMonthList.get(0).add(event.getStart().getMonth().toString());
 							yearMonthEventList.get(0).add(new ArrayList<Event>());
+							yearMonthEventNameList.get(0).add(new ArrayList<String>());
 							
 							yearMonthEventList.get(0).get(0).add(event);
+							yearMonthEventNameList.get(0).get(0).add(event.toString());
 						}
 						else {
 							if (!(yearList.contains(event.getStart().getYear()))) {
 								yearList.add(event.getStart().getYear());
 								yearMonthList.add(new ArrayList<String>());
 								yearMonthEventList.add(new ArrayList<ArrayList<Event>>());
+								yearMonthEventNameList.add(new ArrayList<ArrayList<String>>());
 								
 								yearMonthList.get(yearList.indexOf(year)).add(month);
 								yearMonthEventList.get(yearList.indexOf(year)).add(new ArrayList<Event>());
+								yearMonthEventNameList.get(yearList.indexOf(year)).add(new ArrayList<String>());
 								
 								yearMonthEventList.get(yearList.indexOf(year)).get(yearMonthList.get(yearList.indexOf(year)).indexOf(month)).add(event);
+								yearMonthEventNameList.get(yearList.indexOf(year)).get(yearMonthList.get(yearList.indexOf(year)).indexOf(month)).add(event.toString());
 							}
 							else {
 								if(!(yearMonthList.get(yearList.indexOf(year)).contains(month))) {
 									yearMonthList.get(yearList.indexOf(year)).add(month);
 									yearMonthEventList.get(yearList.indexOf(year)).add(new ArrayList<Event>());
+									yearMonthEventNameList.get(yearList.indexOf(year)).add(new ArrayList<String>());
 					
 									yearMonthEventList.get(yearList.indexOf(year)).get(yearMonthList.get(yearList.indexOf(year)).indexOf(month)).add(event);
+									yearMonthEventNameList.get(yearList.indexOf(year)).get(yearMonthList.get(yearList.indexOf(year)).indexOf(month)).add(event.toString());
 								}
 								else {
 									yearMonthEventList.get(yearList.indexOf(year)).get(yearMonthList.get(yearList.indexOf(year)).indexOf(month)).add(event);
+									yearMonthEventNameList.get(yearList.indexOf(year)).get(yearMonthList.get(yearList.indexOf(year)).indexOf(month)).add(event.toString());
 								}
 							}
 						}
@@ -88,6 +102,12 @@ public class EventManagementController extends ApplicationController {
 					TreeItem<String> monthItem = new TreeItem<>(month);
 					for (Event event : yearMonthEventList.get(yearList.indexOf(i)).get(yearMonthList.get(yearList.indexOf(i)).indexOf(month))) {
 						TreeItem<String> nameItem = new TreeItem<>(event.toString());
+						
+						Rectangle colourRectangle = new Rectangle(16, 16, event.getColour());
+						colourRectangle.setStroke(Color.BLACK);
+						colourRectangle.setStrokeType(StrokeType.INSIDE);
+						
+						nameItem.setGraphic(colourRectangle);
 						monthItem.getChildren().add(nameItem);
 					}
 					yearItem.getChildren().add(monthItem);
@@ -103,10 +123,13 @@ public class EventManagementController extends ApplicationController {
  	}
 	
 	public void selectEvent() {
+		TreeItem<String> selectedEventItem = eventTree.getSelectionModel().getSelectedItem();
+		if (selectedEventItem != null && selectedEventItem.isLeaf()) {
+			String eventName = selectedEventItem.getValue();
+			String eventMonth = selectedEventItem.getParent().getValue();
+			int eventYear = Integer.parseInt(selectedEventItem.getParent().getParent().getValue());
+			initializeEventManagerView(yearMonthEventList.get(yearList.indexOf(eventYear)).get(yearMonthList.get(yearList.indexOf(eventYear)).indexOf(eventMonth)).get(yearMonthEventNameList.get(yearList.indexOf(eventYear)).get(yearMonthList.get(yearList.indexOf(eventYear)).indexOf(eventMonth)).indexOf(eventName)));
 
-	}
-	
-	public void closeEventViewer() {
-		allEventPanel.getChildren().clear();
+		}
 	}
 }

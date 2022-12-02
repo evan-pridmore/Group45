@@ -86,13 +86,16 @@ public class Week extends TimeUnit {
 	 * @throws EventOutsideTimeUnitException If the event does not belong to a {@link Day} stored in the array.
 	 */
 	public void addEvent(Event event) throws NullEventEndPointException, EventOutsideTimeUnitException {
-		Week self = new Week(getStart(), getEnd(), weekDays);
-		if (self.contains(event)) {
+		if (this.contains(event)) {
 			for (int i = 0; i < weekDays.length; i++) {
-				if (event instanceof InstantEvent && event.containedIn(weekDays[i]))
+				if (event instanceof InstantEvent && event.containedIn(weekDays[i])) {
 					weekDays[i].addEvent(event);
+					System.out.println(event.getStart().getDayOfMonth());
+					System.out.println(weekDays[i].getStart().getDayOfMonth());
+					break;
+				}
 				else if (event instanceof TimedEvent && weekDays[i].contains(event)) {
-					if (event.containedIn(self))
+					if (event.containedIn(this))
 						weekDays[i].addEvent(event);
 					else if (event.startsIn(weekDays[i])) {
 						//Spilt up and recursively call addEvent on the event split at the day.
@@ -106,6 +109,6 @@ public class Week extends TimeUnit {
 			}
 		}
 		else 
-			throw new EventOutsideTimeUnitException(String.format("Tried to add Event %1$s to week of %2$s, but it %1$s does not fall within it.", event.getName(), self.getStart().toString()));
+			throw new EventOutsideTimeUnitException(String.format("Tried to add Event %1$s to week of %2$s, but it %1$s does not fall within it.", event.getName(), this.getStart().toString()));
 	}
 }

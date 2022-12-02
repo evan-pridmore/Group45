@@ -3,6 +3,7 @@ package application;
 import java.io.FileInputStream;
 import java.time.ZonedDateTime;
 
+import application.TimeUnits.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,16 +28,19 @@ public class ApplicationController {
 
 // Define static 'class variables'.
 	// private static ApplicationController appController;
-	private static LoginViewController loginController;
-	private static CalendarViewController calendarController; 
-	private static EventManagementController eventManagementController;
+	private static CalendarViewController calendarController;
 	private static EventMakerController eventMakerController;
+	private static EventManagerController eventManagerController;
+	private static EventViewerController eventViewerController;
+	private static LoginViewController loginController; 
 	
 	private static Stage appStage;
-	private static Stage managementStage;
 	private static Stage makerStage;
+	private static Stage managerStage;
+	private static Stage viewerStage;
 	
-	private static Scene managementScene;
+	private static Scene managerScene;
+	private static Scene viewerScene;
 	
 	private static User currentUser; 
 	
@@ -52,8 +56,8 @@ public class ApplicationController {
 		calendarController = inputController;
 	}
 	
-	protected static void setEventManagementController(EventManagementController inputController) {
-		eventManagementController = inputController;
+	protected static void setEventViewerController(EventViewerController inputController) {
+		eventViewerController = inputController;
 	}
 
 	// Define components of GUI to standardize across instances.
@@ -64,7 +68,7 @@ public class ApplicationController {
 	
 	protected static Stage getManagementStage() {
 		// This stage is specific to the 'event management' windows.
-		return managementStage;
+		return viewerStage;
 	}
 	
 	protected static Stage getMakerStage() {
@@ -156,8 +160,8 @@ public class ApplicationController {
 	
 	/** A static method that triggers the initialization of EventViewerView.fxml. <p>
 	 * 
-	 * Creates a new FXMLLoader, checks for whether there is a pre-existing eventManagementController instance stored as a static
-	 * variable in ApplicationController, and sets/creates a new instance of eventManagementController as appropriate (i.e., if 
+	 * Creates a new FXMLLoader, checks for whether there is a pre-existing eventViewerController instance stored as a static
+	 * variable in ApplicationController, and sets/creates a new instance of eventViewerController as appropriate (i.e., if 
 	 * null, create new instance and store in ApplicationController).
 	 */
 	protected static void initializeEventViewerView() {
@@ -165,33 +169,33 @@ public class ApplicationController {
     	
     	try {
     		// Create new stage (window) for EventViewerView
-    		if (managementStage == null) {
-    			managementStage = new Stage();
-    			managementStage.initModality(Modality.APPLICATION_MODAL);
+    		if (viewerStage == null) {
+    			viewerStage = new Stage();
+    			viewerStage.initModality(Modality.APPLICATION_MODAL);
     		}
 			
-			if (managementScene == null) {
-				System.out.print("managementScene null");
+			if (viewerScene == null) {
+				System.out.print("viewerScene null");
 				
 				FXMLLoader eventManagementLoader = new FXMLLoader();
-	    		Parent root = eventManagementLoader.load(new FileInputStream("src/application/FXML/EventsViewerView.fxml"));
+	    		Parent rootScene = eventManagementLoader.load(new FileInputStream("src/application/FXML/EventsViewerView.fxml"));
 				
 				// Setting appropriate static controller to prevent the creation of additional instances.
-				if (eventManagementController == null) {
-					System.out.println("eventManagementController null");
-					eventManagementController = eventManagementLoader.getController();
-					managementScene = new Scene(root);
+				if (eventViewerController == null) {
+					System.out.println("eventViewerController null");
+					eventViewerController = eventManagementLoader.getController();
+					viewerScene = new Scene(rootScene);
 	    		} else {
-					System.out.println("eventManagementController not null");
-					eventManagementLoader.setController(eventManagementController);
+					System.out.println("eventViewerController not null");
+					eventManagementLoader.setController(eventViewerController);
 	    		}
 
 			}
-			managementStage.setTitle(currentUser.getUsername() + "'s Events");
-			managementStage.setScene(managementScene);
+			viewerStage.setTitle(currentUser.getUsername() + "'s Events");
+			viewerStage.setScene(viewerScene);
 			
-			eventManagementController.makeTree();
-			managementStage.show();
+			eventViewerController.makeTree();
+			viewerStage.show();
 			    		
     	} catch (Exception e) { e.printStackTrace(); }
 	}
@@ -215,7 +219,6 @@ public class ApplicationController {
     			makerStage.setOnCloseRequest(eventMakerClose -> eventMakerController.closeEventMaker());
 			}
     		
-			
 			FXMLLoader eventMakerLoader = new FXMLLoader();
 			Parent root = eventMakerLoader.load(new FileInputStream("src/application/FXML/EventMakerView.fxml"));
 			
@@ -235,4 +238,38 @@ public class ApplicationController {
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
+	protected static void initializeEventManagerView(Event selectedEvent) {
+		System.out.println("initializeEventManagerView: Attemptng to intialize EventManagerView...");
+		
+		try {
+    		// Create new stage (window) for EventManagerView
+    		if (managerStage == null) {
+    			managerStage = new Stage();
+    			managerStage.initModality(Modality.APPLICATION_MODAL);
+    		}
+			
+			if (managerScene == null) {
+				System.out.print("managerScene null");
+				
+				FXMLLoader eventManagerLoader = new FXMLLoader();
+	    		Parent root = eventManagerLoader.load(new FileInputStream("src/application/FXML/EventManagerView.fxml"));
+				
+				// Setting appropriate static controller to prevent the creation of additional instances.
+				if (eventManagerController == null) {
+					System.out.println("eventManagementController null");
+					eventManagerController = eventManagerLoader.getController();
+					managerScene = new Scene(root);
+	    		} else {
+					System.out.println("eventManagementController not null");
+					eventManagerLoader.setController(eventManagerController);
+	    		}
+
+			}
+			managerStage.setTitle(selectedEvent.getName());
+			managerStage.setScene(managerScene);
+			
+			managerStage.show();
+			    		
+    	} catch (Exception e) { e.printStackTrace(); }
+	}
 }
