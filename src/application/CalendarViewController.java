@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -156,7 +157,8 @@ public class CalendarViewController extends ApplicationController  {
     }
     
     void updateEventPane(ZonedDateTime inputDay, AnchorPane inputPane) {
-    	// Gets the specified dates
+    	// Gets the specified weekOfYear and dayOfWeek (Requires translating between ChronoField definition of dayOfWeek and TimeUnit definition of dayOfWeek)...
+    	// (ChronoField: Monday = 1, Sunday = 7 --> TimeUnit: Sunday = 1, Saturday = 7) 
     	int weekOfYear = inputDay.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
      	int dayOfWeek = inputDay.get(ChronoField.DAY_OF_WEEK);	
     	if (dayOfWeek == 7) {
@@ -168,19 +170,14 @@ public class CalendarViewController extends ApplicationController  {
     		dayOfWeek = dayOfWeek + 1;
     		System.out.println(" dayOfWeek is now '" + dayOfWeek + "'."); 
     	}
-    	
-    	// Gets the events corresponding to a particular day, and adds it to the appropriate VBox.
-    	// System.out.println(String.format("updateVBoxEvents: Updating VBox '%s' with events corresponding to day '%s'...", inputPane, inputDay));
-    	
+    	    	
     	// Clearing VBox to prevent duplicate event blocks from being added...     	
-     	// System.out.print(String.format("--> Clearing '%s' ...", inputPane));
      	System.out.print(String.format("Clearing pane..."));
      	inputPane.getChildren().clear();
      	System.out.println(String.format("	Cleared."));
 
      	// Specifying the specific date to find events in...
      	System.out.println(String.format("User has '" + getCurrentUser().getEvents().size() + "' weeks stored in user data."));
-     	
      	System.out.println("Attempting to get day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
 
      	// Getting the specified week of the specified date...
@@ -199,16 +196,14 @@ public class CalendarViewController extends ApplicationController  {
      	        	addEventBlock(e, inputPane);
      	        	System.out.println(String.format("			--> Created event block for event '" + e.getName() + "'."));
      	    	}
-
      		}
      	if (!weekExists)
      		System.out.println("--> Week does NOT exist in user events.");
        	}
     }
     
-	static Rectangle addEventBlock(Event inputEvent, AnchorPane inputPane) {
-		// Each hour in every pane is 60px. Thus, each minute is 1px.
-		
+	static void addEventBlock(Event inputEvent, AnchorPane inputPane) {
+		// Each hour in every pane is 60px. Thus, each minute is 1px.		
 		if (inputEvent instanceof TimedEvent) {
 			// Start POSITION should be equal to the number of minutes from the beginning of the day.		
 			double startPos = inputEvent.getStart().get(ChronoField.MINUTE_OF_DAY) + 7;
@@ -220,33 +215,47 @@ public class CalendarViewController extends ApplicationController  {
 			System.out.println(String.format("		--> Timed event '%s' has a start time of '%s' ('%s' px) and and end time of '%s' ('%s' px)", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16), startPos, inputEvent.getEnd().toString().substring(11, 16), endPos));
 			
 	 		Rectangle eventBlock = new Rectangle(240, height, inputEvent.getColour());
+	 		Label eventBlockLabel = new Label(inputEvent.getName());
 	 		
-	 		inputPane.setTopAnchor(eventBlock, startPos);
+	 		// Sets the event block's label text to a visible colour, depending on the brightness of the event colour.
+	 		if (inputEvent.getColour().getBrightness() > 0.5) {
+	 			eventBlockLabel.setTextFill(Color.BLACK);
+	 		} else {
+	 			eventBlockLabel.setTextFill(Color.WHITE);
+	 		}
 	 		
-	 		inputPane.getChildren().add(eventBlock);
-	
-	 		return eventBlock;
+	 		StackPane eventBlockPane = new StackPane(eventBlock, eventBlockLabel);
+	 			 		
+	 		// Adding StackPane to AnchorPane...
+	 		inputPane.setTopAnchor(eventBlockPane, startPos);
+	 		inputPane.getChildren().add(eventBlockPane);
 	 		
 		} else if (inputEvent instanceof InstantEvent) {
-			// An InstantEvent occurs at a single point of time.
-			
+			// An InstantEvent occurs at a single point of time.		
 			// Start POSITION should be equal to the number of minutes from the beginning of the day.
 			double startPos = ((InstantEvent) inputEvent).getEventTime().get(ChronoField.MINUTE_OF_DAY) + 1;
 			
 			System.out.println(String.format("		--> Instant event '%s' has a time of '%s' ('%s' px).", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16), startPos));
 			 		
 	 		Rectangle eventBlock = new Rectangle(240, 15, inputEvent.getColour());
+	 		Label eventBlockLabel = new Label(inputEvent.getName());
+
+	 		// Sets the event block's label text to a visible colour, depending on the brightness of the event colour.
+	 		if (inputEvent.getColour().getBrightness() > 0.5) {
+	 			eventBlockLabel.setTextFill(Color.BLACK);
+	 		} else {
+	 			eventBlockLabel.setTextFill(Color.WHITE);
+	 		}
+	 
 	 		
-	 		inputPane.setTopAnchor(eventBlock, startPos);
+	 		StackPane eventBlockPane = new StackPane(eventBlock, eventBlockLabel);
 	 		
-	 		inputPane.getChildren().add(eventBlock);
+	 		inputPane.setTopAnchor(eventBlockPane, startPos);
 	 		
-	 		return eventBlock;
+	 		inputPane.getChildren().add(eventBlockPane);
 	 		
 		} else {
 			System.out.println("Event block creation error.");
-			return null;
-			
 		}
  	}
 }
