@@ -68,7 +68,7 @@ public class EventMakerController extends ApplicationController {
 		
 		getMakerStage().close();
 		User.serializeUser(getCurrentUser());
-		getCalendarController().updateGUI();
+		getCalendarController().updateCalendarGUI();
 		
 	}
 	
@@ -88,7 +88,7 @@ public class EventMakerController extends ApplicationController {
 		// System.out.println(getCurrentUser().getEvents().size());
 		getMakerStage().close();
 		User.serializeUser(getCurrentUser());
-		getCalendarController().updateGUI();
+		getCalendarController().updateCalendarGUI();
 
 	}
 	

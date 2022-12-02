@@ -1,7 +1,7 @@
 package application.TimeUnits;
 
 import java.util.Date;
-import java.util.TimeZone;
+import java.util.Locale;
 
 import application.Exceptions.EventOutsideTimeUnitException;
 import application.Exceptions.NullEventEndPointException;
@@ -23,7 +23,7 @@ public class Week extends TimeUnit {
 		super(chosenDate, null);
 		
 		//Get the first day of the week of the chosen day.
-		Calendar chosenDateCalendar = Calendar.getInstance(TimeZone.getTimeZone(chosenDate.getZone()));
+		Calendar chosenDateCalendar = Calendar.getInstance(Locale.CANADA);
 		chosenDateCalendar.setTime(new Date(chosenDate.toEpochSecond() * 1000));
 		chosenDate = chosenDate.minusDays(chosenDateCalendar.get(Calendar.DAY_OF_WEEK) - chosenDateCalendar.getFirstDayOfWeek()).toLocalDate().atStartOfDay(chosenDate.getZone());
 		
@@ -86,13 +86,14 @@ public class Week extends TimeUnit {
 	 * @throws EventOutsideTimeUnitException If the event does not belong to a {@link Day} stored in the array.
 	 */
 	public void addEvent(Event event) throws NullEventEndPointException, EventOutsideTimeUnitException {
-		Week self = new Week(getStart(), getEnd(), weekDays);
-		if (self.contains(event)) {
+		if (this.contains(event)) {
 			for (int i = 0; i < weekDays.length; i++) {
-				if (event instanceof InstantEvent && event.containedIn(weekDays[i]))
+				if (event instanceof InstantEvent && event.containedIn(weekDays[i])) {
 					weekDays[i].addEvent(event);
+					break;
+				}
 				else if (event instanceof TimedEvent && weekDays[i].contains(event)) {
-					if (event.containedIn(self))
+					if (event.containedIn(this))
 						weekDays[i].addEvent(event);
 					else if (event.startsIn(weekDays[i])) {
 						//Spilt up and recursively call addEvent on the event split at the day.
@@ -106,6 +107,6 @@ public class Week extends TimeUnit {
 			}
 		}
 		else 
-			throw new EventOutsideTimeUnitException(String.format("Tried to add Event %1$s to week of %2$s, but it %1$s does not fall within it.", event.getName(), self.getStart().toString()));
+			throw new EventOutsideTimeUnitException(String.format("Tried to add Event %1$s to week of %2$s, but it %1$s does not fall within it.", event.getName(), this.getStart().toString()));
 	}
 }

@@ -155,7 +155,7 @@ public class ApplicationController {
 				}
 			}
 			
-			calendarController.updateGUI();
+			calendarController.updateCalendarGUI();
 			
 			appStage.setTitle(String.format("%s's Calendar", currentUser.getUsername()));
 			appStage.setScene(calendarScene);

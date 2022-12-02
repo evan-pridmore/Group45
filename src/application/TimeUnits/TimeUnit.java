@@ -64,13 +64,13 @@ public class TimeUnit implements Serializable {
 	 */
 	public boolean containedIn(TimeUnit biggerTimeUnit) {
 		//Only check the start date if the end date is null. (InstantEvents)
-		if (end == null) {
-			System.out.println("A");
-			if (biggerTimeUnit.getStart().minusNanos(1).isBefore(start) && biggerTimeUnit.getEnd().plusNanos(1).isAfter(start))
+		if (getEnd() == null) {
+			if (biggerTimeUnit.getStart().minusNanos(1).isBefore(getStart()) && biggerTimeUnit.getEnd().plusNanos(1).isAfter(getStart())) {
 				return true;
+			}
 		}
 				
-		else if (biggerTimeUnit.getStart().minusNanos(1).isBefore(start) && biggerTimeUnit.getEnd().plusNanos(1).isAfter(end))
+		else if (biggerTimeUnit.getStart().minusNanos(1).isBefore(getStart()) && biggerTimeUnit.getEnd().plusNanos(1).isAfter(getEnd()))
 			return true;
 		return false;
 	}
@@ -91,7 +91,7 @@ public class TimeUnit implements Serializable {
 	 * @return True if the called on {@link TimeUnit} starts within otherTimeUnit, else false.
 	 */
 	public boolean startsIn(TimeUnit otherTimeUnit) {
-		if (end != null && otherTimeUnit.getStart().minusNanos(1).isBefore(start) && !(otherTimeUnit.getEnd().plusNanos(1).isBefore(end))) 
+		if (getEnd() != null && otherTimeUnit.getStart().minusNanos(1).isBefore(getStart()) && !(otherTimeUnit.getEnd().plusNanos(1).isBefore(getEnd()))) 
 			return true;
 		return false;
 	}
@@ -134,10 +134,10 @@ public class TimeUnit implements Serializable {
 	 */
 	public boolean contains(TimeUnit otherTimeUnit) throws NullEventEndPointException {
 		//TimeUnits that occur at a single instant cannot contain anything.
-		if (end == null) 
+		if (getEnd() == null) 
 			return false;
 		//create a time unit with the same start and end as called instance for comparing.
-		TimeUnit self = new TimeUnit(start, end);
+		TimeUnit self = new TimeUnit(getStart(), getEnd());
 		
 		//check for full containment.
 		if (otherTimeUnit.containedIn(self))
