@@ -1,7 +1,7 @@
 package application.TimeUnits;
 
 import java.util.Date;
-import java.util.TimeZone;
+import java.util.Locale;
 
 import application.Exceptions.EventOutsideTimeUnitException;
 import application.Exceptions.NullEventEndPointException;
@@ -23,7 +23,7 @@ public class Week extends TimeUnit {
 		super(chosenDate, null);
 		
 		//Get the first day of the week of the chosen day.
-		Calendar chosenDateCalendar = Calendar.getInstance(TimeZone.getTimeZone(chosenDate.getZone()));
+		Calendar chosenDateCalendar = Calendar.getInstance(Locale.CANADA);
 		chosenDateCalendar.setTime(new Date(chosenDate.toEpochSecond() * 1000));
 		chosenDate = chosenDate.minusDays(chosenDateCalendar.get(Calendar.DAY_OF_WEEK) - chosenDateCalendar.getFirstDayOfWeek()).toLocalDate().atStartOfDay(chosenDate.getZone());
 		
@@ -90,8 +90,6 @@ public class Week extends TimeUnit {
 			for (int i = 0; i < weekDays.length; i++) {
 				if (event instanceof InstantEvent && event.containedIn(weekDays[i])) {
 					weekDays[i].addEvent(event);
-					System.out.println(event.getStart().getDayOfMonth());
-					System.out.println(weekDays[i].getStart().getDayOfMonth());
 					break;
 				}
 				else if (event instanceof TimedEvent && weekDays[i].contains(event)) {

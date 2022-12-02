@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import application.TimeUnits.Day;
 import application.TimeUnits.Event;
@@ -65,6 +66,7 @@ public class EventViewerController extends ApplicationController {
 						else {
 							if (!(yearList.contains(event.getStart().getYear()))) {
 								yearList.add(event.getStart().getYear());
+								Collections.sort(yearList);
 								yearMonthList.add(new ArrayList<String>());
 								yearMonthEventList.add(new ArrayList<ArrayList<Event>>());
 								yearMonthEventNameList.add(new ArrayList<ArrayList<String>>());

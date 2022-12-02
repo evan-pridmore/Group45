@@ -117,16 +117,20 @@ public class User implements Serializable {
 		if (userEvents.size() > 0) {
 			//Add InstantEvents to existing weeks.
 			if (newEvent instanceof InstantEvent) {
+				
+				boolean hasEvent = false;
 				for (Week week : userEvents) {
 					if (week.contains(newEvent)) {
 						week.addEvent(newEvent);
-						return;
+						hasEvent = true;
 					}
 				}
 				//If user has no weeks with the event, create a new one containing the event start and try again.
-				Week newWeek = new Week(newEvent.getStart());
-				userEvents.add(newWeek);
-				addEvent(newEvent);
+				if (!hasEvent) {
+					Week newWeek = new Week(newEvent.getStart());
+					userEvents.add(newWeek);
+					addEvent(newEvent);
+				}
 			}
 			//Add TimedEvents to existing weeks.
 			else if (newEvent instanceof TimedEvent) {
