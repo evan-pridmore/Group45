@@ -3,6 +3,8 @@ package application;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import java.time.Month;
+
 import application.TimeUnits.Day;
 import application.TimeUnits.Event;
 import application.TimeUnits.Week;
@@ -26,9 +28,9 @@ public class EventViewerController extends ApplicationController {
 	@FXML
 	private TreeView<String> eventTree;
 	private ArrayList<Integer> yearList;
-	private ArrayList<ArrayList<String>> yearMonthList;
-	private ArrayList<ArrayList<ArrayList<Event>>> yearMonthEventList = new ArrayList<ArrayList<ArrayList<Event>>>();
-	private ArrayList<ArrayList<ArrayList<String>>> yearMonthEventNameList = new ArrayList<ArrayList<ArrayList<String>>>();
+	private ArrayList<ArrayList<Month>> yearMonthList;
+	private ArrayList<ArrayList<ArrayList<Event>>> yearMonthEventList;
+	private ArrayList<ArrayList<ArrayList<String>>> yearMonthEventNameList;
 	
 		
 	public void makeTree() {
@@ -40,23 +42,24 @@ public class EventViewerController extends ApplicationController {
 			}
 		
 		yearList = new ArrayList<Integer>();
-		yearMonthList = new ArrayList<ArrayList<String>>();
+		yearMonthList = new ArrayList<ArrayList<Month>>();
 		yearMonthEventList = new ArrayList<ArrayList<ArrayList<Event>>>();
+		yearMonthEventNameList = new ArrayList<ArrayList<ArrayList<String>>>();
 		
 		for (Week week : user.getEvents()) {
 			for (Day day : week.getDays()) {
 				if (day.getEvents().size() > 0) {	
 					for (Event event : day.getEvents()) {
 						int year = event.getStart().getYear();
-						String month = event.getStart().getMonth().toString();
+						Month month = event.getStart().getMonth();
 						
 						if (yearList.size() == 0) {
 							yearList.add(event.getStart().getYear());
-							yearMonthList.add(new ArrayList<String>());
+							yearMonthList.add(new ArrayList<Month>());
 							yearMonthEventList.add(new ArrayList<ArrayList<Event>>());
 							yearMonthEventNameList.add(new ArrayList<ArrayList<String>>());
 							
-							yearMonthList.get(0).add(event.getStart().getMonth().toString());
+							yearMonthList.get(0).add(event.getStart().getMonth());
 							yearMonthEventList.get(0).add(new ArrayList<Event>());
 							yearMonthEventNameList.get(0).add(new ArrayList<String>());
 							
@@ -67,13 +70,14 @@ public class EventViewerController extends ApplicationController {
 							if (!(yearList.contains(event.getStart().getYear()))) {
 								yearList.add(event.getStart().getYear());
 								Collections.sort(yearList);
-								yearMonthList.add(new ArrayList<String>());
-								yearMonthEventList.add(new ArrayList<ArrayList<Event>>());
-								yearMonthEventNameList.add(new ArrayList<ArrayList<String>>());
+								yearMonthList.add(yearList.indexOf(year), new ArrayList<Month>());
+								yearMonthEventList.add(yearList.indexOf(year), new ArrayList<ArrayList<Event>>());
+								yearMonthEventNameList.add(yearList.indexOf(year), new ArrayList<ArrayList<String>>());
 								
 								yearMonthList.get(yearList.indexOf(year)).add(month);
-								yearMonthEventList.get(yearList.indexOf(year)).add(new ArrayList<Event>());
-								yearMonthEventNameList.get(yearList.indexOf(year)).add(new ArrayList<String>());
+								Collections.sort(yearMonthList.get(yearList.indexOf(year)));
+								yearMonthEventList.get(yearList.indexOf(year)).add(yearMonthList.get(yearList.indexOf(year)).indexOf(month),new ArrayList<Event>());
+								yearMonthEventNameList.get(yearList.indexOf(year)).add(yearMonthList.get(yearList.indexOf(year)).indexOf(month), new ArrayList<String>());
 								
 								yearMonthEventList.get(yearList.indexOf(year)).get(yearMonthList.get(yearList.indexOf(year)).indexOf(month)).add(event);
 								yearMonthEventNameList.get(yearList.indexOf(year)).get(yearMonthList.get(yearList.indexOf(year)).indexOf(month)).add(event.toString());
@@ -81,8 +85,9 @@ public class EventViewerController extends ApplicationController {
 							else {
 								if(!(yearMonthList.get(yearList.indexOf(year)).contains(month))) {
 									yearMonthList.get(yearList.indexOf(year)).add(month);
-									yearMonthEventList.get(yearList.indexOf(year)).add(new ArrayList<Event>());
-									yearMonthEventNameList.get(yearList.indexOf(year)).add(new ArrayList<String>());
+									Collections.sort(yearMonthList.get(yearList.indexOf(year)));
+									yearMonthEventList.get(yearList.indexOf(year)).add(yearMonthList.get(yearList.indexOf(year)).indexOf(month), new ArrayList<Event>());
+									yearMonthEventNameList.get(yearList.indexOf(year)).add(yearMonthList.get(yearList.indexOf(year)).indexOf(month), new ArrayList<String>());
 					
 									yearMonthEventList.get(yearList.indexOf(year)).get(yearMonthList.get(yearList.indexOf(year)).indexOf(month)).add(event);
 									yearMonthEventNameList.get(yearList.indexOf(year)).get(yearMonthList.get(yearList.indexOf(year)).indexOf(month)).add(event.toString());
@@ -95,13 +100,13 @@ public class EventViewerController extends ApplicationController {
 						}
 					}
 				}
-			}	
+			}
 		}
 		if (yearList.size() > 0) {
 			for (int i : yearList) {
 				TreeItem<String> yearItem = new TreeItem<>(""+ i);
-				for (String month : yearMonthList.get(yearList.indexOf(i))) {
-					TreeItem<String> monthItem = new TreeItem<>(month);
+				for (Month month : yearMonthList.get(yearList.indexOf(i))) {
+					TreeItem<String> monthItem = new TreeItem<>(month.toString());
 					for (Event event : yearMonthEventList.get(yearList.indexOf(i)).get(yearMonthList.get(yearList.indexOf(i)).indexOf(month))) {
 						TreeItem<String> nameItem = new TreeItem<>(event.toString());
 						
@@ -130,7 +135,7 @@ public class EventViewerController extends ApplicationController {
 			String eventName = selectedEventItem.getValue();
 			String eventMonth = selectedEventItem.getParent().getValue();
 			int eventYear = Integer.parseInt(selectedEventItem.getParent().getParent().getValue());
-			initializeEventManagerView(yearMonthEventList.get(yearList.indexOf(eventYear)).get(yearMonthList.get(yearList.indexOf(eventYear)).indexOf(eventMonth)).get(yearMonthEventNameList.get(yearList.indexOf(eventYear)).get(yearMonthList.get(yearList.indexOf(eventYear)).indexOf(eventMonth)).indexOf(eventName)));
+			initializeEventManagerView(yearMonthEventList.get(yearList.indexOf(eventYear)).get(yearMonthList.get(yearList.indexOf(eventYear)).indexOf(Month.valueOf(eventMonth))).get(yearMonthEventNameList.get(yearList.indexOf(eventYear)).get(yearMonthList.get(yearList.indexOf(eventYear)).indexOf(Month.valueOf(eventMonth))).indexOf(eventName)));
 
 		}
 	}
