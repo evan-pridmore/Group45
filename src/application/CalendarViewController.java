@@ -1,5 +1,8 @@
 package application;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
@@ -10,6 +13,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.effect.BlendMode;
@@ -49,6 +54,15 @@ public class CalendarViewController extends ApplicationController  {
 	
 	@FXML
 	private Label dayDateLabel;
+	
+	@FXML
+	private Button backDateButton;
+	
+	@FXML
+	private Button forwardDateButton;
+	
+	@FXML
+	private DatePicker dayViewDatePicker;
 	
 	@FXML
 	private AnchorPane dayViewAnchorPane;
@@ -106,23 +120,37 @@ public class CalendarViewController extends ApplicationController  {
     }
     
     @FXML
+    void backDate(ActionEvent backDateEvent) {
+    	ApplicationController.setSelectedDate(getSelectedDate().minusDays(1));
+    	updateDateLabels(getSelectedDate());
+    	updateCalendarViews();
+    }
+    
+    @FXML
+    void forwardDate(ActionEvent backDateEvent) {
+    	ApplicationController.setSelectedDate(getSelectedDate().plusDays(1));
+    	updateDateLabels(getSelectedDate());
+    	updateCalendarViews();
+    }
+    
+    @FXML
+    void dayViewDatePicked(ActionEvent dayViewDatePickedEvent) {
+    	System.out.println("dayViewDatePicked: Updating selected date..." + dayViewDatePicker.getValue());
+    	
+        ZonedDateTime datePickerDate = dayViewDatePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault());
+        System.out.println("--> Selected updated to '"+ datePickerDate + "'.");  
+        setSelectedDate(datePickerDate);
+        
+    	updateCalendarViews();
+    }
+    
+    @FXML
     void openAdminPreferences(ActionEvent openAdminPreferencesEvent) {
     	System.out.println("openAdminPreferences: Initializing tests...");
-    	Rectangle testEvent = new Rectangle(200, 75, Color.LIGHTBLUE);
-    	Rectangle testEvent2 = new Rectangle(200, 75, Color.LIGHTYELLOW);
-    	Rectangle testEvent3 = new Rectangle(200, 75, Color.PINK);
-
-    	upcomingEventsVBox.getChildren().addAll(testEvent, testEvent2, testEvent3);
-    	
-    	upcomingEventsVBox.setSpacing(5);
-    	Insets upcomingEventsInsets = new Insets(0, 5, 0, 5);
-    	VBox.setMargin(testEvent, upcomingEventsInsets);
-    	VBox.setMargin(testEvent2, upcomingEventsInsets);
-    	VBox.setMargin(testEvent3, upcomingEventsInsets);
     	
      	getCurrentUser().dumpEvents();
     	
-		updateDayView();
+		updateCalendarGUI();
     }
     
     /**A method that updates the GUI specifically in {@link CalendarView.fxml} through the {@link CalendarViewController} class. <p>
@@ -133,14 +161,23 @@ public class CalendarViewController extends ApplicationController  {
      * --> checking for and updating the displayed events on the present view.
      */
     public void updateCalendarGUI() {
-    	System.out.println(String.format("%nupdateGUI: Updating GUI..."));
+    	System.out.println(String.format("%nupdateCalendarGUI: Updating GUI..."));
     	System.out.println(String.format("--> Selected date is '%s'. (Week '%s', Day '%s')", getSelectedDate().format(dateLabelFormat), getSelectedDate().get(ChronoField.ALIGNED_WEEK_OF_YEAR), getSelectedDate().get(ChronoField.DAY_OF_WEEK) + 1));
-    	
+    	    	
 		updateDateLabels(getSelectedDate());
 		updateUpcomingEvents();
 		updateDayView();
 		updateWeekView();
 	}
+    
+    public void updateCalendarViews() {
+    	System.out.println(String.format("%nupdateCalendarViews: Updating calendarViews..."));
+    	System.out.println(String.format("--> Selected date is '%s'. (Week '%s', Day '%s')", getSelectedDate().format(dateLabelFormat), getSelectedDate().get(ChronoField.ALIGNED_WEEK_OF_YEAR), getSelectedDate().get(ChronoField.DAY_OF_WEEK) + 1));
+
+    	updateDateLabels(getSelectedDate());
+    	updateDayView();
+    	updateWeekView();
+    }
     
     public int getConvertedDayOfWeek(ZonedDateTime inputDay) {
     	// Gets the specified weekOfYear and dayOfWeek (Requires translating between ChronoField definition of dayOfWeek and TimeUnit definition of dayOfWeek)...
