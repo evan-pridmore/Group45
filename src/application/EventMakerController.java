@@ -54,8 +54,9 @@ public class EventMakerController extends ApplicationController {
 	@FXML
 	private void addTimedEvent(ActionEvent event) throws NullEventEndPointException, EventOutsideTimeUnitException {
 		LocalDateTime start = eventStartDate.getValue().atStartOfDay().plusHours(eventStartHour.getValue()).plusMinutes(eventStartMinute.getValue());
-		
 		LocalDateTime end = eventEndDate.getValue().atStartOfDay().plusHours(eventEndHour.getValue()).plusMinutes(eventEndMinute.getValue());
+		if (end.minusDays(1).equals(start))
+			end = end.minusNanos(1000000000);
 	
 		String name = eventName.getText();
 		
