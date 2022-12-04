@@ -18,7 +18,6 @@ import application.Exceptions.UserAlreadyExistsException;
 import application.Exceptions.UserDoesNotExistException;
 import application.TimeUnits.Day;
 import application.TimeUnits.Event;
-import application.TimeUnits.InstantEvent;
 import application.TimeUnits.TimedEvent;
 import application.TimeUnits.Week;
 
@@ -112,53 +111,32 @@ public class User implements Serializable {
 	 * Adds and event to the user's userEvents ArrayList ordered based on start date.
 	 * @param newEvent The event to add to the user.
 	 * @throws EventOutsideTimeUnitException 
-	 * @throws NullEventEndPointException 
+	 * @throws NullEventEndPointException
+	 * @return Always true not for external use;
 	 */
-	public void addEvent(Event newEvent) throws NullEventEndPointException, EventOutsideTimeUnitException {
+	public boolean addEvent(Event newEvent) throws NullEventEndPointException, EventOutsideTimeUnitException {
+
 		if (userEvents.size() > 0) {
-			//Add InstantEvents to existing weeks.
-			if (newEvent instanceof InstantEvent) {
-				
-				boolean hasEvent = false;
-				for (Week week : userEvents) {
-					if (week.contains(newEvent)) {
-						week.addEvent(newEvent);
-						hasEvent = true;
-					}
+			for (Week week : userEvents) {
+				if (newEvent.containedIn(week)) {
+					week.addEvent(newEvent);
+					return true;
 				}
-				//If user has no weeks with the event, create a new one containing the event start and try again.
-				if (!hasEvent) {
-					Week newWeek = new Week(newEvent.getStart());
-					userEvents.add(newWeek);
-					addEvent(newEvent);
+				else if (newEvent.startsIn(week)) {
+					TimedEvent firstPart = new TimedEvent(newEvent.getStart(), week.getEnd(), newEvent.getName(), newEvent.getColour());
+					TimedEvent secondPart = new TimedEvent(week.getEnd().plusNanos(1000000000), newEvent.getEnd(), newEvent.getName(), newEvent.getColour());
+					addEvent(firstPart);
+					addEvent(secondPart);
+					return true;
+					
 				}
 			}
-			//Add TimedEvents to existing weeks.
-			else if (newEvent instanceof TimedEvent) {
-				for (Week week : userEvents) {
-					if (newEvent.containedIn(week)) {
-						week.addEvent(newEvent);
-						return;
-					}
-					else if (newEvent.startsIn(week)) {
-						TimedEvent firstPart = new TimedEvent(newEvent.getStart(), week.getEnd(), newEvent.getName(), newEvent.getColour());
-						TimedEvent secondPart = new TimedEvent(week.getEnd().plusNanos(1000000000), newEvent.getEnd(), newEvent.getName(), newEvent.getColour());
-						addEvent(firstPart);
-						addEvent(secondPart);
-					}
-				}
-				//If user has no weeks with the event, create a new one containing the event start and try again.
-				Week newWeek = new Week(newEvent.getStart());
-				userEvents.add(newWeek);
-				addEvent(newEvent);
-			}
 		}
-		//Add a week to the user if they have none.
-		else {
-			Week newWeek = new Week(newEvent.getStart());
-			userEvents.add(newWeek);
-			addEvent(newEvent);
-		}
+		System.out.println("Week not found in user, creating new week.");
+		Week newWeek = new Week(newEvent.getStart());
+		userEvents.add(newWeek);
+		addEvent(newEvent);
+		return true;
 	}
 	
 	public void removeEvent(Event eventToDelete) {
