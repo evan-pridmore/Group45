@@ -197,9 +197,9 @@ public class CalendarViewController extends ApplicationController  {
     void openAdminPreferences(ActionEvent openAdminPreferencesEvent) {
     	System.out.println("openAdminPreferences: Initializing tests...");
     	
-     	// getCurrentUser().dumpEvents();
+     	getCurrentUser().dumpEvents();
 		updateMonthView();
-		// updateCalendarGUI();
+		updateCalendarGUI();
     }
     
     /**A method that updates the GUI specifically in {@link CalendarView.fxml} through the {@link CalendarViewController} class. <p>
@@ -211,21 +211,23 @@ public class CalendarViewController extends ApplicationController  {
      */
     public void updateCalendarGUI() {
     	System.out.println(String.format("%nupdateCalendarGUI: Updating GUI..."));
-    	System.out.println(String.format("--> Selected date is '%s'. (Week '%s', Day '%s')", getSelectedDate().format(dateLabelFormat), getSelectedDate().get(ChronoField.ALIGNED_WEEK_OF_YEAR), getSelectedDate().get(ChronoField.DAY_OF_WEEK) + 1));
+    	System.out.println(String.format("--> Selected date is '%s'", getSelectedDate().format(dateLabelFormat)));
     	    	
 		updateDateLabels(getSelectedDate());
 		updateUpcomingEvents();
 		updateDayView();
 		updateWeekView();
+		updateMonthView();
 	}
     
     public void updateCalendarViews() {
     	System.out.println(String.format("%nupdateCalendarViews: Updating calendarViews..."));
-    	System.out.println(String.format("--> Selected date is '%s'. (Week '%s', Day '%s')", getSelectedDate().format(dateLabelFormat), getSelectedDate().get(ChronoField.ALIGNED_WEEK_OF_YEAR), getSelectedDate().get(ChronoField.DAY_OF_WEEK) + 1));
+    	System.out.println(String.format("--> Selected date is '%s'", getSelectedDate().format(dateLabelFormat)));
 
     	updateDateLabels(getSelectedDate());
     	updateDayView();
     	updateWeekView();
+		updateMonthView();
     }
     
     public int getConvertedDayOfWeek(ZonedDateTime inputDay) {
@@ -233,21 +235,16 @@ public class CalendarViewController extends ApplicationController  {
     	// (ChronoField: Monday = 1, Sunday = 7 --> TimeUnit: Sunday = 1, Saturday = 7) 
      	int dayOfWeek = inputDay.get(ChronoField.DAY_OF_WEEK);	
     	if (dayOfWeek == 7) {
-    		// System.out.print("dayOfWeek is Sunday. (ChronoField = 7, TimeUnit = 1). Converting to TimeUnit..."); 
     		dayOfWeek = 1;
-    		// System.out.println(" dayOfWeek is now '" + dayOfWeek + "'."); 
     	} else {
-    		// System.out.print(String.format("dayOfWeek is '%s'. (ChronoField = '%s', TimeUnit = '%s'. Converting to TimeUnit...", dayOfWeek, dayOfWeek, dayOfWeek + 1)); 
     		dayOfWeek = dayOfWeek + 1;
-    		// System.out.println(" dayOfWeek is now '" + dayOfWeek + "'."); 
     	}
     	return dayOfWeek;
     }
     
     void updateDayView() {
      	System.out.println(String.format("%nupdateDayView: Updating day view..."));
-     	updateEventPane(getSelectedDate(), dayViewAnchorPane, 220);
-     	System.out.println("updateDayView: Done.");
+     	updateDayPane(getSelectedDate(), dayViewAnchorPane, 220);
      }
     
     void updateWeekView() {
@@ -262,36 +259,32 @@ public class CalendarViewController extends ApplicationController  {
      
      	// Calculating the beginning date of a week...
      	ZonedDateTime weekStart = getSelectedDate().minusDays(dayOfWeek - 1);
-     	System.out.println(String.format("Beginning of week: '%s'", weekStart.format(dateLabelFormat)));
-
      	
-     	updateEventPane(weekStart, weekViewAnchorPane1, 100);
-     	updateEventPane(weekStart.plusDays(1), weekViewAnchorPane2, 100);
-     	updateEventPane(weekStart.plusDays(2), weekViewAnchorPane3, 100);
-     	updateEventPane(weekStart.plusDays(3), weekViewAnchorPane4, 100);
-     	updateEventPane(weekStart.plusDays(4), weekViewAnchorPane5, 100);
-     	updateEventPane(weekStart.plusDays(5), weekViewAnchorPane6, 100);
-     	updateEventPane(weekStart.plusDays(6), weekViewAnchorPane7, 100);
+     	updateDayPane(weekStart, weekViewAnchorPane1, 100);
+     	updateDayPane(weekStart.plusDays(1), weekViewAnchorPane2, 100);
+     	updateDayPane(weekStart.plusDays(2), weekViewAnchorPane3, 100);
+     	updateDayPane(weekStart.plusDays(3), weekViewAnchorPane4, 100);
+     	updateDayPane(weekStart.plusDays(4), weekViewAnchorPane5, 100);
+     	updateDayPane(weekStart.plusDays(5), weekViewAnchorPane6, 100);
+     	updateDayPane(weekStart.plusDays(6), weekViewAnchorPane7, 100);
 
     }
     
     void updateMonthView() {
-     	System.out.println(String.format("%n%n%nnupdateMonthView: Updating month view..."));
-
+     	System.out.println(String.format("%nnupdateMonthView: Updating month view..."));
+     	// Clearing VBox to prevent duplicate event blocks from being added...     	
+     	monthViewVBox.getChildren().clear();
+     	
     	// Sequentially increase days of the month to keep track of calendar nuances (i.e., different end of the month dates, 30 vs. 31, etc.).
-    	
      	// Gets the date of the first day of the first week of a month.
      	ZonedDateTime monthStart = getSelectedDate().minusDays(getSelectedDate().getDayOfMonth() - 1);
-     	System.out.println("monthStart has a date of: " + monthStart.format(dateLabelFormat));
      	ZonedDateTime firstWeekStart = monthStart.minusDays(getConvertedDayOfWeek(monthStart) - 1);
-     	// System.out.println("getConvertedDayOfWeek has a date of: " + (getConvertedDayOfWeek(monthStart) - 1));
-     	System.out.println("firstWeekStart has a date of: " + firstWeekStart.format(dateLabelFormat));
      	
-     	System.out.println("Generating dates...");
+     	// Generate dates in the specified month.
  		HBox weekHBox = null;
      	for (ZonedDateTime dayOfMonth = firstWeekStart; dayOfMonth.isBefore(monthStart.plusMonths(1)); dayOfMonth = dayOfMonth.plusDays(1)) {
-     		System.out.println("--> dayOfMonth = " + dayOfMonth.format(dateLabelFormat));
-     		// On every Sunday, a new HBox is created.
+         	System.out.println(String.format("--> Generating date '%s'", dayOfMonth.format(dateLabelFormat)));
+     		// On every Sunday, a new HBox is created to contain each day.
      		if (getConvertedDayOfWeek(dayOfMonth) == 1) {
      			System.out.println("	--> Created a new week HBox.");
      			weekHBox = new HBox();
@@ -300,31 +293,39 @@ public class CalendarViewController extends ApplicationController  {
     			monthViewVBox.getChildren().add(weekHBox);
 			}
      		
+     		// On every day, a new VBox is created to contain events.
  			System.out.println("	--> Created a new day VBox.");
      		VBox dayVBox = new VBox();
 			dayVBox.setMinSize(115, 200);
-			dayVBox.setMaxSize(115, 200);
 			
+			// On every day, a date label is added to each day of month.
 			Label dayOfMonthLabel = new Label(dayOfMonth.format(simpleDateLabelFormat));
+			dayOfMonthLabel.setOpacity(0.6);
 			dayVBox.setAlignment(Pos.TOP_RIGHT);
 			dayVBox.getChildren().add(dayOfMonthLabel);
 			
+			// Gets events for each particular day. eventCount is used to limit the number of events added to prevent overlap.
+			int eventCount = 0;
 			int weekOfYear = dayOfMonth.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
 	     	int dayOfWeek = getConvertedDayOfWeek(dayOfMonth);	
-			
-         	System.out.print("--> Attempting to get week '" + weekOfYear + "' of the year...");
            	for (Week w: getCurrentUser().getEvents()) {
          		if (w.getWeekNum() == weekOfYear) {
-         			// Week 'weekOfYear' exists in userEvents.
-         			System.out.println("	Success!");
-         			
          			// Getting the specified day in the specified week.
          			Day dayTemp = w.getDay(dayOfWeek); 
-         			System.out.println("	--> Attempting to get '" + dayTemp.getEvents().size() + "' events from day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
          	    	for (Event e : dayTemp.getEvents()) {
-             				System.out.println("		--> Event '" + e.getName() + "' found.");
-             				addEventBlock(e, dayVBox, 10);
-             				System.out.println(String.format("			--> Created event block for event '" + e.getName() + "'."));
+         	    			if (eventCount <= 7) {
+                 				addMonthEventBlock(e, dayVBox);
+                 				eventCount ++;
+         	    			} else {
+         	    				StackPane overflowPane = new StackPane();
+         	    				Rectangle overflowRectangle = new Rectangle(115, 14, Color.LIGHTGRAY);
+         	    				Label overflowLabel = new Label("...");
+         	    				dayVBox.setAlignment(Pos.CENTER);
+         	    				overflowPane.getChildren().addAll(overflowRectangle, overflowLabel);
+         	    				
+         	    				dayVBox.getChildren().add(overflowPane);
+         	    				break;
+         	    			}
          			}
      	    	}
      		}  
@@ -337,9 +338,7 @@ public class CalendarViewController extends ApplicationController  {
     	System.out.println(String.format("%nupdateUpcomingEvents: Updating upcomingEventsVbox..."));
     	
      	// Clearing VBox to prevent duplicate event blocks from being added...     	
-     	System.out.print(String.format("Clearing pane..."));
      	upcomingEventsVBox.getChildren().clear();
-     	System.out.println(String.format("	Cleared."));
     	
     	// Get the 10 CLOSEST events from the CURRENT DATE.
     	int eventCount = 0;
@@ -350,27 +349,20 @@ public class CalendarViewController extends ApplicationController  {
      	int dayOfWeek = getConvertedDayOfWeek(currentDate);	
     	
      	while (addWeek < 4) {
-         	System.out.print("--> Attempting to get week '" + (weekOfYear + addWeek) + "' of the year...");
-         	boolean weekExists = false;
+         	System.out.println("--> Attempting to get week '" + (weekOfYear + addWeek) + "' of the year...");
            	for (Week w: getCurrentUser().getEvents()) {
          		if (w.getWeekNum() == weekOfYear + addWeek) {
-         			// Week 'weekOfYear' exists in userEvents.
-         			System.out.println("	Success!");
-         			
          			// Getting the specified day in the specified week.
          			Day dayTemp = w.getDay(dayOfWeek); 
          			System.out.println("	--> Attempting to get '" + dayTemp.getEvents().size() + "' events from day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
          	    	for (Event e : dayTemp.getEvents()) {
              			if (eventCount < 10) {
-             				System.out.println("		--> Event '" + e.getName() + "' found.");
-             				addEventBlock(e, upcomingEventsVBox, 60);
-             				System.out.println(String.format("			--> Created event block for event '" + e.getName() + "'."));
+             				addMonthEventBlock(e, upcomingEventsVBox);
              				eventCount ++;
              			}
          	    	}
          		}
-         	if (!weekExists)
-         		System.out.println("	Week does NOT exist in user events.");
+
            	}
            	addWeek ++;
      	}
@@ -392,44 +384,29 @@ public class CalendarViewController extends ApplicationController  {
     	
     }
     
-    void updateEventPane(ZonedDateTime inputDay, AnchorPane inputPane, int inputWidth) {
+    void updateDayPane(ZonedDateTime inputDay, AnchorPane inputPane, int inputWidth) {
     	// Gets the specified weekOfYear and dayOfWeek (Requires translating between ChronoField definition of dayOfWeek and TimeUnit definition of dayOfWeek)...
     	// (ChronoField: Monday = 1, Sunday = 7 --> TimeUnit: Sunday = 1, Saturday = 7) 
     	int weekOfYear = inputDay.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
      	int dayOfWeek = getConvertedDayOfWeek(inputDay);	
 
-    	// Clearing VBox to prevent duplicate event blocks from being added...     	
-     	System.out.print(String.format("Clearing pane..."));
+    	// Clearing VBox to prevent duplicate event blocks from being added.   	
      	inputPane.getChildren().clear();
-     	System.out.println(String.format("	Cleared."));
 
-     	// Specifying the specific date to find events in...
-     	System.out.println(String.format("User has '" + getCurrentUser().getEvents().size() + "' weeks stored in user data."));
-     	System.out.println("Attempting to get day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
-
-     	// Getting the specified week of the specified date...
-     	System.out.print("--> Attempting to get week '" + weekOfYear + "' of the year...");
-     	boolean weekExists = false;
+     	// Getting the specified week of the specified date.
        	for (Week w: getCurrentUser().getEvents()) {
      		if (w.getWeekNum() == weekOfYear) {
-     			// Week 'weekOfYear' exists in userEvents.
-     			System.out.println("	Success!");
-     			
      			// Getting the specified day in the specified week.
      			Day dayTemp = w.getDay(dayOfWeek); 
-     			System.out.println("	--> Attempting to get '" + dayTemp.getEvents().size() + "' events from day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
      	    	for (Event e : dayTemp.getEvents()) {
-     	        	System.out.println("		--> Event '" + e.getName() + "' found.");
-     	        	addEventBlock(e, inputPane, inputWidth);
-     	        	System.out.println(String.format("			--> Created event block for event '" + e.getName() + "'."));
+     	        	addDayEventBlock(e, inputPane, inputWidth);
      	    	}
      		}
-     	if (!weekExists)
-     		System.out.println("Week does NOT exist in user events.");
        	}
     }
     
-	static void addEventBlock(Event inputEvent, AnchorPane inputPane, int inputWidth) {
+	static void addDayEventBlock(Event inputEvent, AnchorPane inputPane, int inputWidth) {
+		System.out.println(String.format("		--> addDayEventBlock: Creating event block for event '%s'...", inputEvent.getName()));
     	Insets eventBlockInsets = new Insets(0, 5, 0, 5);
 		// Each hour in every pane is 60px. Thus, each minute is 1px.			
 		if (inputEvent instanceof TimedEvent) {
@@ -439,9 +416,7 @@ public class CalendarViewController extends ApplicationController  {
 			
 			// Height should be equal to the difference between startPos and endPos
 			double height = endPos - startPos;
-			
-			System.out.println(String.format("		--> Timed event '%s' has a start time of '%s' ('%s' px) and and end time of '%s' ('%s' px)", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16), startPos, inputEvent.getEnd().toString().substring(11, 16), endPos));
-			
+						
 			// Creating rectangle and label components of the event block...
 	 		Rectangle eventBlock = new Rectangle(inputWidth, height, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
 	 		Label eventBlockLabel = new Label(inputEvent.getName());
@@ -449,7 +424,6 @@ public class CalendarViewController extends ApplicationController  {
 	 		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
 	 		
 	 		// Setting label font and colour...
-	 		eventBlockLabel.setStyle("-fx-font-weight: Bold");
 	 		eventBlockLabel.setWrapText(true);
 	 		eventBlockLabel.setMaxWidth(inputWidth);
 	 		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
@@ -473,9 +447,7 @@ public class CalendarViewController extends ApplicationController  {
 			// An InstantEvent occurs at a single point of time.		
 			// Start POSITION should be equal to the number of minutes from the beginning of the day.
 			double startPos = ((InstantEvent) inputEvent).getEventTime().get(ChronoField.MINUTE_OF_DAY) + 1;
-			
-			System.out.println(String.format("		--> Instant event '%s' has a time of '%s' ('%s' px).", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16), startPos));
-			 		
+						 		
 			// Creating rectangle and label components of the event block...
 	 		Rectangle eventBlock = new Rectangle(inputWidth, 15, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
 	 		Label eventBlockLabel = new Label(inputEvent.getName());
@@ -508,8 +480,8 @@ public class CalendarViewController extends ApplicationController  {
 		}
  	}
 
-	static void addEventBlock(Event inputEvent, VBox inputPane) {
-		System.out.println(String.format("addUpcomingEventBlock: Creating upcomingEventBlock for event '%s'...", inputEvent.getName()));
+	static void addUpcomingEventBlock(Event inputEvent, VBox inputPane) {
+		System.out.println(String.format("		--> addUpcomingEventBlock: Creating event block for event '%s'...", inputEvent.getName()));
 		
     	Insets eventBlockLabelInsets = new Insets(0, 5, 0, 5);
     	Insets eventBlockInsets = new Insets(2, 5, 2, 5);
@@ -536,30 +508,20 @@ public class CalendarViewController extends ApplicationController  {
  		
  		inputPane.setMargin(eventBlockPane, eventBlockInsets);
  		inputPane.getChildren().add(eventBlockPane);
-		
-		if (inputEvent instanceof TimedEvent) {
-			System.out.println(String.format("		--> Timed event '%s' has a start time of '%s' and and end time of '%s'.", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16), inputEvent.getEnd().toString().substring(11, 16)));
-			
-			
-		} else if (inputEvent instanceof InstantEvent) {
-			System.out.println(String.format("		--> Instant event '%s' has a time of '%s'.", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16)));
-	 		
-		}
 	}
 
-	static void addEventBlock(Event inputEvent, VBox inputPane, int inputHeight) {
-		System.out.println(String.format("addMonthEventBlock: Creating upcomingEventBlock for event '%s'...", inputEvent.getName()));
+	static void addMonthEventBlock(Event inputEvent, VBox inputPane) {
+		System.out.println(String.format("		--> addMonthEventBlock: Creating event block for event '%s'...", inputEvent.getName()));
 		
-    	Insets eventBlockLabelInsets = new Insets(0, 5, 0, 5);
-    	Insets eventBlockInsets = new Insets(2, 5, 2, 5);
+    	Insets eventBlockLabelInsets = new Insets(0, 2, 0, 2);
+    	Insets eventBlockInsets = new Insets(1, 2, 1, 2);
     	
-    	Rectangle eventBlock = new Rectangle(105, inputHeight, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+    	Rectangle eventBlock = new Rectangle(115, 14, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
  		Label eventBlockLabel = new Label(inputEvent.getName());
  		
  		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
  		
- 		eventBlockLabel.setStyle("-fx-font-weight: Bold");
- 		eventBlockLabel.setMaxWidth(190);
+ 		eventBlockLabel.setMaxWidth(115);
  		eventBlockLabel.setWrapText(true);
  		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
  		eventBlockLabel.setPadding(eventBlockLabelInsets);
@@ -575,14 +537,5 @@ public class CalendarViewController extends ApplicationController  {
  		
  		inputPane.setMargin(eventBlockPane, eventBlockInsets);
  		inputPane.getChildren().add(eventBlockPane);
-		
-		if (inputEvent instanceof TimedEvent) {
-			System.out.println(String.format("		--> Timed event '%s' has a start time of '%s' and and end time of '%s'.", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16), inputEvent.getEnd().toString().substring(11, 16)));
-			
-			
-		} else if (inputEvent instanceof InstantEvent) {
-			System.out.println(String.format("		--> Instant event '%s' has a time of '%s'.", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16)));
-	 		
-		}
 	}
 }
