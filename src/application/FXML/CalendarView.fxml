@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -26,7 +25,7 @@
                      <children>
                         <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
                            <children>
-                              <Button fx:id="backDateButton" layoutX="42.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#backDate" prefHeight="20.0" text="←">
+                              <Button fx:id="dayBackDateButton" layoutX="42.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#dayBackDate" prefHeight="20.0" text="←">
                                  <HBox.margin>
                                     <Insets left="150.0" right="15.0" />
                                  </HBox.margin>
@@ -39,7 +38,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="forwardDateButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#forwardDate" prefHeight="20.0" text="→">
+                              <Button fx:id="dayForwardDateButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#dayForwardDate" prefHeight="20.0" text="→">
                                  <HBox.margin>
                                     <Insets left="15.0" />
                                  </HBox.margin>
@@ -47,7 +46,7 @@
                                     <Font size="10.0" />
                                  </font>
                               </Button>
-                              <DatePicker fx:id="dayViewDatePicker" minHeight="-Infinity" minWidth="-Infinity" onAction="#dayViewDatePicked" pickOnBounds="false" prefHeight="20.0" prefWidth="25.0">
+                              <DatePicker fx:id="dayViewDatePicker" minHeight="-Infinity" minWidth="-Infinity" onAction="#viewDatePicked" pickOnBounds="false" prefHeight="20.0" prefWidth="25.0">
                                  <HBox.margin>
                                     <Insets left="125.0" />
                                  </HBox.margin>
@@ -209,14 +208,39 @@
                <content>
                   <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1050.0">
                      <children>
-                        <Label fx:id="weekDateLabel" text="Date">
+                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
+                           <children>
+                              <Button fx:id="weekBackDateButton" layoutX="42.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#weekBackDate" prefHeight="20.0" text="←">
+                                 <HBox.margin>
+                                    <Insets left="150.0" right="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="weekDateLabel" alignment="CENTER" prefWidth="225.0" text="Date">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="weekForwardDateButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#weekForwardDate" prefHeight="20.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Button>
+                              <DatePicker fx:id="weekViewDatePicker" minHeight="-Infinity" minWidth="-Infinity" onAction="#viewDatePicked" pickOnBounds="false" prefHeight="20.0" prefWidth="25.0">
+                                 <HBox.margin>
+                                    <Insets left="125.0" />
+                                 </HBox.margin>
+                              </DatePicker>
+                           </children>
                            <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
+                        </HBox>
                         <HBox alignment="BASELINE_LEFT" layoutX="37.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="1030.0" style="-fx-background-color: #ebebeb;">
                            <children>
                               <Label fx:id="weekDayLabelSun" alignment="CENTER" layoutX="254.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Sunday">
@@ -414,14 +438,39 @@
                <content>
                   <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1050.0">
                      <children>
-                        <Label fx:id="monthDateLabel" text="Date">
+                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
+                           <children>
+                              <Button fx:id="monthBackDateButton" layoutX="42.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#monthBackDate" prefHeight="20.0" text="←">
+                                 <HBox.margin>
+                                    <Insets left="150.0" right="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="monthDateLabel" alignment="CENTER" prefWidth="225.0" text="Date">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="monthForwardDateButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#monthForwardDate" prefHeight="20.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Button>
+                              <DatePicker fx:id="monthViewDatePicker" minHeight="-Infinity" minWidth="-Infinity" onAction="#viewDatePicked" pickOnBounds="false" prefHeight="20.0" prefWidth="25.0">
+                                 <HBox.margin>
+                                    <Insets left="125.0" />
+                                 </HBox.margin>
+                              </DatePicker>
+                           </children>
                            <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
+                        </HBox>
                         <HBox alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="1026.0" style="-fx-background-color: #ebebeb;">
                            <children>
                               <Label fx:id="weekDayLabelSun1" alignment="CENTER" layoutX="254.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Sunday">

@@ -1,12 +1,9 @@
 package application;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
-import java.util.ArrayList;
 
 import application.TimeUnits.*;
 import javafx.event.ActionEvent;
@@ -19,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -56,10 +52,10 @@ public class CalendarViewController extends ApplicationController  {
 	private Label dayDateLabel;
 	
 	@FXML
-	private Button backDateButton;
+	private Button dayBackDateButton;
 	
 	@FXML
-	private Button forwardDateButton;
+	private Button dayForwardDateButton;
 	
 	@FXML
 	private DatePicker dayViewDatePicker;
@@ -69,6 +65,15 @@ public class CalendarViewController extends ApplicationController  {
 	
 	@FXML
 	private Label weekDateLabel;
+	
+	@FXML
+	private Button weekBackDateButton;
+	
+	@FXML
+	private Button weekForwardDateButton;
+	
+	@FXML
+	private DatePicker weekViewDatePicker;
 	
 	@FXML
 	private AnchorPane weekViewAnchorPane1;
@@ -90,10 +95,18 @@ public class CalendarViewController extends ApplicationController  {
 
 	@FXML
 	private AnchorPane weekViewAnchorPane7;
-
 	
 	@FXML
 	private Label monthDateLabel;
+	
+	@FXML
+	private Button monthBackDateButton;
+	
+	@FXML
+	private Button monthForwardDateButton;
+	
+	@FXML
+	private DatePicker monthViewDatePicker;
 	
     @FXML
     void switchUser(ActionEvent switchUserEvent) {
@@ -120,21 +133,49 @@ public class CalendarViewController extends ApplicationController  {
     }
     
     @FXML
-    void backDate(ActionEvent backDateEvent) {
+    void dayBackDate(ActionEvent backDateEvent) {
     	ApplicationController.setSelectedDate(getSelectedDate().minusDays(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarViews();
     }
     
     @FXML
-    void forwardDate(ActionEvent backDateEvent) {
+    void dayForwardDate(ActionEvent backDateEvent) {
     	ApplicationController.setSelectedDate(getSelectedDate().plusDays(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarViews();
     }
     
     @FXML
-    void dayViewDatePicked(ActionEvent dayViewDatePickedEvent) {
+    void weekBackDate(ActionEvent backDateEvent) {
+    	ApplicationController.setSelectedDate(getSelectedDate().minusWeeks(1));
+    	updateDateLabels(getSelectedDate());
+    	updateCalendarViews();
+    }
+    
+    @FXML
+    void weekForwardDate(ActionEvent backDateEvent) {
+    	ApplicationController.setSelectedDate(getSelectedDate().plusWeeks(1));
+    	updateDateLabels(getSelectedDate());
+    	updateCalendarViews();
+    }
+    
+    @FXML
+    void monthBackDate(ActionEvent backDateEvent) {
+    	ApplicationController.setSelectedDate(getSelectedDate().minusMonths(1));
+    	updateDateLabels(getSelectedDate());
+    	updateCalendarViews();
+    }
+    
+    @FXML
+    void monthForwardDate(ActionEvent backDateEvent) {
+    	ApplicationController.setSelectedDate(getSelectedDate().plusMonths(1));
+    	updateDateLabels(getSelectedDate());
+    	updateCalendarViews();
+    }
+    
+    @FXML
+    void viewDatePicked(ActionEvent dayViewDatePickedEvent) {
     	System.out.println("dayViewDatePicked: Updating selected date..." + dayViewDatePicker.getValue());
     	
         ZonedDateTime datePickerDate = dayViewDatePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault());
