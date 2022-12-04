@@ -309,8 +309,26 @@ public class CalendarViewController extends ApplicationController  {
 			dayVBox.setAlignment(Pos.TOP_RIGHT);
 			dayVBox.getChildren().add(dayOfMonthLabel);
 			
+			int weekOfYear = dayOfMonth.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+	     	int dayOfWeek = getConvertedDayOfWeek(dayOfMonth);	
+			
+         	System.out.print("--> Attempting to get week '" + weekOfYear + "' of the year...");
+           	for (Week w: getCurrentUser().getEvents()) {
+         		if (w.getWeekNum() == weekOfYear) {
+         			// Week 'weekOfYear' exists in userEvents.
+         			System.out.println("	Success!");
+         			
+         			// Getting the specified day in the specified week.
+         			Day dayTemp = w.getDay(dayOfWeek); 
+         			System.out.println("	--> Attempting to get '" + dayTemp.getEvents().size() + "' events from day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
+         	    	for (Event e : dayTemp.getEvents()) {
+             				System.out.println("		--> Event '" + e.getName() + "' found.");
+             				addEventBlock(e, dayVBox, 10);
+             				System.out.println(String.format("			--> Created event block for event '" + e.getName() + "'."));
+         			}
+     	    	}
+     		}  
 			weekHBox.getChildren().add(dayVBox);
-     		
      	}
     }
         
