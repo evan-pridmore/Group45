@@ -471,56 +471,53 @@
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="1026.0" style="-fx-background-color: #ebebeb;">
+                        <HBox alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="1030.0" style="-fx-background-color: #ebebeb;">
                            <children>
-                              <Label fx:id="weekDayLabelSun1" alignment="CENTER" layoutX="254.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Sunday">
+                              <Label fx:id="weekDayLabelSun1" alignment="CENTER" layoutX="254.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="115.0" text="Sunday">
                                  <HBox.margin>
-                                    <Insets left="54.0" />
+                                    <Insets left="2.5" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelMon1" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Monday">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </Label>
-                              <Label fx:id="weekDayLabelTue1" alignment="CENTER" layoutX="10.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Tuesday">
+                              <Label fx:id="weekDayLabelMon1" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="115.0" text="Monday">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelWed1" alignment="CENTER" layoutX="55.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Wednesday">
+                              <Label fx:id="weekDayLabelTue1" alignment="CENTER" layoutX="10.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="115.0" text="Tuesday">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelThu1" alignment="CENTER" layoutX="103.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Thursday">
+                              <Label fx:id="weekDayLabelWed1" alignment="CENTER" layoutX="55.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="115.0" text="Wednesday">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelFri1" alignment="CENTER" layoutX="168.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Friday">
+                              <Label fx:id="weekDayLabelThu1" alignment="CENTER" layoutX="103.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="115.0" text="Thursday">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelSat1" alignment="CENTER" layoutX="220.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Saturday">
+                              <Label fx:id="weekDayLabelFri1" alignment="CENTER" layoutX="168.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="115.0" text="Friday">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="weekDayLabelSat1" alignment="CENTER" layoutX="220.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="115.0" text="Saturday">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0" prefWidth="1026.0" style="-fx-border-width: 0;">
+                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0" prefWidth="1030.0" style="-fx-border-width: 0;">
                            <children>
-                              <ScrollPane id="DayViewScrollPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="824.0" style="-fx-vbar-policy: NEVER; -fx-hbar-policy: NEVER; -fx-border-width: 0; -fx-background-color: #ebebeb;">
+                              <ScrollPane id="DayViewScrollPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="634.0" prefWidth="805.0" style="-fx-vbar-policy: NEVER; -fx-hbar-policy: NEVER; -fx-border-width: 0; -fx-background-color: #ebebeb;">
                                  <content>
-                                    <VBox fx:id="monthViewVBox" prefHeight="1440.0" prefWidth="824.0" style="-fx-border-width: 0; -fx-background-color: #ebebeb;">
-                                       <children>
-                                          <Label text="This is a test (try scrolling!)" />
-                                       </children></VBox>
+                                    <VBox fx:id="monthViewVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="630.0" minWidth="-Infinity" prefWidth="805.0" style="-fx-border-width: 0; -fx-background-color: #ebebeb;" />
                                  </content>
                               </ScrollPane>
-                              <VBox fx:id="monthViewEventDetails" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="200.0" style="-fx-background-color: #ebebeb; -fx-border-image-width: 0;">
+                              <VBox fx:id="monthViewEventDetails" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="225.0" style="-fx-background-color: #ebebeb; -fx-border-image-width: 0;">
                                  <children>
                                     <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="Event Details" />
                                  </children>

@@ -4,6 +4,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 
 import application.TimeUnits.*;
 import javafx.event.ActionEvent;
@@ -16,6 +18,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -34,6 +38,7 @@ import javafx.scene.shape.Rectangle;
 public class CalendarViewController extends ApplicationController  {
 	
 	public DateTimeFormatter dateLabelFormat = DateTimeFormatter.ofPattern("EEEE, MMMM dd");
+	public DateTimeFormatter simpleDateLabelFormat = DateTimeFormatter.ofPattern("dd");
 	public DateTimeFormatter simpleTimeFormat = DateTimeFormatter.ofPattern("(dd) HH:mm");
 
 	@FXML
@@ -107,6 +112,9 @@ public class CalendarViewController extends ApplicationController  {
 	
 	@FXML
 	private DatePicker monthViewDatePicker;
+	
+	@FXML
+	private VBox monthViewVBox;
 	
     @FXML
     void switchUser(ActionEvent switchUserEvent) {
@@ -189,9 +197,9 @@ public class CalendarViewController extends ApplicationController  {
     void openAdminPreferences(ActionEvent openAdminPreferencesEvent) {
     	System.out.println("openAdminPreferences: Initializing tests...");
     	
-     	getCurrentUser().dumpEvents();
-    	
-		updateCalendarGUI();
+     	// getCurrentUser().dumpEvents();
+		updateMonthView();
+		// updateCalendarGUI();
     }
     
     /**A method that updates the GUI specifically in {@link CalendarView.fxml} through the {@link CalendarViewController} class. <p>
@@ -225,13 +233,13 @@ public class CalendarViewController extends ApplicationController  {
     	// (ChronoField: Monday = 1, Sunday = 7 --> TimeUnit: Sunday = 1, Saturday = 7) 
      	int dayOfWeek = inputDay.get(ChronoField.DAY_OF_WEEK);	
     	if (dayOfWeek == 7) {
-    		System.out.print("dayOfWeek is Sunday. (ChronoField = 7, TimeUnit = 1). Converting to TimeUnit..."); 
+    		// System.out.print("dayOfWeek is Sunday. (ChronoField = 7, TimeUnit = 1). Converting to TimeUnit..."); 
     		dayOfWeek = 1;
-    		System.out.println(" dayOfWeek is now '" + dayOfWeek + "'."); 
+    		// System.out.println(" dayOfWeek is now '" + dayOfWeek + "'."); 
     	} else {
-    		System.out.print(String.format("dayOfWeek is '%s'. (ChronoField = '%s', TimeUnit = '%s'. Converting to TimeUnit...", dayOfWeek, dayOfWeek, dayOfWeek + 1)); 
+    		// System.out.print(String.format("dayOfWeek is '%s'. (ChronoField = '%s', TimeUnit = '%s'. Converting to TimeUnit...", dayOfWeek, dayOfWeek, dayOfWeek + 1)); 
     		dayOfWeek = dayOfWeek + 1;
-    		System.out.println(" dayOfWeek is now '" + dayOfWeek + "'."); 
+    		// System.out.println(" dayOfWeek is now '" + dayOfWeek + "'."); 
     	}
     	return dayOfWeek;
     }
@@ -248,7 +256,7 @@ public class CalendarViewController extends ApplicationController  {
      	//System.out.println(String.format(""));
      	System.out.println(String.format("Selected Date: '%s'", getSelectedDate().format(dateLabelFormat)));
      	
-     	// input date for week view must correspond to the appropriate day of the week.
+     	// input date for week view must correspond to the appropriate week.
      	// Get the beginning date of the desired week.
      	int dayOfWeek = getConvertedDayOfWeek(getSelectedDate());
      
@@ -265,6 +273,45 @@ public class CalendarViewController extends ApplicationController  {
      	updateEventPane(weekStart.plusDays(5), weekViewAnchorPane6, 100);
      	updateEventPane(weekStart.plusDays(6), weekViewAnchorPane7, 100);
 
+    }
+    
+    void updateMonthView() {
+     	System.out.println(String.format("%n%n%nnupdateMonthView: Updating month view..."));
+
+    	// Sequentially increase days of the month to keep track of calendar nuances (i.e., different end of the month dates, 30 vs. 31, etc.).
+    	
+     	// Gets the date of the first day of the first week of a month.
+     	ZonedDateTime monthStart = getSelectedDate().minusDays(getSelectedDate().getDayOfMonth() - 1);
+     	System.out.println("monthStart has a date of: " + monthStart.format(dateLabelFormat));
+     	ZonedDateTime firstWeekStart = monthStart.minusDays(getConvertedDayOfWeek(monthStart) - 1);
+     	// System.out.println("getConvertedDayOfWeek has a date of: " + (getConvertedDayOfWeek(monthStart) - 1));
+     	System.out.println("firstWeekStart has a date of: " + firstWeekStart.format(dateLabelFormat));
+     	
+     	System.out.println("Generating dates...");
+ 		HBox weekHBox = null;
+     	for (ZonedDateTime dayOfMonth = firstWeekStart; dayOfMonth.isBefore(monthStart.plusMonths(1)); dayOfMonth = dayOfMonth.plusDays(1)) {
+     		System.out.println("--> dayOfMonth = " + dayOfMonth.format(dateLabelFormat));
+     		// On every Sunday, a new HBox is created.
+     		if (getConvertedDayOfWeek(dayOfMonth) == 1) {
+     			System.out.println("	--> Created a new week HBox.");
+     			weekHBox = new HBox();
+    			weekHBox.setMinSize(805, 200);
+    			weekHBox.setMaxSize(805, 200);    
+    			monthViewVBox.getChildren().add(weekHBox);
+			}
+     		
+ 			System.out.println("	--> Created a new day VBox.");
+     		VBox dayVBox = new VBox();
+			dayVBox.setMinSize(115, 200);
+			dayVBox.setMaxSize(115, 200);
+			
+			Label dayOfMonthLabel = new Label(dayOfMonth.format(simpleDateLabelFormat));
+			dayVBox.setAlignment(Pos.TOP_RIGHT);
+			dayVBox.getChildren().add(dayOfMonthLabel);
+			
+			weekHBox.getChildren().add(dayVBox);
+     		
+     	}
     }
         
     void updateUpcomingEvents() {
@@ -298,7 +345,7 @@ public class CalendarViewController extends ApplicationController  {
          	    	for (Event e : dayTemp.getEvents()) {
              			if (eventCount < 10) {
              				System.out.println("		--> Event '" + e.getName() + "' found.");
-             				addEventBlock(e, upcomingEventsVBox);
+             				addEventBlock(e, upcomingEventsVBox, 60);
              				System.out.println(String.format("			--> Created event block for event '" + e.getName() + "'."));
              				eventCount ++;
              			}
@@ -481,5 +528,43 @@ public class CalendarViewController extends ApplicationController  {
 	 		
 		}
 	}
-	
+
+	static void addEventBlock(Event inputEvent, VBox inputPane, int inputHeight) {
+		System.out.println(String.format("addMonthEventBlock: Creating upcomingEventBlock for event '%s'...", inputEvent.getName()));
+		
+    	Insets eventBlockLabelInsets = new Insets(0, 5, 0, 5);
+    	Insets eventBlockInsets = new Insets(2, 5, 2, 5);
+    	
+    	Rectangle eventBlock = new Rectangle(105, inputHeight, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+ 		Label eventBlockLabel = new Label(inputEvent.getName());
+ 		
+ 		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
+ 		
+ 		eventBlockLabel.setStyle("-fx-font-weight: Bold");
+ 		eventBlockLabel.setMaxWidth(190);
+ 		eventBlockLabel.setWrapText(true);
+ 		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
+ 		eventBlockLabel.setPadding(eventBlockLabelInsets);
+ 		
+ 		if (inputEvent.getColour().getBrightness() > 0.6) {
+	 		eventBlockLabel.setTextFill(Color.BLACK);
+ 		} else {
+	 		eventBlockLabel.setTextFill(Color.WHITE);
+ 		}
+ 		
+ 		StackPane eventBlockPane = new StackPane(eventBlock, eventBlockLabel);
+ 		StackPane.setAlignment(eventBlockLabel, Pos.TOP_CENTER);
+ 		
+ 		inputPane.setMargin(eventBlockPane, eventBlockInsets);
+ 		inputPane.getChildren().add(eventBlockPane);
+		
+		if (inputEvent instanceof TimedEvent) {
+			System.out.println(String.format("		--> Timed event '%s' has a start time of '%s' and and end time of '%s'.", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16), inputEvent.getEnd().toString().substring(11, 16)));
+			
+			
+		} else if (inputEvent instanceof InstantEvent) {
+			System.out.println(String.format("		--> Instant event '%s' has a time of '%s'.", inputEvent.getName(), inputEvent.getStart().toString().substring(0, 16)));
+	 		
+		}
+	}
 }
