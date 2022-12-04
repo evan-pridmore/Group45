@@ -183,13 +183,21 @@ public class CalendarViewController extends ApplicationController  {
     }
     
     @FXML
-    void viewDatePicked(ActionEvent dayViewDatePickedEvent) {
+    void viewDatePicked(ActionEvent dayViewDatePickedEvent) throws Exception {
     	System.out.println("dayViewDatePicked: Updating selected date..." + dayViewDatePicker.getValue());
     	
-        ZonedDateTime datePickerDate = dayViewDatePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault());
+    	ZonedDateTime datePickerDate = null;
+    	if (dayViewDatePicker.getValue() != null) {
+            setSelectedDate(dayViewDatePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault()));
+    	} else if (weekViewDatePicker.getValue() != null) {
+            setSelectedDate(weekViewDatePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault()));
+    	} else if (monthViewDatePicker.getValue() != null) {
+            setSelectedDate(monthViewDatePicker.getValue().atStartOfDay().atZone(ZoneId.systemDefault()));
+    	} else {
+    		throw new Exception ("Error updating selected date based on date picker.");
+    	}
+    	
         System.out.println("--> Selected updated to '"+ datePickerDate + "'.");  
-        setSelectedDate(datePickerDate);
-        
     	updateCalendarViews();
     }
     
