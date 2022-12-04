@@ -66,13 +66,17 @@ public class ApplicationController {
 		appStage = inputStage;
 	}
 	
-	protected static Stage getManagementStage() {
-		// This stage is specific to the 'event management' windows.
-		return viewerStage;
-	}
-	
 	protected static Stage getMakerStage() {
 		return makerStage;
+	}
+	
+	protected static Stage getManagerStage() {
+		return managerStage;
+	}
+	
+	protected static Stage getViewerStage() {
+		// This stage is specific to the 'event management' windows.
+		return viewerStage;
 	}
 	
 	protected static ZonedDateTime getSelectedDate() {
@@ -247,27 +251,27 @@ public class ApplicationController {
     			managerStage = new Stage();
     			managerStage.initModality(Modality.APPLICATION_MODAL);
     		}
-			
-			if (managerScene == null) {
-				System.out.print("managerScene null");
 				
+    		if (managerScene == null) {
 				FXMLLoader eventManagerLoader = new FXMLLoader();
 	    		Parent root = eventManagerLoader.load(new FileInputStream("src/application/FXML/EventManagerView.fxml"));
-				
+				managerScene = new Scene(root);
+ 
+	    		
 				// Setting appropriate static controller to prevent the creation of additional instances.
 				if (eventManagerController == null) {
 					System.out.println("eventManagementController null");
 					eventManagerController = eventManagerLoader.getController();
-					managerScene = new Scene(root);
 	    		} else {
 					System.out.println("eventManagementController not null");
 					eventManagerLoader.setController(eventManagerController);
 	    		}
+    		}
 
-			}
 			managerStage.setTitle(selectedEvent.getName());
-			managerStage.setScene(managerScene);
 			
+			eventManagerController.setEvent(selectedEvent);
+			managerStage.setScene(managerScene);
 			managerStage.show();
 			    		
     	} catch (Exception e) { e.printStackTrace(); }

@@ -64,8 +64,13 @@ public class Event extends TimeUnit {
 	 * @return True if the two {@link Event}'s are the same, else false.
 	 */
 	public boolean equals(Event otherEvent) {
-		if(otherEvent.getStart().equals(getStart()) && otherEvent.getEnd().equals(getEnd()) && otherEvent.getName().equals(getName()))
+		if (this.getClass() != otherEvent.getClass())
+			return false;
+		else if (this instanceof InstantEvent && getStart().equals(otherEvent.getStart()) && getName().equals(otherEvent.getName()) && getColour().equals(otherEvent.getColour()))
 			return true;
-		return false;
+		else if (this instanceof TimedEvent && getStart().equals(otherEvent.getStart()) && getEnd().equals(otherEvent.getEnd()) && getName().equals(otherEvent.getName()) && getColour().equals(otherEvent.getColour()))
+			return true;
+		else
+			return false;
 	}
 }

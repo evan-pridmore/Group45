@@ -16,6 +16,7 @@ import application.Exceptions.InvalidUsernameException;
 import application.Exceptions.NullEventEndPointException;
 import application.Exceptions.UserAlreadyExistsException;
 import application.Exceptions.UserDoesNotExistException;
+import application.TimeUnits.Day;
 import application.TimeUnits.Event;
 import application.TimeUnits.InstantEvent;
 import application.TimeUnits.TimedEvent;
@@ -159,6 +160,30 @@ public class User implements Serializable {
 			addEvent(newEvent);
 		}
 	}
+	
+	public void removeEvent(Event eventToDelete) {
+		int weekToRemove = -1;
+		for (Week week : userEvents) {
+			int filledDays = 0;
+			for (Day day : week.getDays()) {
+				if (day.getEvents().size() > 0) {
+					filledDays += 1;
+					int eventToRemove = -1;
+					for (Event event : day.getEvents()) {
+						if (event.equals(eventToDelete))
+							eventToRemove = day.getEvents().indexOf(event);
+					}
+					if (eventToRemove >= 0)
+						day.getEvents().remove(eventToRemove);
+				}
+			}
+			if (filledDays == 0)
+				userEvents.indexOf(week);
+		}
+		if (weekToRemove >= 0)
+			userEvents.remove(weekToRemove);
+	}
+	
 	
 	/**Checks if the provided username already has a user save file created.
 	 * 
