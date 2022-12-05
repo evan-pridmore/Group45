@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -207,7 +208,6 @@ public class CalendarViewController extends ApplicationController  {
 		updateCalendarGUI();
     }
     
-    
     /**A method that updates the GUI specifically in {@link CalendarView.fxml} through the {@link CalendarViewController} class. <p>
      * 
      * Runs at during initialization (i.e., when {@link initializeCalendarView} is called) to update GUI components with 
@@ -226,7 +226,6 @@ public class CalendarViewController extends ApplicationController  {
 		updateMonthView();
 	}
     
-    
     public void updateCalendarViews() {
     	System.out.println(String.format("%nupdateCalendarViews: Updating calendarViews..."));
     	System.out.println(String.format("--> Selected date is '%s'", getSelectedDate().format(dateLabelFormat)));
@@ -236,8 +235,7 @@ public class CalendarViewController extends ApplicationController  {
     	updateWeekView();
 		updateMonthView();
     }
-    
-    
+      
     public int getConvertedDayOfWeek(ZonedDateTime inputDay) {
     	// Gets the specified weekOfYear and dayOfWeek (Requires translating between ChronoField definition of dayOfWeek and TimeUnit definition of dayOfWeek)...
     	// (ChronoField: Monday = 1, Sunday = 7 --> TimeUnit: Sunday = 1, Saturday = 7) 
@@ -249,13 +247,11 @@ public class CalendarViewController extends ApplicationController  {
     	}
     	return dayOfWeek;
     }
-    
-    
+     
     void updateDayView() {
      	System.out.println(String.format("%nupdateDayView: Updating day view..."));
-     	updateDayPane(getSelectedDate(), dayViewAnchorPane, 220);
+     	updateDayPane(getSelectedDate(), dayViewAnchorPane, 240);
      }
-    
     
     void updateWeekView() {
      	System.out.println(String.format("%nupdateWeekView: Updating week view..."));
@@ -270,17 +266,16 @@ public class CalendarViewController extends ApplicationController  {
      	// Calculating the beginning date of a week...
      	ZonedDateTime weekStart = getSelectedDate().minusDays(dayOfWeek - 1);
      	
-     	updateDayPane(weekStart, weekViewAnchorPane1, 100);
-     	updateDayPane(weekStart.plusDays(1), weekViewAnchorPane2, 100);
-     	updateDayPane(weekStart.plusDays(2), weekViewAnchorPane3, 100);
-     	updateDayPane(weekStart.plusDays(3), weekViewAnchorPane4, 100);
-     	updateDayPane(weekStart.plusDays(4), weekViewAnchorPane5, 100);
-     	updateDayPane(weekStart.plusDays(5), weekViewAnchorPane6, 100);
-     	updateDayPane(weekStart.plusDays(6), weekViewAnchorPane7, 100);
+     	updateDayPane(weekStart, weekViewAnchorPane1, 110);
+     	updateDayPane(weekStart.plusDays(1), weekViewAnchorPane2, 110);
+     	updateDayPane(weekStart.plusDays(2), weekViewAnchorPane3, 110);
+     	updateDayPane(weekStart.plusDays(3), weekViewAnchorPane4, 110);
+     	updateDayPane(weekStart.plusDays(4), weekViewAnchorPane5, 110);
+     	updateDayPane(weekStart.plusDays(5), weekViewAnchorPane6, 110);
+     	updateDayPane(weekStart.plusDays(6), weekViewAnchorPane7, 110);
 
     }
-    
-    
+      
     void updateMonthView() {
      	System.out.println(String.format("%nnupdateMonthView: Updating month view..."));
      	// Clearing VBox to prevent duplicate event blocks from being added...     	
@@ -307,7 +302,8 @@ public class CalendarViewController extends ApplicationController  {
      		// On every day, a new VBox is created to contain events.
  			System.out.println("	--> Created a new day VBox.");
      		VBox dayVBox = new VBox();
-			dayVBox.setMinSize(115, 200);
+			dayVBox.setMinSize(118.5, 200);
+			dayVBox.setStyle("-fx-border-color:#B8B8B8; -fx-border-width: 0.25; -fx-border-style: solid;");
 			
 			// On every day, a date label is added to each day of month.
 			Label dayOfMonthLabel = new Label(dayOfMonth.format(simpleDateLabelFormat));
@@ -329,9 +325,10 @@ public class CalendarViewController extends ApplicationController  {
                  				eventCount ++;
          	    			} else {
          	    				StackPane overflowPane = new StackPane();
-         	    				Rectangle overflowRectangle = new Rectangle(115, 14, Color.LIGHTGRAY);
+         	    				Rectangle overflowRectangle = new Rectangle(110, 14, Color.LIGHTGRAY);
          	    				Label overflowLabel = new Label("...");
-         	    				dayVBox.setAlignment(Pos.CENTER);
+         	    				overflowLabel.setAlignment(Pos.CENTER);
+         	    				overflowLabel.setMinWidth(100);
          	    				overflowPane.getChildren().addAll(overflowRectangle, overflowLabel);
          	    				
          	    				dayVBox.getChildren().add(overflowPane);
@@ -343,8 +340,7 @@ public class CalendarViewController extends ApplicationController  {
 			weekHBox.getChildren().add(dayVBox);
      	}
     }
-    
-        
+           
     void updateUpcomingEvents() {
     	// This should NOT be dependent on 'selectedDate' because it is relative to the current date not the selected date.
     	System.out.println(String.format("%nupdateUpcomingEvents: Updating upcomingEventsVbox..."));
@@ -386,7 +382,6 @@ public class CalendarViewController extends ApplicationController  {
      	}
     }
     
-    
     void updateDateLabels(ZonedDateTime inputDate) {
     	System.out.println(String.format("%nupdateDateLabels: Updating date labels..."));
 
@@ -396,7 +391,6 @@ public class CalendarViewController extends ApplicationController  {
     	monthDateLabel.setText(formattedDate);
     	
     }
-    
     
     void updateDayPane(ZonedDateTime inputDay, AnchorPane inputPane, int inputWidth) {
     	// Gets the specified weekOfYear and dayOfWeek (Requires translating between ChronoField definition of dayOfWeek and TimeUnit definition of dayOfWeek)...
@@ -418,7 +412,6 @@ public class CalendarViewController extends ApplicationController  {
      		}
        	}
     }
-    
     
 	static void addDayEventBlock(Event inputEvent, AnchorPane inputPane, int inputWidth) {
 		System.out.println(String.format("		--> addDayEventBlock: Creating event block for event '%s'...", inputEvent.getName()));
@@ -472,7 +465,7 @@ public class CalendarViewController extends ApplicationController  {
 	 		// Setting label font and colour...
 	 		eventBlockLabel.setStyle("-fx-font-weight: Bold");
 	 		eventBlockLabel.setMaxWidth(inputWidth);
-	 		eventBlockLabel.setWrapText(true);
+	 		eventBlockLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
 	 		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
 	 		eventBlockLabel.setPadding(eventBlockInsets);
 	 		
@@ -495,7 +488,6 @@ public class CalendarViewController extends ApplicationController  {
 		}
  	}
 	
-
 	static void addUpcomingEventBlock(Event inputEvent, VBox inputPane) {
 		System.out.println(String.format("		--> addUpcomingEventBlock: Creating event block for event '%s'...", inputEvent.getName()));
 		
@@ -532,13 +524,13 @@ public class CalendarViewController extends ApplicationController  {
     	Insets eventBlockLabelInsets = new Insets(0, 2, 0, 2);
     	Insets eventBlockInsets = new Insets(1, 2, 1, 2);
     	
-    	Rectangle eventBlock = new Rectangle(115, 14, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+    	Rectangle eventBlock = new Rectangle(110, 14, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
  		Label eventBlockLabel = new Label(inputEvent.getName());
  		
  		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
  		
- 		eventBlockLabel.setMaxWidth(115);
- 		eventBlockLabel.setWrapText(true);
+ 		eventBlockLabel.setMaxWidth(105);
+ 		eventBlockLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
  		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
  		eventBlockLabel.setPadding(eventBlockLabelInsets);
  		

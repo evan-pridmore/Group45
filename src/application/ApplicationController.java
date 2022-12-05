@@ -6,6 +6,9 @@ import java.time.ZonedDateTime;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -119,7 +122,7 @@ public abstract class ApplicationController {
 			appStage.setScene(new Scene(rootScene));
 			appStage.centerOnScreen();
 			appStage.show();
-  				  							
+			  				  							
 		} catch (Exception e) { e.printStackTrace(); }
 		
 		System.out.println("initializeLoginView: LoginView successfully initialized.");
