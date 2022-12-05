@@ -220,7 +220,6 @@ public class ApplicationController {
     			makerStage = new Stage();
     			makerStage.initModality(Modality.APPLICATION_MODAL);
     			makerStage.setTitle("New Event");
-    			makerStage.setOnCloseRequest(eventMakerClose -> eventMakerController.closeEventMaker());
 			}
     		
 			FXMLLoader eventMakerLoader = new FXMLLoader();
@@ -236,6 +235,7 @@ public class ApplicationController {
     		}
     		
     		Scene scene = new Scene(root);
+    		eventMakerController.setRandomColour();
     		makerStage.setScene(scene);
     		makerStage.show();
 			
