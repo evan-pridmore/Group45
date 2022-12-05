@@ -7,9 +7,6 @@ import application.TimeUnits.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -71,6 +68,10 @@ public abstract class ApplicationController {
 		appStage = inputStage;
 	}
 	
+	protected static Stage getAppStage() {
+		return appStage;
+	}
+	
 	protected static Stage getMakerStage() {
 		return makerStage;
 	}
@@ -82,6 +83,10 @@ public abstract class ApplicationController {
 	protected static Stage getViewerStage() {
 		// This stage is specific to the 'event management' windows.
 		return viewerStage;
+	}
+	
+	protected static CalendarViewController getCalendarController() {
+		return calendarController;
 	}
 	
 	protected static ZonedDateTime getSelectedDate() {

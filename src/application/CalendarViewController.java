@@ -140,7 +140,7 @@ public class CalendarViewController extends ApplicationController  {
     @FXML
     void logOut(ActionEvent logOutEvent) {
     	System.out.println(String.format("%nlogOut: Attempting to log out..."));
-    	initializeLoginView();
+    	getAppStage().close();
     }
     
     @FXML
@@ -150,7 +150,7 @@ public class CalendarViewController extends ApplicationController  {
     }
     
     @FXML
-    void manageEventsMenu(ActionEvent removeEventEvent) {
+    void manageEventsMenu(ActionEvent viewEventsEvent) {
     	System.out.println(String.format("%nremoveEventMenu: Attempting to remove event..."));
     	initializeEventViewerView();
     }
@@ -464,7 +464,7 @@ public class CalendarViewController extends ApplicationController  {
 		} else if (inputEvent instanceof InstantEvent) {
 			// An InstantEvent occurs at a single point of time.		
 			// Start POSITION should be equal to the number of minutes from the beginning of the day.
-			double startPos = ((InstantEvent) inputEvent).getEventTime().get(ChronoField.MINUTE_OF_DAY) + 1;
+			double startPos = ((InstantEvent) inputEvent).getStart().get(ChronoField.MINUTE_OF_DAY) + 1;
 						 		
 			// Creating rectangle and label components of the event block...
 	 		Rectangle eventBlock = new Rectangle(inputWidth, 15, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
