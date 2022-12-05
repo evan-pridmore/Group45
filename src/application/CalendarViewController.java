@@ -18,10 +18,14 @@ import javafx.scene.control.OverrunStyle;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.scene.web.HTMLEditor;
 
 
 /**A controller that manages {@link CalendarView.fxml} and is associated GUI components (e.g., buttons, labels, textfields, etc.)
@@ -37,7 +41,7 @@ public class CalendarViewController extends ApplicationController  {
 	
 	public DateTimeFormatter dateLabelFormat = DateTimeFormatter.ofPattern("EEEE, MMMM dd");
 	public DateTimeFormatter simpleDateLabelFormat = DateTimeFormatter.ofPattern("dd");
-	public DateTimeFormatter simpleTimeFormat = DateTimeFormatter.ofPattern("(dd) HH:mm");
+	public DateTimeFormatter eventDetailsFormat = DateTimeFormatter.ofPattern("HH:mm");
 
 	@FXML
 	private Menu EditMenu;
@@ -45,12 +49,14 @@ public class CalendarViewController extends ApplicationController  {
 	@FXML
   	private Menu UserMenu;
 	
+	// Upcoming events nodes:
 	@FXML
 	private VBox upcomingEventsVBox;
 	
 	@FXML
 	private Label upcomingEventsLabel;
 	
+	// Day view nodes:
 	@FXML
 	private Label dayDateLabel;
 	
@@ -66,6 +72,10 @@ public class CalendarViewController extends ApplicationController  {
 	@FXML
 	private AnchorPane dayViewAnchorPane;
 	
+	@FXML
+	private VBox dayViewEventDetails;
+	
+	// Week view nodes:
 	@FXML
 	private Label weekDateLabel;
 	
@@ -100,6 +110,10 @@ public class CalendarViewController extends ApplicationController  {
 	private AnchorPane weekViewAnchorPane7;
 	
 	@FXML
+	private VBox weekViewEventDetails;
+	
+	// Month view nodes:
+	@FXML
 	private Label monthDateLabel;
 	
 	@FXML
@@ -113,6 +127,9 @@ public class CalendarViewController extends ApplicationController  {
 	
 	@FXML
 	private VBox monthViewVBox;
+	
+	@FXML
+	private VBox monthViewEventDetails;
 	
     @FXML
     void switchUser(ActionEvent switchUserEvent) {
@@ -142,42 +159,42 @@ public class CalendarViewController extends ApplicationController  {
     void dayBackDate(ActionEvent backDateEvent) {
     	ApplicationController.setSelectedDate(getSelectedDate().minusDays(1));
     	updateDateLabels(getSelectedDate());
-    	updateCalendarViews();
+    	updateCalendarGUI();
     }
     
     @FXML
     void dayForwardDate(ActionEvent backDateEvent) {
     	ApplicationController.setSelectedDate(getSelectedDate().plusDays(1));
     	updateDateLabels(getSelectedDate());
-    	updateCalendarViews();
+    	updateCalendarGUI();
     }
     
     @FXML
     void weekBackDate(ActionEvent backDateEvent) {
     	ApplicationController.setSelectedDate(getSelectedDate().minusWeeks(1));
     	updateDateLabels(getSelectedDate());
-    	updateCalendarViews();
+    	updateCalendarGUI();
     }
     
     @FXML
     void weekForwardDate(ActionEvent backDateEvent) {
     	ApplicationController.setSelectedDate(getSelectedDate().plusWeeks(1));
     	updateDateLabels(getSelectedDate());
-    	updateCalendarViews();
+    	updateCalendarGUI();
     }
     
     @FXML
     void monthBackDate(ActionEvent backDateEvent) {
     	ApplicationController.setSelectedDate(getSelectedDate().minusMonths(1));
     	updateDateLabels(getSelectedDate());
-    	updateCalendarViews();
+    	updateCalendarGUI();
     }
     
     @FXML
     void monthForwardDate(ActionEvent backDateEvent) {
     	ApplicationController.setSelectedDate(getSelectedDate().plusMonths(1));
     	updateDateLabels(getSelectedDate());
-    	updateCalendarViews();
+    	updateCalendarGUI();
     }
     
     @FXML
@@ -196,7 +213,7 @@ public class CalendarViewController extends ApplicationController  {
     	}
     	
         System.out.println("--> Selected updated to '"+ datePickerDate + "'.");  
-    	updateCalendarViews();
+    	updateCalendarGUI();
     }
     
     @FXML
@@ -225,16 +242,6 @@ public class CalendarViewController extends ApplicationController  {
 		updateWeekView();
 		updateMonthView();
 	}
-    
-    public void updateCalendarViews() {
-    	System.out.println(String.format("%nupdateCalendarViews: Updating calendarViews..."));
-    	System.out.println(String.format("--> Selected date is '%s'", getSelectedDate().format(dateLabelFormat)));
-
-    	updateDateLabels(getSelectedDate());
-    	updateDayView();
-    	updateWeekView();
-		updateMonthView();
-    }
       
     public int getConvertedDayOfWeek(ZonedDateTime inputDay) {
     	// Gets the specified weekOfYear and dayOfWeek (Requires translating between ChronoField definition of dayOfWeek and TimeUnit definition of dayOfWeek)...
@@ -370,7 +377,6 @@ public class CalendarViewController extends ApplicationController  {
              			}
          	    	}
          		}
-
            	}
            	addWeek ++;
      	}
@@ -446,6 +452,10 @@ public class CalendarViewController extends ApplicationController  {
 	 		// Creating StackPane to contain the event rectangle and label...
 	 		StackPane eventBlockPane = new StackPane(eventBlock, eventBlockLabel);
 	 		StackPane.setAlignment(eventBlockLabel, Pos.TOP_CENTER);	 		
+	 		
+	 		eventBlockPane.setOnMouseClicked(mouseEvent -> {
+	 	    	getCalendarController().showEventDetails(inputEvent, inputPane);
+	 	    	});
 	 		
 	 		// Adding StackPane to AnchorPane...
 	 		inputPane.setTopAnchor(eventBlockPane, startPos);
@@ -545,6 +555,16 @@ public class CalendarViewController extends ApplicationController  {
  		
  		inputPane.setMargin(eventBlockPane, eventBlockInsets);
  		inputPane.getChildren().add(eventBlockPane);
+	}
+	
+	public void showDayEventDetails(Event inputEvent, Pane inputPane) {
+		System.out.println(String.format("showEventDetails: Attempting to show event details for event '%s'...", inputEvent.getName()));
+				
+		dayViewEventDetails.getChildren().clear();
+		
+		Label eventDetails = new Label(String.format("Name: %s%n<b>Start Date:</b> %s%n<b>End Date:</b> %s%n", inputEvent.getName(), inputEvent.getStart().format(eventDetailsFormat), inputEvent.getEnd().format(eventDetailsFormat) ));
+		
+		dayViewEventDetails.getChildren().add(eventDetails);
 	}
 	
 }

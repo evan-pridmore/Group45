@@ -195,9 +195,13 @@
                                     </HBox>
                                  </content>
                               </ScrollPane>
-                              <VBox fx:id="dayViewEventDetails" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="300.0" style="-fx-border-color: #b8b8b8; -fx-border-width: 0.25; -fx-background-color: #dedede;">
+                              <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="300.0" style="-fx-border-color: #b8b8b8; -fx-border-width: 0.25; -fx-background-color: #dedede;">
                                  <children>
                                     <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="Event Details" textFill="#00000099" />
+                                    <VBox fx:id="dayViewEventDetails" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="300.0">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin></VBox>
                                  </children>
                               </VBox>
                            </children>
