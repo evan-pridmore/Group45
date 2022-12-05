@@ -39,12 +39,6 @@ public class Week extends TimeUnit {
 		weekNum = chosenDate.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
 	}
 
-	private Week(ZonedDateTime start, ZonedDateTime end, Day[] weekArray) throws NullEventEndPointException {
-		super(start, end);
-		weekDays = weekArray;
-	}
-	
-	
 	private void generateDays() throws NullEventEndPointException {
 		ZonedDateTime dayStart = getStart();
 		for (int i = 0; i < weekDays.length; i++) {
@@ -76,6 +70,10 @@ public class Week extends TimeUnit {
 		}
 	}
 	
+	/**
+	 * Gets the number of the week in the year.
+	 * @return Integer value of the week number in the year.
+	 */
 	public int getWeekNum() {
 		return weekNum;
 	}
