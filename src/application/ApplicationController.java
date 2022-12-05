@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  * 
  * @author evan-pridmore
  */
-public class ApplicationController {
+public abstract class ApplicationController {
 
 // Define static 'class variables'.
 	// private static ApplicationController appController;
