@@ -39,12 +39,6 @@ public class Week extends TimeUnit {
 		weekNum = chosenDate.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
 	}
 
-	private Week(ZonedDateTime start, ZonedDateTime end, Day[] weekArray) throws NullEventEndPointException {
-		super(start, end);
-		weekDays = weekArray;
-	}
-	
-	
 	private void generateDays() throws NullEventEndPointException {
 		ZonedDateTime dayStart = getStart();
 		for (int i = 0; i < weekDays.length; i++) {
@@ -76,6 +70,10 @@ public class Week extends TimeUnit {
 		}
 	}
 	
+	/**
+	 * Gets the number of the week in the year.
+	 * @return Integer value of the week number in the year.
+	 */
 	public int getWeekNum() {
 		return weekNum;
 	}
@@ -86,27 +84,21 @@ public class Week extends TimeUnit {
 	 * @throws EventOutsideTimeUnitException If the event does not belong to a {@link Day} stored in the array.
 	 */
 	public void addEvent(Event event) throws NullEventEndPointException, EventOutsideTimeUnitException {
-		if (this.contains(event)) {
-			for (int i = 0; i < weekDays.length; i++) {
-				if (event instanceof InstantEvent && event.containedIn(weekDays[i])) {
-					weekDays[i].addEvent(event);
-					break;
+		if (event.containedIn(this)) {
+			for (Day day : weekDays) {
+				if (event.containedIn(day)) {
+					day.addEvent(event);
 				}
-				else if (event instanceof TimedEvent && weekDays[i].contains(event)) {
-					if (event.containedIn(this))
-						weekDays[i].addEvent(event);
-					else if (event.startsIn(weekDays[i])) {
-						//Spilt up and recursively call addEvent on the event split at the day.
-						TimedEvent firstPart = new TimedEvent(event.getStart(), weekDays[i].getEnd(), event.getName(), event.getColour());
-						TimedEvent secondPart = new TimedEvent(weekDays[i].getStart().plusNanos(1000000000), event.getEnd(), event.getName(), event.getColour());
-						addEvent(firstPart);
-						addEvent(secondPart);
-						break;
-					}	
+				else if (event.startsIn(day)) {
+					TimedEvent firstPart = new TimedEvent(event.getStart(), day.getEnd(), event.getName(), event.getColour());
+					TimedEvent secondPart = new TimedEvent(day.getEnd().plusNanos(1000000000), event.getEnd(), event.getName(), event.getColour());
+					addEvent(firstPart);
+					addEvent(secondPart);
 				}
 			}
 		}
+
 		else 
-			throw new EventOutsideTimeUnitException(String.format("Tried to add Event %1$s to week of %2$s, but it %1$s does not fall within it.", event.getName(), this.getStart().toString()));
+			throw new EventOutsideTimeUnitException(String.format("Tried to add Event %1$s to week of %2$s, but it %1$s is not contained within it.", event.getName(), this.getStart().toString()));
 	}
 }

@@ -16,13 +16,13 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EventMakerController">
    <children>
-      <TabPane prefHeight="300.0" prefWidth="300.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="325.0" prefWidth="325.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Event">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="325.0" prefWidth="325.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="271.0" prefWidth="300.0">
+                        <VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="325.0">
                            <children>
                               <VBox alignment="CENTER">
                                  <children>
@@ -44,12 +44,12 @@
                                                 <Insets right="4.0" />
                                              </HBox.margin>
                                           </Label>
-                                          	<Spinner fx:id="eventStartHour" editable="true" prefWidth="87.0">
+                                          	<Spinner fx:id="eventStartHour" prefWidth="87.0">
                                           		<valueFactory>
         											<SpinnerValueFactory.IntegerSpinnerValueFactory max="23" min="0" />
       											</valueFactory>
                                           	</Spinner>
-                                          <Spinner fx:id="eventStartMinute" editable="true" prefWidth="87.0">
+                                          <Spinner fx:id="eventStartMinute" prefWidth="87.0">
                                           		<valueFactory>
         											<SpinnerValueFactory.IntegerSpinnerValueFactory max="59" min="0" />
       											</valueFactory>
@@ -81,12 +81,12 @@
                                                 <Insets right="4.0" />
                                              </padding>
                                           </Label>
-                                          <Spinner fx:id="eventEndHour" editable="true" prefWidth="87.0">
+                                          <Spinner fx:id="eventEndHour" prefWidth="87.0">
                                           		<valueFactory>
         											<SpinnerValueFactory.IntegerSpinnerValueFactory max="23" min="0" />
       											</valueFactory>
                                           </Spinner>
-                                          <Spinner fx:id="eventEndMinute" editable="true" prefWidth="87.0">
+                                          <Spinner fx:id="eventEndMinute" prefWidth="87.0">
                                           		<valueFactory>
         											<SpinnerValueFactory.IntegerSpinnerValueFactory max="59" min="0" />
       											</valueFactory>
@@ -125,6 +125,11 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Button>
+                              <Label fx:id="eventErrorLabel" text="Highlighted date(s) are not of valid format." visible="false">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
                            </children>
                         </VBox>
                      </children>
@@ -133,9 +138,9 @@
           </Tab>
           <Tab text="Deadline">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="325.0" prefWidth="325.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="271.0" prefWidth="300.0">
+                        <VBox alignment="CENTER" prefHeight="300.0" prefWidth="325.0">
                            <children>
                               <VBox alignment="CENTER">
                                  <children>
@@ -201,6 +206,11 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Button>
+                              <Label fx:id="deadlineErrorLabel" text="Date is not of valid format." visible="false">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </Label>
                            </children>
                         </VBox>
                      </children>

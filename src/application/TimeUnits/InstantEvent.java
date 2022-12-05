@@ -21,12 +21,8 @@ public class InstantEvent extends Event {
 		super(instant, null, aName, aColour);
 	}
 	
-	public ZonedDateTime getEventTime() {
-		return getStart();
-	}
-	
 	@Override
 	public String toString() {
-		return new String("Instant Event " + getName() + ": " + getStart().toString());
+		return String.format("%s: %s/%s/%s - %s", getName(), getStart().getYear(), getStart().getMonthValue(), getStart().getDayOfMonth(), getStart().toLocalTime().toString());
 	}
 }

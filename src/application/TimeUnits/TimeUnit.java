@@ -12,7 +12,7 @@ import application.Exceptions.NullEventEndPointException;
  * The basic class from which all other time units are created. Should never be directly constructed.
  * Stores a start and end time. End time may be null.
 */
-public class TimeUnit implements Serializable {
+abstract class TimeUnit implements Serializable {
 	private static final long serialVersionUID = -2458286694103395827L;
 	private ZonedDateTime start;
 	private ZonedDateTime end = null;
@@ -63,14 +63,7 @@ public class TimeUnit implements Serializable {
 	 * @return True if the called on {@link TimeUnit} is fully contained in biggerTimeUnit, else false.
 	 */
 	public boolean containedIn(TimeUnit biggerTimeUnit) {
-		//Only check the start date if the end date is null. (InstantEvents)
-		if (getEnd() == null) {
-			if (biggerTimeUnit.getStart().minusNanos(1).isBefore(getStart()) && biggerTimeUnit.getEnd().plusNanos(1).isAfter(getStart())) {
-				return true;
-			}
-		}
-				
-		else if (biggerTimeUnit.getStart().minusNanos(1).isBefore(getStart()) && biggerTimeUnit.getEnd().plusNanos(1).isAfter(getEnd()))
+		if (this.startsIn(biggerTimeUnit) && this.endsIn(biggerTimeUnit))
 			return true;
 		return false;
 	}
@@ -91,7 +84,7 @@ public class TimeUnit implements Serializable {
 	 * @return True if the called on {@link TimeUnit} starts within otherTimeUnit, else false.
 	 */
 	public boolean startsIn(TimeUnit otherTimeUnit) {
-		if (getEnd() != null && otherTimeUnit.getStart().minusNanos(1).isBefore(getStart()) && !(otherTimeUnit.getEnd().plusNanos(1).isBefore(getEnd()))) 
+		if (otherTimeUnit.getEnd() != null && otherTimeUnit.getStart().minusNanos(1).isBefore(getStart()) && otherTimeUnit.getEnd().plusNanos(1).isAfter(getStart()))
 			return true;
 		return false;
 	}
@@ -112,8 +105,12 @@ public class TimeUnit implements Serializable {
 	 * @return True if the called on {@link TimeUnit} ends within otherTimeUnit, else false.
 	 */
 	public boolean endsIn(TimeUnit otherTimeUnit) {
-		if (end != null && otherTimeUnit.getEnd().plusNanos(1).isAfter(end) && !(otherTimeUnit.getStart().plusNanos(1).isAfter(start))) 
-			return true;
+		if (otherTimeUnit.getEnd() != null) {
+			if (getEnd() == null)
+				return this.startsIn(otherTimeUnit);
+			else if (otherTimeUnit.getStart().minusNanos(1).isBefore(getEnd()) && otherTimeUnit.getEnd().plusNanos(1).isAfter(getEnd()))
+				return true;
+		}
 		return false;
 	}
 	
@@ -132,24 +129,10 @@ public class TimeUnit implements Serializable {
 	 * @param otherTimeUnit The {@link TimeUnit} to that may fall within the called time unit.
 	 * @return True if any part of the given {@link TimeUnit} falls inside the called {@link TimeUnit}, else false.
 	 */
-	public boolean contains(TimeUnit otherTimeUnit) throws NullEventEndPointException {
-		//TimeUnits that occur at a single instant cannot contain anything.
-		if (getEnd() == null) 
-			return false;
-		//create a time unit with the same start and end as called instance for comparing.
-		TimeUnit self = new TimeUnit(getStart(), getEnd());
-		
-		//check for full containment.
-		if (otherTimeUnit.containedIn(self))
-			return otherTimeUnit.containedIn(self);
-		
-		//Check for multiday events.
-		else if (otherTimeUnit.getEnd() != null && self.containedIn(otherTimeUnit))
-			return true;
-		
-		//Check for starting or ending in self.
-		else if (otherTimeUnit.startsIn(self) || otherTimeUnit.endsIn(self))
-			return true;
+	public boolean contains(TimeUnit otherTimeUnit) {
+		if (getEnd() != null)
+			if (otherTimeUnit.startsIn(this) || otherTimeUnit.endsIn(this))
+				return true;
 		return false;
 	}
 }
