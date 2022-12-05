@@ -95,7 +95,6 @@ public class Week extends TimeUnit {
 					addEvent(firstPart);
 					addEvent(secondPart);
 				}
-				
 			}
 		}
 

@@ -79,8 +79,9 @@ public class EventMakerController extends ApplicationController {
 		}
 		
 		String name = eventName.getText();
-		
+
 		Color colour = eventColour.getValue();
+
 		
 		if (!error) {
 			LocalDateTime start = eventStartDate.getValue().atStartOfDay().plusHours(eventStartHour.getValue()).plusMinutes(eventStartMinute.getValue());
@@ -90,6 +91,7 @@ public class EventMakerController extends ApplicationController {
 			TimedEvent newEvent = new TimedEvent(start, end, name, colour);
 			getCurrentUser().addEvent(newEvent);
 			
+      System.out.println("addTimedEvent: Event created (" + newEvent.toString() + ")");
 			getMakerStage().close();
 			User.serializeUser(getCurrentUser());
 		} else {
@@ -111,12 +113,15 @@ public class EventMakerController extends ApplicationController {
 		String name = deadlineName.getText();
 		
 		Color colour = deadlineColour.getValue();
+	
+		
 		
 		if (!error) {
 			LocalDateTime time = deadlineTimeDate.getValue().atStartOfDay().plusHours(deadlineTimeHour.getValue()).plusMinutes(deadlineTimeMinute.getValue());
 			InstantEvent newEvent = new InstantEvent(time, name, colour);
 			getCurrentUser().addEvent(newEvent);
 			
+      System.out.println("addInstantEvent: Event created (" + newEvent.toString() + ")");
 			getMakerStage().close();
 			User.serializeUser(getCurrentUser());
 		} else {

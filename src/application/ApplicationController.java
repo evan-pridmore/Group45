@@ -7,6 +7,9 @@ import application.TimeUnits.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -24,7 +27,7 @@ import javafx.stage.Stage;
  * 
  * @author evan-pridmore
  */
-public class ApplicationController {
+public abstract class ApplicationController {
 
 // Define static 'class variables'.
 	// private static ApplicationController appController;
@@ -33,6 +36,8 @@ public class ApplicationController {
 	private static EventManagerController eventManagerController;
 	private static EventViewerController eventViewerController;
 	private static LoginViewController loginController; 
+	
+	private static Scene calendarScene;
 	
 	private static Stage appStage;
 	private static Stage makerStage;
@@ -123,7 +128,7 @@ public class ApplicationController {
 			appStage.setScene(new Scene(rootScene));
 			appStage.centerOnScreen();
 			appStage.show();
-  				  							
+			  				  							
 		} catch (Exception e) { e.printStackTrace(); }
 		
 		System.out.println("initializeLoginView: LoginView successfully initialized.");
@@ -141,21 +146,27 @@ public class ApplicationController {
 	protected static void initializeCalendarView() {
     	System.out.println("initializeCalendarView: Attempting to initialize CalendarView...");
 		try {
-			FXMLLoader calendarLoader = new FXMLLoader();
-			Parent rootScene = calendarLoader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
 			
-			if (calendarController == null) {
-				System.out.println("calendarController null");
-				calendarController = calendarLoader.getController();
-			} else {
-				System.out.println("calendarController not null");
-				calendarLoader.setController(calendarController);
+			if (calendarScene == null) {
+				System.out.println("calendarScene null");
+				FXMLLoader calendarLoader = new FXMLLoader();
+				Parent rootScene = calendarLoader.load(new FileInputStream("src/application/FXML/CalendarView.fxml"));
+				
+				calendarScene = new Scene(rootScene);
+				
+				if (calendarController == null) {
+					System.out.println("calendarController null");
+					calendarController = calendarLoader.getController();
+				} else {
+					System.out.println("calendarController not null");
+					calendarLoader.setController(calendarController);
+				}
 			}
 			
-			calendarController.updateGUI();
+			calendarController.updateCalendarGUI();
 			
 			appStage.setTitle(String.format("%s's Calendar", currentUser.getUsername()));
-			appStage.setScene(new Scene(rootScene));
+			appStage.setScene(calendarScene);
 			appStage.centerOnScreen();
 			appStage.show();
 			

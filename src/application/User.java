@@ -14,8 +14,12 @@ import application.Exceptions.EventOutsideTimeUnitException;
 import application.Exceptions.InvalidPasswordException;
 import application.Exceptions.InvalidUsernameException;
 import application.Exceptions.NullEventEndPointException;
+import application.Exceptions.PasswordTooLongException;
+import application.Exceptions.PasswordTooShortException;
 import application.Exceptions.UserAlreadyExistsException;
 import application.Exceptions.UserDoesNotExistException;
+import application.Exceptions.UsernameTooLongException;
+import application.Exceptions.UsernameTooShortException;
 import application.TimeUnits.Day;
 import application.TimeUnits.Event;
 import application.TimeUnits.TimedEvent;
@@ -44,8 +48,12 @@ public class User implements Serializable {
 	 * @throws InvalidUsernameException Thrown if the username provided is null or otherwise invalid.
 	 * @throws UserAlreadyExistsException Thrown if a user has already been created under the provided user. 
 	 * @throws InvalidPasswordException 
+	 * @throws PasswordTooShortException 
+	 * @throws UsernameTooShortException 
+	 * @throws UsernameTooLongException 
+	 * @throws PasswordTooLongException 
 	 */
-	User(String usernameInput, String passwordInput) throws InvalidUsernameException, UserAlreadyExistsException, InvalidPasswordException {
+	User(String usernameInput, String passwordInput) throws InvalidUsernameException, UserAlreadyExistsException, InvalidPasswordException, PasswordTooShortException, UsernameTooLongException, UsernameTooShortException, PasswordTooLongException {
 		if (!userAlreadyExists(usernameInput)) {
 			setUsername(usernameInput);
 			setPassword(passwordInput);
@@ -68,10 +76,18 @@ public class User implements Serializable {
 		return new String(password);
 	}
 	
-	public void setUsername(String usernameInput) throws InvalidUsernameException {
+	public void setUsername(String usernameInput) throws InvalidUsernameException, UsernameTooLongException, UsernameTooShortException {
 		// Checks if the provided username is null (Additional username restrictions can be added here).
-		if (usernameInput != null && !(usernameInput.trim().isEmpty())) {
+		if ((usernameInput != null && !(usernameInput.trim().isEmpty())) && usernameInput.length() >= 2 && usernameInput.length() <= 15) {
 			username = new String(usernameInput);
+			
+		} else if (usernameInput.length() < 2) {
+			// If the password is less than 2 characters (i.e., too short), an UsernameTooShortException is thrown.
+			throw new UsernameTooShortException(String.format("ERROR (setUsername): Username '%s' is too short.", usernameInput));
+		
+		} else if (usernameInput.length() > 15) {
+			// If the username is greater than 15 characters (i.e., too long), a UsernameTooLongException is thrown.
+			throw new UsernameTooLongException(String.format("ERROR (setUsername): Username '%s' is too long.", usernameInput));
 			
 		} else {
 			// If the username is invalid, an InvalidUsernameException is thrown.
@@ -79,10 +95,18 @@ public class User implements Serializable {
 			}
 	}
 	
-	public void setPassword(String passwordInput) throws InvalidPasswordException {
+	public void setPassword(String passwordInput) throws InvalidPasswordException, PasswordTooShortException, PasswordTooLongException {
 		// Checks if the provided password is null (Additional password restrictions can be added here).
-		if (passwordInput != null && !(passwordInput.trim().isEmpty())) {
+		if ((passwordInput != null && !(passwordInput.trim().isEmpty())) && passwordInput.length() >= 4 && passwordInput.length() <= 15) {
 			password = new String(passwordInput);
+			
+		} else if (passwordInput.length() < 4) {
+			// If the password is less than 4 characters (i.e., too short), an PasswordTooShortException is thrown.
+			throw new PasswordTooShortException(String.format("ERROR (setPassword): Password '%s' is too short.", passwordInput));
+			
+		} else if (passwordInput.length() > 15) {
+			// If the password is greater than 15 characters (i.e., too long), an PasswordTooLongException is thrown.
+			throw new PasswordTooLongException(String.format("ERROR (setPassword): Password '%s' is too long.", passwordInput));
 			
 		} else {
 			// If the password is invalid, an InvalidPasswordException is thrown.
@@ -101,7 +125,7 @@ public class User implements Serializable {
     		for (int dayIndex = 1 ; dayIndex < 8; dayIndex ++) {
     			System.out.println("	--> '" + dayIndex + "' has '" + w.getDay(dayIndex).getEvents().size() + "' events.");
     			for (Event e : w.getDay(dayIndex).getEvents()) {
-    				System.out.println("		--> Event with name '" + e.getName() + "' exists.");
+    				System.out.println("		--> Event with name '" + e.getName() + "' exists. (" + e.toString() + ")");
     			}
     		}
     	}
@@ -170,9 +194,9 @@ public class User implements Serializable {
 	 * @return True if the username HAS already been created as a user save file. 
 	 */
 	public static boolean userAlreadyExists(String inputUsername) {
-		File loginDataFile = new File("loginData" + inputUsername + ".ser");
-
-		if (loginDataFile.exists()) {
+		File userDataFile = new File("User Data/" + inputUsername + ".ser");
+		
+		if (userDataFile.exists()) {
 			System.out.println(String.format("ERROR (useralreadyExists): User login data with username '%s' already exists!", inputUsername));
 			return true;
 		}
@@ -188,21 +212,30 @@ public class User implements Serializable {
 	 */
 	public static void serializeUser(User inputUser) {
 		// An instance of File is created to reference the desired user save file data, unique to the user.
-		File loginDataFile = new File("loginData" + inputUser.getUsername() + ".ser");
+		File userDataDir = new File("User Data");
+		File userDataFile = new File("User Data/" + inputUser.getUsername() + ".ser");
+		
+		if (!userDataDir.exists()) {
+			System.out.println("The directory " + userDataDir.getAbsolutePath() + " does NOT exist. Creating directory...");
+			userDataDir.mkdir();
+		} else {
+			System.out.println("The directory " + userDataDir.getAbsolutePath() + " exists.");
+
+		}
 		
 		try {
 			// Not mentioned in class material, but a FileOutputStream is necessary to write/create these user data files.
-			FileOutputStream fileOut = new FileOutputStream(loginDataFile);
+			FileOutputStream fileOut = new FileOutputStream(userDataFile);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(inputUser);
 			
 			out.close();
 			fileOut.close();
 			
-			System.out.println(String.format("serializeUser: Successfully saved user data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), loginDataFile));
+			System.out.println(String.format("serializeUser: Successfully saved user data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), userDataFile));
 			
 		} catch (IOException ioe) {
-			System.out.println(String.format("ERROR serializeUser: Failed to save user data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), loginDataFile));
+			System.out.println(String.format("ERROR serializeUser: Failed to save user data '%s', '%s' to '%s'.", inputUser.getUsername(), inputUser.getPassword(), userDataFile));
 		}
 	}
 	
@@ -219,34 +252,34 @@ public class User implements Serializable {
 		User outputUser = null;
 		
 		// An instance of File is created to reference the desired user save file data, unique to the user.
-		File loginDataFile = new File("loginData" + inputUsername + ".ser");
+		File userDataFile = new File("User Data/" + inputUsername + ".ser");
 		
 		// Is this if-statement necessary? Or is it simpler to rely on throwing an IOException? 
-		if (loginDataFile.exists() && loginDataFile.canRead()) {
-			System.out.println(String.format("deserializeUser: data for username '%s' from file '%s' exists and can be read.", inputUsername, loginDataFile));
+		if (userDataFile.exists() && userDataFile.canRead()) {
+			System.out.println(String.format("deserializeUser: data for username '%s' from file '%s' exists and can be read.", inputUsername, userDataFile));
 			
 			try {
 				// Not mentioned in class material, but a FileInputStrea, is necessary to write/create these user data files.
-				FileInputStream fileIn = new FileInputStream(loginDataFile);
+				FileInputStream fileIn = new FileInputStream(userDataFile);
 				ObjectInputStream in = new ObjectInputStream(fileIn);
 				outputUser = (User) in.readObject();
 				
 				in.close();
 				fileIn.close();
 				
-				System.out.println(String.format("deserializeUser: Successfully read data for username '%s' from file '%s'.", inputUsername, loginDataFile));
+				System.out.println(String.format("deserializeUser: Successfully read data for username '%s' from file '%s'.", inputUsername, userDataFile));
 				
 			} catch (IOException ioe) {
-				System.out.println(String.format("ERROR deserializeUser: Failed to read data for username '%s' from file '%s'.", inputUsername, loginDataFile));
+				System.out.println(String.format("ERROR deserializeUser: Failed to read data for username '%s' from file '%s'.", inputUsername, userDataFile));
 				System.out.println(ioe.getMessage());
 				
 			} catch (ClassNotFoundException cnfe) {
-				System.out.println(String.format("ERROR deserializeUser: Failed to read data from user object '%s'", loginDataFile));
+				System.out.println(String.format("ERROR deserializeUser: Failed to read data from user object '%s'", userDataFile));
 				System.out.println(cnfe.getMessage());
 			}
 			
 		} else {
-			throw new UserDoesNotExistException(String.format("ERROR deserializeUser: file '%s' either does not exist or cannot be read.", loginDataFile));
+			throw new UserDoesNotExistException(String.format("ERROR deserializeUser: file '%s' either does not exist or cannot be read.", userDataFile));
 		}
 		
 		return outputUser;
