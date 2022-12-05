@@ -175,6 +175,7 @@ public class ApplicationController {
     		// Create new stage (window) for EventViewerView
     		if (viewerStage == null) {
     			viewerStage = new Stage();
+    			viewerStage.setResizable(false);
     			viewerStage.initModality(Modality.APPLICATION_MODAL);
     		}
 			
@@ -218,6 +219,7 @@ public class ApplicationController {
 			if (makerStage == null) {
     			System.out.println("makerStage null");
     			makerStage = new Stage();
+    			makerStage.setResizable(false);
     			makerStage.initModality(Modality.APPLICATION_MODAL);
     			makerStage.setTitle("New Event");
 			}
@@ -249,6 +251,7 @@ public class ApplicationController {
     		// Create new stage (window) for EventManagerView
     		if (managerStage == null) {
     			managerStage = new Stage();
+    			managerStage.setResizable(false);
     			managerStage.initModality(Modality.APPLICATION_MODAL);
     		}
 				
