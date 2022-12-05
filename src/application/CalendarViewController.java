@@ -557,7 +557,7 @@ public class CalendarViewController extends ApplicationController  {
  		inputPane.getChildren().add(eventBlockPane);
 	}
 	
-	public void showDayEventDetails(Event inputEvent, Pane inputPane) {
+	public void showEventDetails(Event inputEvent, Pane inputPane) {
 		System.out.println(String.format("showEventDetails: Attempting to show event details for event '%s'...", inputEvent.getName()));
 				
 		dayViewEventDetails.getChildren().clear();
