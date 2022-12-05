@@ -94,6 +94,7 @@ public class EventMakerController extends ApplicationController {
       System.out.println("addTimedEvent: Event created (" + newEvent.toString() + ")");
 			getMakerStage().close();
 			User.serializeUser(getCurrentUser());
+	    	getCalendarController().updateCalendarGUI();
 		} else {
 			eventErrorLabel.setVisible(true);
 		}
@@ -124,6 +125,7 @@ public class EventMakerController extends ApplicationController {
       System.out.println("addInstantEvent: Event created (" + newEvent.toString() + ")");
 			getMakerStage().close();
 			User.serializeUser(getCurrentUser());
+	    	getCalendarController().updateCalendarGUI();
 		} else {
 			deadlineErrorLabel.setVisible(true);
 		}

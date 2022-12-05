@@ -47,8 +47,9 @@ public class EventManagerController extends ApplicationController {
     @FXML
     public void deleteEvent(ActionEvent deleteEvent) {
     	getCurrentUser().removeEvent(viewedEvent);
-    	initializeEventViewerView();
+    	// initializeEventViewerView();
     	User.serializeUser(getCurrentUser());
+    	getCalendarController().updateCalendarGUI();
     	getManagerStage().close();
 		
     }
@@ -81,8 +82,9 @@ public class EventManagerController extends ApplicationController {
     		getCurrentUser().addEvent(newEvent);
 
     	}
-    	initializeEventViewerView();
+    	// initializeEventViewerView();
     	User.serializeUser(getCurrentUser());
+    	getCalendarController().updateCalendarGUI();
     	getManagerStage().close();
     }
     

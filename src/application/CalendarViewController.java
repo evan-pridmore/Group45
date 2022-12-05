@@ -10,6 +10,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -23,6 +25,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.web.HTMLEditor;
@@ -107,6 +111,7 @@ public class CalendarViewController extends ApplicationController  {
 	@FXML
 	private VBox monthViewEventDetails;
 	
+	// Menu Bar Methods
     @FXML
     private void switchUser(ActionEvent switchUserEvent) {
     	System.out.println(String.format("switchUser: Attempting to switch user..."));
@@ -132,43 +137,43 @@ public class CalendarViewController extends ApplicationController  {
     }
     
     @FXML
-    private void dayBackDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().minusDays(1));
+    void dayBackDate(ActionEvent backDateEvent) {
+    	setSelectedDate(getSelectedDate().minusDays(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    private void dayForwardDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().plusDays(1));
+    void dayForwardDate(ActionEvent backDateEvent) {
+    	setSelectedDate(getSelectedDate().plusDays(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    private void weekBackDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().minusWeeks(1));
+    void weekBackDate(ActionEvent backDateEvent) {
+    	setSelectedDate(getSelectedDate().minusWeeks(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    private void weekForwardDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().plusWeeks(1));
+    void weekForwardDate(ActionEvent backDateEvent) {
+    	setSelectedDate(getSelectedDate().plusWeeks(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    private void monthBackDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().minusMonths(1));
+    void monthBackDate(ActionEvent backDateEvent) {
+    	setSelectedDate(getSelectedDate().minusMonths(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    private void monthForwardDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().plusMonths(1));
+    void monthForwardDate(ActionEvent backDateEvent) {
+    	setSelectedDate(getSelectedDate().plusMonths(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
@@ -201,6 +206,7 @@ public class CalendarViewController extends ApplicationController  {
 		updateCalendarGUI();
     }
     
+    // GUI update methods.
     /**A method that updates the GUI specifically in {@link CalendarView.fxml} through the {@link CalendarViewController} class. <p>
      * 
      * Runs at during initialization (i.e., when {@link initializeCalendarView} is called) to update GUI components with 
@@ -211,7 +217,11 @@ public class CalendarViewController extends ApplicationController  {
     public void updateCalendarGUI() {
     	System.out.println(String.format("%nupdateCalendarGUI: Updating GUI..."));
     	System.out.println(String.format("--> Selected date is '%s'", getSelectedDate().format(dateLabelFormat)));
-    	    	
+    	
+    	dayViewEventDetails.getChildren().clear();
+    	weekViewEventDetails.getChildren().clear();
+    	monthViewEventDetails.getChildren().clear();
+    	
 		updateDateLabels(getSelectedDate());
 		updateUpcomingEvents();
 		updateDayView();
@@ -231,7 +241,17 @@ public class CalendarViewController extends ApplicationController  {
     	return dayOfWeek;
     }
      
-    private void updateDayView() {
+    void updateDateLabels(ZonedDateTime inputDate) {
+    	System.out.println(String.format("%nupdateDateLabels: Updating date labels..."));
+
+    	String formattedDate = dateLabelFormat.format(inputDate);
+    	dayDateLabel.setText(formattedDate);
+    	weekDateLabel.setText(formattedDate);
+    	monthDateLabel.setText(formattedDate);
+    	
+    }
+    
+    void updateDayView() {
      	System.out.println(String.format("%nupdateDayView: Updating day view..."));
      	updateDayPane(getSelectedDate(), dayViewAnchorPane, 240);
      }
@@ -259,8 +279,9 @@ public class CalendarViewController extends ApplicationController  {
 
     }
       
-    private void updateMonthView() {
-     	System.out.println(String.format("%nnupdateMonthView: Updating month view..."));
+    void updateMonthView() {
+     	System.out.println(String.format("%nupdateMonthView: Updating month view..."));
+      
      	// Clearing VBox to prevent duplicate event blocks from being added...     	
      	monthViewVBox.getChildren().clear();
      	
@@ -277,16 +298,18 @@ public class CalendarViewController extends ApplicationController  {
      		if (getConvertedDayOfWeek(dayOfMonth) == 1) {
      			System.out.println("	--> Created a new week HBox.");
      			weekHBox = new HBox();
-    			weekHBox.setMinSize(805, 200);
-    			weekHBox.setMaxSize(805, 200);    
+    			weekHBox.setMinSize(850, 200);
+    			weekHBox.setMaxSize(850, 200);    
     			monthViewVBox.getChildren().add(weekHBox);
 			}
      		
      		// On every day, a new VBox is created to contain events.
  			System.out.println("	--> Created a new day VBox.");
      		VBox dayVBox = new VBox();
-			dayVBox.setMinSize(118.5, 200);
+			dayVBox.setMinSize(121.1, 200);
 			dayVBox.setStyle("-fx-border-color:#B8B8B8; -fx-border-width: 0.25; -fx-border-style: solid;");
+			dayVBox.setId("monthViewVBox" + dayOfMonth.format(simpleDateLabelFormat));
+	 		dayVBox.setSpacing(2);
 			
 			// On every day, a date label is added to each day of month.
 			Label dayOfMonthLabel = new Label(dayOfMonth.format(simpleDateLabelFormat));
@@ -300,15 +323,18 @@ public class CalendarViewController extends ApplicationController  {
 	     	int dayOfWeek = getConvertedDayOfWeek(dayOfMonth);	
            	for (Week w: getCurrentUser().getEvents()) {
          		if (w.getWeekNum() == weekOfYear) {
+         			
          			// Getting the specified day in the specified week.
          			Day dayTemp = w.getDay(dayOfWeek); 
          	    	for (Event e : dayTemp.getEvents()) {
          	    			if (eventCount <= 7) {
-                 				addMonthEventBlock(e, dayVBox);
+                 				addSimpleEventBlock(e, dayVBox);
                  				eventCount ++;
          	    			} else {
          	    				StackPane overflowPane = new StackPane();
          	    				Rectangle overflowRectangle = new Rectangle(110, 14, Color.LIGHTGRAY);
+         	    	    		overflowRectangle.setArcHeight(10);
+         	    	    		overflowRectangle.setArcWidth(10);
          	    				Label overflowLabel = new Label("...");
          	    				overflowLabel.setAlignment(Pos.CENTER);
          	    				overflowLabel.setMinWidth(100);
@@ -344,14 +370,16 @@ public class CalendarViewController extends ApplicationController  {
            	for (Week w: getCurrentUser().getEvents()) {
          		if (w.getWeekNum() == weekOfYear + addWeek) {
          			// Getting the specified day in the specified week.
-         			Day dayTemp = w.getDay(dayOfWeek); 
-         			System.out.println("	--> Attempting to get '" + dayTemp.getEvents().size() + "' events from day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
-         	    	for (Event e : dayTemp.getEvents()) {
-             			if (eventCount < 10) {
-             				addMonthEventBlock(e, upcomingEventsVBox);
-             				eventCount ++;
-             			}
-         	    	}
+         			for (int dayCount = 1; dayCount <= 7; dayCount ++) {
+             			Day dayTemp = w.getDay(dayCount); 
+             			System.out.println("	--> Attempting to get '" + dayTemp.getEvents().size() + "' events from day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
+             	    	for (Event e : dayTemp.getEvents()) {
+                 			if (eventCount < 10) {
+                 				addSimpleEventBlock(e, upcomingEventsVBox);
+                 				eventCount ++;
+                 			}
+             	    	}
+         			}
          		}
            	}
            	addWeek ++;
@@ -363,18 +391,8 @@ public class CalendarViewController extends ApplicationController  {
      		upcomingEventsVBox.getChildren().add(noUpcomingEventsLabel);
      	}
     }
-    
-    private void updateDateLabels(ZonedDateTime inputDate) {
-    	System.out.println(String.format("%nupdateDateLabels: Updating date labels..."));
+    void updateDayPane(ZonedDateTime inputDay, AnchorPane inputPane, int inputWidth) {
 
-    	String formattedDate = dateLabelFormat.format(inputDate);
-    	dayDateLabel.setText(formattedDate);
-    	weekDateLabel.setText(formattedDate);
-    	monthDateLabel.setText(formattedDate);
-    	
-    }
-    
-    private void updateDayPane(ZonedDateTime inputDay, AnchorPane inputPane, int inputWidth) {
     	// Gets the specified weekOfYear and dayOfWeek (Requires translating between ChronoField definition of dayOfWeek and TimeUnit definition of dayOfWeek)...
     	// (ChronoField: Monday = 1, Sunday = 7 --> TimeUnit: Sunday = 1, Saturday = 7) 
     	int weekOfYear = inputDay.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
@@ -389,13 +407,14 @@ public class CalendarViewController extends ApplicationController  {
      			// Getting the specified day in the specified week.
      			Day dayTemp = w.getDay(dayOfWeek); 
      	    	for (Event e : dayTemp.getEvents()) {
-     	        	addDayEventBlock(e, inputPane, inputWidth);
+     	        	addScheduledEventBlock(e, inputPane);
      	    	}
      		}
        	}
-    }
+    }   
     
-	static void addDayEventBlock(Event inputEvent, AnchorPane inputPane, int inputWidth) {
+    // Add event block methods.
+	static void addScheduledEventBlock(Event inputEvent, AnchorPane inputPane) {
 		System.out.println(String.format("		--> addDayEventBlock: Creating event block for event '%s'...", inputEvent.getName()));
     	Insets eventBlockInsets = new Insets(0, 5, 0, 5);
 		// Each hour in every pane is 60px. Thus, each minute is 1px.			
@@ -408,49 +427,22 @@ public class CalendarViewController extends ApplicationController  {
 			double height = endPos - startPos;
 						
 			// Creating rectangle and label components of the event block...
-	 		Rectangle eventBlock = new Rectangle(inputWidth, height, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+			Rectangle eventBlock;
+			if (inputPane.getId().contains("day")) {
+		 		eventBlock = new Rectangle(240, height, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+			} else {
+		 		eventBlock = new Rectangle(113, height, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+			}
+			eventBlock.setArcHeight(10);
+			eventBlock.setArcWidth(10);
+			
 	 		Label eventBlockLabel = new Label(inputEvent.getName());
 	 		
 	 		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
 	 		
 	 		// Setting label font and colour...
 	 		eventBlockLabel.setWrapText(true);
-	 		eventBlockLabel.setMaxWidth(inputWidth);
-	 		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
-	 		eventBlockLabel.setPadding(eventBlockInsets);
-	 		
-	 		if (inputEvent.getColour().getBrightness() > 0.6) {
-		 		eventBlockLabel.setTextFill(Color.BLACK);
-	 		} else {
-		 		eventBlockLabel.setTextFill(Color.WHITE);
-	 		}
-	 		
-	 		// Creating StackPane to contain the event rectangle and label...
-	 		StackPane eventBlockPane = new StackPane(eventBlock, eventBlockLabel);
-	 		StackPane.setAlignment(eventBlockLabel, Pos.TOP_CENTER);	 		
-	 		
-	 		eventBlockPane.setOnMouseClicked(mouseEvent -> {
-	 	    	getCalendarController().showEventDetails(inputEvent, inputPane);
-	 	    	});
-	 		
-	 		// Adding StackPane to AnchorPane...
-	 		inputPane.setTopAnchor(eventBlockPane, startPos);
-	 		inputPane.getChildren().add(eventBlockPane);
-	 		
-		} else if (inputEvent instanceof InstantEvent) {
-			// An InstantEvent occurs at a single point of time.		
-			// Start POSITION should be equal to the number of minutes from the beginning of the day.
-			double startPos = ((InstantEvent) inputEvent).getStart().get(ChronoField.MINUTE_OF_DAY) + 1;
-						 		
-			// Creating rectangle and label components of the event block...
-	 		Rectangle eventBlock = new Rectangle(inputWidth, 15, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
-	 		Label eventBlockLabel = new Label(inputEvent.getName());
-
-	 		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
-	 		
-	 		// Setting label font and colour...
-	 		eventBlockLabel.setStyle("-fx-font-weight: Bold");
-	 		eventBlockLabel.setMaxWidth(inputWidth);
+	 		eventBlockLabel.setMaxWidth(eventBlock.getWidth() - 5);
 	 		eventBlockLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
 	 		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
 	 		eventBlockLabel.setPadding(eventBlockInsets);
@@ -464,6 +456,52 @@ public class CalendarViewController extends ApplicationController  {
 	 		// Creating StackPane to contain the event rectangle and label...
 	 		StackPane eventBlockPane = new StackPane(eventBlock, eventBlockLabel);
 	 		StackPane.setAlignment(eventBlockLabel, Pos.TOP_CENTER);	 		
+	 		eventBlockPane.setOnMouseClicked(mouseEvent -> {
+	 	    	getCalendarController().showDayEventDetails(inputEvent, inputPane);
+	 	    	});
+	 		
+	 		// Adding StackPane to AnchorPane...
+	 		inputPane.setTopAnchor(eventBlockPane, startPos);
+	 		inputPane.getChildren().add(eventBlockPane);
+	 		
+		} else if (inputEvent instanceof InstantEvent) {
+			// An InstantEvent occurs at a single point of time.		
+			// Start POSITION should be equal to the number of minutes from the beginning of the day.
+			double startPos = ((InstantEvent) inputEvent).getStart().get(ChronoField.MINUTE_OF_DAY) + 1;
+						 		
+			// Creating rectangle and label components of the event block...
+			Rectangle eventBlock;
+			if (inputPane.getId().contains("day")) {
+		 		eventBlock = new Rectangle(240, 14, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+			} else {
+		 		eventBlock = new Rectangle(113, 14, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+			}
+			eventBlock.setArcHeight(10);
+			eventBlock.setArcWidth(10);
+
+			Label eventBlockLabel = new Label(inputEvent.getName());
+
+	 		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
+	 		
+	 		// Setting label font and colour...
+	 		eventBlockLabel.setStyle("-fx-font-weight: Bold");
+	 		eventBlockLabel.setMaxWidth(eventBlock.getWidth() - 5);
+	 		eventBlockLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
+	 		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
+	 		eventBlockLabel.setPadding(eventBlockInsets);
+	 		
+	 		if (inputEvent.getColour().getBrightness() > 0.6) {
+		 		eventBlockLabel.setTextFill(Color.BLACK);
+	 		} else {
+		 		eventBlockLabel.setTextFill(Color.WHITE);
+	 		}
+	 		
+	 		// Creating StackPane to contain the event rectangle and label...
+	 		StackPane eventBlockPane = new StackPane(eventBlock, eventBlockLabel);
+	 		StackPane.setAlignment(eventBlockLabel, Pos.TOP_CENTER);	 		 		
+	 		eventBlockPane.setOnMouseClicked(mouseEvent -> {
+	 	    	getCalendarController().showDayEventDetails(inputEvent, inputPane);
+	 	    	});
 	 		
 	 		// Adding StackPane to AnchorPane...
 	 		inputPane.setTopAnchor(eventBlockPane, startPos);
@@ -473,49 +511,14 @@ public class CalendarViewController extends ApplicationController  {
 			System.out.println("Event block creation error.");
 		}
  	}
-	
-	static void addUpcomingEventBlock(Event inputEvent, VBox inputPane) {
-		System.out.println(String.format("		--> addUpcomingEventBlock: Creating event block for event '%s'...", inputEvent.getName()));
-		
+
+	static void addSimpleEventBlock(Event inputEvent, VBox inputPane) {    	
+    	// Month view: VBox (120, 200), EventBlock (110, 14)
+    	// Upcoming View: VBox (200, 690), EventBlock (190, 64)
     	Insets eventBlockLabelInsets = new Insets(0, 5, 0, 5);
     	Insets eventBlockInsets = new Insets(2, 5, 2, 5);
-    	
-    	Rectangle eventBlock = new Rectangle(190, 60, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+    	 		
  		Label eventBlockLabel = new Label(inputEvent.getName());
- 		
- 		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
- 		
- 		eventBlockLabel.setStyle("-fx-font-weight: Bold");
- 		eventBlockLabel.setMaxWidth(190);
- 		eventBlockLabel.setWrapText(true);
- 		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
- 		eventBlockLabel.setPadding(eventBlockLabelInsets);
- 		
- 		if (inputEvent.getColour().getBrightness() > 0.6) {
-	 		eventBlockLabel.setTextFill(Color.BLACK);
- 		} else {
-	 		eventBlockLabel.setTextFill(Color.WHITE);
- 		}
- 		
- 		StackPane eventBlockPane = new StackPane(eventBlock, eventBlockLabel);
- 		StackPane.setAlignment(eventBlockLabel, Pos.TOP_CENTER);
- 		
- 		inputPane.setMargin(eventBlockPane, eventBlockInsets);
- 		inputPane.getChildren().add(eventBlockPane);
-	}
-
-	static void addMonthEventBlock(Event inputEvent, VBox inputPane) {
-		System.out.println(String.format("		--> addMonthEventBlock: Creating event block for event '%s'...", inputEvent.getName()));
-		
-    	Insets eventBlockLabelInsets = new Insets(0, 2, 0, 2);
-    	Insets eventBlockInsets = new Insets(1, 2, 1, 2);
-    	
-    	Rectangle eventBlock = new Rectangle(110, 14, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
- 		Label eventBlockLabel = new Label(inputEvent.getName());
- 		
- 		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
- 		
- 		eventBlockLabel.setMaxWidth(105);
  		eventBlockLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
  		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
  		eventBlockLabel.setPadding(eventBlockLabelInsets);
@@ -526,21 +529,68 @@ public class CalendarViewController extends ApplicationController  {
 	 		eventBlockLabel.setTextFill(Color.WHITE);
  		}
  		
+    	Rectangle eventBlock;
+    	if (inputPane.getId().contains("upcoming")) {
+    		eventBlock = new Rectangle(190, 60, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+    		eventBlock.setArcHeight(7.5);
+    		eventBlock.setArcWidth(7.5);
+    		eventBlockLabel.setMaxHeight(eventBlock.getHeight() - 10);
+    		eventBlockLabel.setWrapText(true);
+    	} else {
+        	eventBlock = new Rectangle(110, 14, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+    		eventBlock.setArcHeight(10);
+    		eventBlock.setArcWidth(10);
+    	}
+ 		eventBlockLabel.setMaxWidth(eventBlock.getWidth() - 10);
+ 		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
+ 		
  		StackPane eventBlockPane = new StackPane(eventBlock, eventBlockLabel);
  		StackPane.setAlignment(eventBlockLabel, Pos.TOP_CENTER);
+ 		eventBlockPane.setOnMouseClicked(mouseEvent -> {
+ 	    	getCalendarController().showDayEventDetails(inputEvent, inputPane);
+ 	    	});
  		
- 		inputPane.setMargin(eventBlockPane, eventBlockInsets);
  		inputPane.getChildren().add(eventBlockPane);
 	}
 	
-	public void showEventDetails(Event inputEvent, Pane inputPane) {
-		System.out.println(String.format("showEventDetails: Attempting to show event details for event '%s'...", inputEvent.getName()));
-				
-		dayViewEventDetails.getChildren().clear();
-		
-		Label eventDetails = new Label(String.format("Name: %s%n<b>Start Date:</b> %s%n<b>End Date:</b> %s%n", inputEvent.getName(), inputEvent.getStart().format(eventDetailsFormat), inputEvent.getEnd().format(eventDetailsFormat) ));
-		
-		dayViewEventDetails.getChildren().add(eventDetails);
-	}
 	
+	// Event detail pane methods.
+	public void showDayEventDetails(Event inputEvent, Pane inputPane) {
+		System.out.println(String.format("showEventDetails: Attempting to show event details for event '%s'...", inputEvent.getName()));
+			
+		System.out.println("This pane has an id: " + inputPane.getId());
+		
+		VBox[] VBoxArray = {dayViewEventDetails, weekViewEventDetails, monthViewEventDetails};
+
+		for (VBox detailsVBox : VBoxArray) {
+			detailsVBox.getChildren().clear();
+			detailsVBox.setAlignment(Pos.CENTER);
+			detailsVBox.setSpacing(10);
+			
+			Rectangle eventDetailsBlock = new Rectangle(detailsVBox.getPrefWidth() - 15, 200, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
+	 		eventDetailsBlock.setBlendMode(BlendMode.COLOR_BURN);
+	 		eventDetailsBlock.setArcWidth(15);
+	 		eventDetailsBlock.setArcHeight(15);
+	 		
+	 		Label eventDetailsLabel = null;
+	 		if (inputEvent instanceof TimedEvent) {
+	 			eventDetailsLabel = new Label(String.format("Name: %s%nEvent Type: Deadline%nStart Date: %s%nEnd Date: %s%n", inputEvent.getName(), inputEvent.getStart().format(eventDetailsFormat), inputEvent.getEnd().format(eventDetailsFormat)));
+	 		} else if (inputEvent instanceof InstantEvent){
+	 			eventDetailsLabel = new Label(String.format("Name: %s%nEvent Type: Timed Event%nTime: %s%n", inputEvent.getName(), inputEvent.getStart().format(eventDetailsFormat)));
+	 		}
+
+	 		eventDetailsLabel.setMaxSize(eventDetailsBlock.getWidth() - 15, eventDetailsBlock.getHeight() - 15);
+	 		eventDetailsLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
+	 		eventDetailsLabel.setWrapText(true);
+	 		
+			StackPane eventDetailsPane = new StackPane(eventDetailsBlock, eventDetailsLabel);
+			
+			Button editButton = new Button("Edit");
+	 		editButton.setOnMouseClicked(mouseEvent -> {
+	 			super.initializeEventManagerView(inputEvent);
+	 	    	});
+			
+			detailsVBox.getChildren().addAll(eventDetailsPane, editButton);
+		}
+	}
 }
