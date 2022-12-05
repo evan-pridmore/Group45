@@ -162,42 +162,42 @@ public class CalendarViewController extends ApplicationController  {
     
     @FXML
     void dayBackDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().minusDays(1));
+    	setSelectedDate(getSelectedDate().minusDays(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
     void dayForwardDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().plusDays(1));
+    	setSelectedDate(getSelectedDate().plusDays(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
     void weekBackDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().minusWeeks(1));
+    	setSelectedDate(getSelectedDate().minusWeeks(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
     void weekForwardDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().plusWeeks(1));
+    	setSelectedDate(getSelectedDate().plusWeeks(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
     void monthBackDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().minusMonths(1));
+    	setSelectedDate(getSelectedDate().minusMonths(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
     void monthForwardDate(ActionEvent backDateEvent) {
-    	ApplicationController.setSelectedDate(getSelectedDate().plusMonths(1));
+    	setSelectedDate(getSelectedDate().plusMonths(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
@@ -610,7 +610,7 @@ public class CalendarViewController extends ApplicationController  {
 			
 			Button editButton = new Button("Edit");
 	 		editButton.setOnMouseClicked(mouseEvent -> {
-	 			ApplicationController.initializeEventManagerView(inputEvent);
+	 			super.initializeEventManagerView(inputEvent);
 	 	    	});
 			
 			detailsVBox.getChildren().addAll(eventDetailsPane, editButton);
