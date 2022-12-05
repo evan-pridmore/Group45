@@ -32,7 +32,6 @@ public class ApplicationController {
 	private static EventManagementController eventManagementController;
 	private static EventMakerController eventMakerController;
 	
-	private static Scene loginScene;
 	private static Scene calendarScene;
 	
 	private static Stage appStage;

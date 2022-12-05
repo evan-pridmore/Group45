@@ -4,8 +4,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 
 import application.TimeUnits.*;
 import javafx.event.ActionEvent;
@@ -18,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -210,6 +207,7 @@ public class CalendarViewController extends ApplicationController  {
 		updateCalendarGUI();
     }
     
+    
     /**A method that updates the GUI specifically in {@link CalendarView.fxml} through the {@link CalendarViewController} class. <p>
      * 
      * Runs at during initialization (i.e., when {@link initializeCalendarView} is called) to update GUI components with 
@@ -228,6 +226,7 @@ public class CalendarViewController extends ApplicationController  {
 		updateMonthView();
 	}
     
+    
     public void updateCalendarViews() {
     	System.out.println(String.format("%nupdateCalendarViews: Updating calendarViews..."));
     	System.out.println(String.format("--> Selected date is '%s'", getSelectedDate().format(dateLabelFormat)));
@@ -237,6 +236,7 @@ public class CalendarViewController extends ApplicationController  {
     	updateWeekView();
 		updateMonthView();
     }
+    
     
     public int getConvertedDayOfWeek(ZonedDateTime inputDay) {
     	// Gets the specified weekOfYear and dayOfWeek (Requires translating between ChronoField definition of dayOfWeek and TimeUnit definition of dayOfWeek)...
@@ -250,10 +250,12 @@ public class CalendarViewController extends ApplicationController  {
     	return dayOfWeek;
     }
     
+    
     void updateDayView() {
      	System.out.println(String.format("%nupdateDayView: Updating day view..."));
      	updateDayPane(getSelectedDate(), dayViewAnchorPane, 220);
      }
+    
     
     void updateWeekView() {
      	System.out.println(String.format("%nupdateWeekView: Updating week view..."));
@@ -277,6 +279,7 @@ public class CalendarViewController extends ApplicationController  {
      	updateDayPane(weekStart.plusDays(6), weekViewAnchorPane7, 100);
 
     }
+    
     
     void updateMonthView() {
      	System.out.println(String.format("%nnupdateMonthView: Updating month view..."));
@@ -340,6 +343,7 @@ public class CalendarViewController extends ApplicationController  {
 			weekHBox.getChildren().add(dayVBox);
      	}
     }
+    
         
     void updateUpcomingEvents() {
     	// This should NOT be dependent on 'selectedDate' because it is relative to the current date not the selected date.
@@ -382,6 +386,7 @@ public class CalendarViewController extends ApplicationController  {
      	}
     }
     
+    
     void updateDateLabels(ZonedDateTime inputDate) {
     	System.out.println(String.format("%nupdateDateLabels: Updating date labels..."));
 
@@ -391,6 +396,7 @@ public class CalendarViewController extends ApplicationController  {
     	monthDateLabel.setText(formattedDate);
     	
     }
+    
     
     void updateDayPane(ZonedDateTime inputDay, AnchorPane inputPane, int inputWidth) {
     	// Gets the specified weekOfYear and dayOfWeek (Requires translating between ChronoField definition of dayOfWeek and TimeUnit definition of dayOfWeek)...
@@ -412,6 +418,7 @@ public class CalendarViewController extends ApplicationController  {
      		}
        	}
     }
+    
     
 	static void addDayEventBlock(Event inputEvent, AnchorPane inputPane, int inputWidth) {
 		System.out.println(String.format("		--> addDayEventBlock: Creating event block for event '%s'...", inputEvent.getName()));
@@ -487,6 +494,7 @@ public class CalendarViewController extends ApplicationController  {
 			System.out.println("Event block creation error.");
 		}
  	}
+	
 
 	static void addUpcomingEventBlock(Event inputEvent, VBox inputPane) {
 		System.out.println(String.format("		--> addUpcomingEventBlock: Creating event block for event '%s'...", inputEvent.getName()));
@@ -546,4 +554,5 @@ public class CalendarViewController extends ApplicationController  {
  		inputPane.setMargin(eventBlockPane, eventBlockInsets);
  		inputPane.getChildren().add(eventBlockPane);
 	}
+	
 }

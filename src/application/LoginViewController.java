@@ -10,8 +10,12 @@ import java.io.IOException;
 import application.Exceptions.InvalidPasswordException;
 import application.Exceptions.InvalidUsernameException;
 import application.Exceptions.NullEventEndPointException;
+import application.Exceptions.PasswordTooLongException;
+import application.Exceptions.PasswordTooShortException;
 import application.Exceptions.UserAlreadyExistsException;
 import application.Exceptions.UserDoesNotExistException;
+import application.Exceptions.UsernameTooLongException;
+import application.Exceptions.UsernameTooShortException;
 
 /**A controller that manages {@link LoginView.fxml} and is associated GUI components (e.g., buttons, labels, textfields, etc.)
  * 
@@ -88,10 +92,30 @@ public class LoginViewController extends ApplicationController {
 			loginErrorLabel.setTextFill(Color.GREEN);
 			loginErrorLabel.setText("User created!");
 			
+		} catch (UsernameTooLongException utle) {
+			System.out.println(String.format("ERROR (signUp): Cannot create new user with username '%s'. Username too long.", loginUsername.getText()));
+			System.out.println(utle.getMessage());
+			loginErrorLabel.setText(String.format("Username too long"));	
+			
+		} catch (UsernameTooShortException utse) {
+			System.out.println(String.format("ERROR (signUp): Cannot create new user with username '%s'. Username too short.", loginUsername.getText()));
+			System.out.println(utse.getMessage());
+			loginErrorLabel.setText(String.format("Username too short"));	
+			
 		} catch (InvalidUsernameException iue) {
 			System.out.println(String.format("ERROR (signUp): Cannot create new user with username '%s'.", loginUsername.getText()));
 			System.out.println(iue.getMessage());
 			loginErrorLabel.setText(String.format("Invalid username entered"));
+			
+		} catch (PasswordTooLongException ptle) {
+			System.out.println(String.format("ERROR (signUp): Cannot create new user with password '%s'. Password too long.", loginUsername.getText()));
+			System.out.println(ptle.getMessage());
+			loginErrorLabel.setText(String.format("Password too long"));	
+			
+		} catch (PasswordTooShortException ptse) {
+			System.out.println(String.format("ERROR (signUp): Cannot create new user with password '%s'. Password too short.", loginUsername.getText()));
+			System.out.println(ptse.getMessage());
+			loginErrorLabel.setText(String.format("Password too short"));
 			
 		} catch (InvalidPasswordException ipe) {
 			System.out.println(String.format("ERROR (signUp): Cannot create new user with password '%s' and password '%s'.", loginPassword.getText()));
