@@ -26,6 +26,12 @@ public class EventManagerController extends ApplicationController {
     @FXML
     private ColorPicker eventColour;
     @FXML
+    private DatePicker eventStartDate;
+    @FXML
+    private Spinner<Integer> eventStartHour;
+    @FXML
+    private Spinner<Integer> eventStartMinute;
+    @FXML
     private DatePicker eventEndDate;
     @FXML
     private Spinner<Integer> eventEndHour;
@@ -33,12 +39,6 @@ public class EventManagerController extends ApplicationController {
     private Spinner<Integer> eventEndMinute;
     @FXML
     private TextField eventName;
-    @FXML
-    private DatePicker eventStartDate;
-    @FXML
-    private Spinner<Integer> eventStartHour;
-    @FXML
-    private Spinner<Integer> eventStartMinute;
     @FXML
     private Label startLabel;
     

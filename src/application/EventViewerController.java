@@ -129,7 +129,8 @@ public class EventViewerController extends ApplicationController {
 			eventTree.setRoot(rootItem);
  	}
 	
-	public void selectEvent() {
+	@FXML
+	private void selectEvent() {
 		TreeItem<String> selectedEventItem = eventTree.getSelectionModel().getSelectedItem();
 		if (selectedEventItem != null && selectedEventItem.isLeaf()) {
 			String eventName = selectedEventItem.getValue();

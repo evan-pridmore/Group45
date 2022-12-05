@@ -47,12 +47,6 @@ public class CalendarViewController extends ApplicationController  {
 	public DateTimeFormatter simpleDateLabelFormat = DateTimeFormatter.ofPattern("dd");
 	public DateTimeFormatter eventDetailsFormat = DateTimeFormatter.ofPattern("HH:mm");
 
-	@FXML
-	private Menu EditMenu;
-
-	@FXML
-  	private Menu UserMenu;
-	
 	// Upcoming events nodes:
 	@FXML
 	private VBox upcomingEventsVBox;
@@ -63,13 +57,7 @@ public class CalendarViewController extends ApplicationController  {
 	// Day view nodes:
 	@FXML
 	private Label dayDateLabel;
-	
-	@FXML
-	private Button dayBackDateButton;
-	
-	@FXML
-	private Button dayForwardDateButton;
-	
+
 	@FXML
 	private DatePicker dayViewDatePicker;
 	
@@ -82,12 +70,6 @@ public class CalendarViewController extends ApplicationController  {
 	// Week view nodes:
 	@FXML
 	private Label weekDateLabel;
-	
-	@FXML
-	private Button weekBackDateButton;
-	
-	@FXML
-	private Button weekForwardDateButton;
 	
 	@FXML
 	private DatePicker weekViewDatePicker;
@@ -121,12 +103,6 @@ public class CalendarViewController extends ApplicationController  {
 	private Label monthDateLabel;
 	
 	@FXML
-	private Button monthBackDateButton;
-	
-	@FXML
-	private Button monthForwardDateButton;
-	
-	@FXML
 	private DatePicker monthViewDatePicker;
 	
 	@FXML
@@ -137,25 +113,25 @@ public class CalendarViewController extends ApplicationController  {
 	
 	// Menu Bar Methods
     @FXML
-    void switchUser(ActionEvent switchUserEvent) {
+    private void switchUser(ActionEvent switchUserEvent) {
     	System.out.println(String.format("switchUser: Attempting to switch user..."));
     	initializeLoginView();
     }
     
     @FXML
-    void logOut(ActionEvent logOutEvent) {
+    private void logOut(ActionEvent logOutEvent) {
     	System.out.println(String.format("%nlogOut: Attempting to log out..."));
     	getAppStage().close();
     }
     
     @FXML
-    void addEventMenu(ActionEvent addEventEvent) {
+    private void addEventMenu(ActionEvent addEventEvent) {
     	System.out.println(String.format("%naddEventMenu: Attempting to initialize EventManagerView..."));
     	initializeEventMakerView();
     }
     
     @FXML
-    void manageEventsMenu(ActionEvent viewEventsEvent) {
+    private void manageEventsMenu(ActionEvent viewEventsEvent) {
     	System.out.println(String.format("%nremoveEventMenu: Attempting to remove event..."));
     	initializeEventViewerView();
     }
@@ -203,7 +179,7 @@ public class CalendarViewController extends ApplicationController  {
     }
     
     @FXML
-    void viewDatePicked(ActionEvent dayViewDatePickedEvent) throws Exception {
+    private void viewDatePicked(ActionEvent dayViewDatePickedEvent) throws Exception {
     	System.out.println("dayViewDatePicked: Updating selected date..." + dayViewDatePicker.getValue());
     	
     	ZonedDateTime datePickerDate = null;
@@ -222,7 +198,7 @@ public class CalendarViewController extends ApplicationController  {
     }
     
     @FXML
-    void openAdminPreferences(ActionEvent openAdminPreferencesEvent) {
+    private void openAdminPreferences(ActionEvent openAdminPreferencesEvent) {
     	System.out.println("openAdminPreferences: Initializing tests...");
     	
      	getCurrentUser().dumpEvents();
@@ -280,7 +256,7 @@ public class CalendarViewController extends ApplicationController  {
      	updateDayPane(getSelectedDate(), dayViewAnchorPane, 240);
      }
     
-    void updateWeekView() {
+    private void updateWeekView() {
      	System.out.println(String.format("%nupdateWeekView: Updating week view..."));
      	
      	//System.out.println(String.format(""));
@@ -305,6 +281,7 @@ public class CalendarViewController extends ApplicationController  {
       
     void updateMonthView() {
      	System.out.println(String.format("%nupdateMonthView: Updating month view..."));
+      
      	// Clearing VBox to prevent duplicate event blocks from being added...     	
      	monthViewVBox.getChildren().clear();
      	
@@ -373,7 +350,7 @@ public class CalendarViewController extends ApplicationController  {
      	}
     }
            
-    void updateUpcomingEvents() {
+    private void updateUpcomingEvents() {
     	// This should NOT be dependent on 'selectedDate' because it is relative to the current date not the selected date.
     	System.out.println(String.format("%nupdateUpcomingEvents: Updating upcomingEventsVbox..."));
     	
@@ -414,8 +391,8 @@ public class CalendarViewController extends ApplicationController  {
      		upcomingEventsVBox.getChildren().add(noUpcomingEventsLabel);
      	}
     }
-   
     void updateDayPane(ZonedDateTime inputDay, AnchorPane inputPane, int inputWidth) {
+
     	// Gets the specified weekOfYear and dayOfWeek (Requires translating between ChronoField definition of dayOfWeek and TimeUnit definition of dayOfWeek)...
     	// (ChronoField: Monday = 1, Sunday = 7 --> TimeUnit: Sunday = 1, Saturday = 7) 
     	int weekOfYear = inputDay.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
@@ -616,5 +593,4 @@ public class CalendarViewController extends ApplicationController  {
 			detailsVBox.getChildren().addAll(eventDetailsPane, editButton);
 		}
 	}
-	
 }
