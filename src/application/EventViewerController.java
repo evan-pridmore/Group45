@@ -136,7 +136,7 @@ public class EventViewerController extends ApplicationController {
 			String eventMonth = selectedEventItem.getParent().getValue();
 			int eventYear = Integer.parseInt(selectedEventItem.getParent().getParent().getValue());
 			initializeEventManagerView(yearMonthEventList.get(yearList.indexOf(eventYear)).get(yearMonthList.get(yearList.indexOf(eventYear)).indexOf(Month.valueOf(eventMonth))).get(yearMonthEventNameList.get(yearList.indexOf(eventYear)).get(yearMonthList.get(yearList.indexOf(eventYear)).indexOf(Month.valueOf(eventMonth))).indexOf(eventName)));
-			 eventTree.getSelectionModel().clearSelection();
+			eventTree.getSelectionModel().clearSelection();
 		}
 	}
 }

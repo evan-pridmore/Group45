@@ -231,7 +231,6 @@ public abstract class ApplicationController {
     	System.out.println("intializeEventMakerView: Attempting to initialize EventMakerView...");
 		
 		try {
-			
 			if (makerStage == null) {
     			System.out.println("makerStage null");
     			makerStage = new Stage();
