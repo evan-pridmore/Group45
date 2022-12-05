@@ -10,12 +10,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.AnchorPane;
@@ -25,12 +22,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-import javafx.scene.web.HTMLEditor;
-
 
 /**A controller that manages {@link CalendarView.fxml} and is associated GUI components (e.g., buttons, labels, textfields, etc.)
  * 
@@ -137,42 +128,42 @@ public class CalendarViewController extends ApplicationController  {
     }
     
     @FXML
-    void dayBackDate(ActionEvent backDateEvent) {
+    private void dayBackDate(ActionEvent backDateEvent) {
     	setSelectedDate(getSelectedDate().minusDays(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    void dayForwardDate(ActionEvent backDateEvent) {
+    private void dayForwardDate(ActionEvent backDateEvent) {
     	setSelectedDate(getSelectedDate().plusDays(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    void weekBackDate(ActionEvent backDateEvent) {
+    private void weekBackDate(ActionEvent backDateEvent) {
     	setSelectedDate(getSelectedDate().minusWeeks(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    void weekForwardDate(ActionEvent backDateEvent) {
+    private void weekForwardDate(ActionEvent backDateEvent) {
     	setSelectedDate(getSelectedDate().plusWeeks(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    void monthBackDate(ActionEvent backDateEvent) {
+    private void monthBackDate(ActionEvent backDateEvent) {
     	setSelectedDate(getSelectedDate().minusMonths(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    void monthForwardDate(ActionEvent backDateEvent) {
+    private void monthForwardDate(ActionEvent backDateEvent) {
     	setSelectedDate(getSelectedDate().plusMonths(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
@@ -241,7 +232,7 @@ public class CalendarViewController extends ApplicationController  {
     	return dayOfWeek;
     }
      
-    void updateDateLabels(ZonedDateTime inputDate) {
+    private void updateDateLabels(ZonedDateTime inputDate) {
     	System.out.println(String.format("%nupdateDateLabels: Updating date labels..."));
 
     	String formattedDate = dateLabelFormat.format(inputDate);
@@ -251,7 +242,7 @@ public class CalendarViewController extends ApplicationController  {
     	
     }
     
-    void updateDayView() {
+    private void updateDayView() {
      	System.out.println(String.format("%nupdateDayView: Updating day view..."));
      	updateDayPane(getSelectedDate(), dayViewAnchorPane, 240);
      }
