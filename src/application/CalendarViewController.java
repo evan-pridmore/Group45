@@ -34,9 +34,9 @@ import javafx.scene.shape.Rectangle;
  */
 public class CalendarViewController extends ApplicationController  {
 	
-	public DateTimeFormatter dateLabelFormat = DateTimeFormatter.ofPattern("EEEE, MMMM dd");
-	public DateTimeFormatter simpleDateLabelFormat = DateTimeFormatter.ofPattern("dd");
-	public DateTimeFormatter eventDetailsFormat = DateTimeFormatter.ofPattern("HH:mm");
+	public DateTimeFormatter dateLabelFormat = DateTimeFormatter.ofPattern("EEEE, MMMM d");
+	public DateTimeFormatter simpleDateLabelFormat = DateTimeFormatter.ofPattern("d");
+	public DateTimeFormatter eventDetailsFormat = DateTimeFormatter.ofPattern("h:mm a MMM d, YYYY");
 
 	// Upcoming events nodes:
 	@FXML
