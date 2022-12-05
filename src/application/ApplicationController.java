@@ -35,14 +35,13 @@ public abstract class ApplicationController {
 	private static LoginViewController loginController; 
 	
 	private static Scene calendarScene;
+	private static Scene managerScene;
+	private static Scene viewerScene;
 	
 	private static Stage appStage;
 	private static Stage makerStage;
 	private static Stage managerStage;
 	private static Stage viewerStage;
-	
-	private static Scene managerScene;
-	private static Scene viewerScene;
 	
 	private static User currentUser; 
 	
@@ -58,10 +57,6 @@ public abstract class ApplicationController {
 		calendarController = inputController;
 	}
 	
-	protected static void setEventViewerController(EventViewerController inputController) {
-		eventViewerController = inputController;
-	}
-
 	// Define components of GUI to standardize across instances.
 	protected static void setAppStage(Stage inputStage) {
 		// This is the general application window, used by CalendarView and LoginView
@@ -89,12 +84,12 @@ public abstract class ApplicationController {
 		return calendarController;
 	}
 	
-	protected static ZonedDateTime getSelectedDate() {
-		return selectedDate;
-	}
-	
 	protected static void setSelectedDate(ZonedDateTime inputDate) {
 		selectedDate = inputDate;
+	}
+	
+	protected static ZonedDateTime getSelectedDate() {
+		return selectedDate;
 	}
 	
 	// Define current logged in user across application and provide access to currentUser across controllers.
@@ -178,49 +173,6 @@ public abstract class ApplicationController {
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
-	/** A static method that triggers the initialization of EventViewerView.fxml. <p>
-	 * 
-	 * Creates a new FXMLLoader, checks for whether there is a pre-existing eventViewerController instance stored as a static
-	 * variable in ApplicationController, and sets/creates a new instance of eventViewerController as appropriate (i.e., if 
-	 * null, create new instance and store in ApplicationController).
-	 */
-	protected static void initializeEventViewerView() {
-    	System.out.println("initializeEventViewerView: Attempting to initialize EventViewerView...");
-    	
-    	try {
-    		// Create new stage (window) for EventViewerView
-    		if (viewerStage == null) {
-    			viewerStage = new Stage();
-    			viewerStage.setResizable(false);
-    			viewerStage.initModality(Modality.APPLICATION_MODAL);
-    		}
-			
-			if (viewerScene == null) {
-				System.out.print("viewerScene null");
-				
-				FXMLLoader eventManagementLoader = new FXMLLoader();
-	    		Parent rootScene = eventManagementLoader.load(new FileInputStream("src/application/FXML/EventsViewerView.fxml"));
-				
-				// Setting appropriate static controller to prevent the creation of additional instances.
-				if (eventViewerController == null) {
-					System.out.println("eventViewerController null");
-					eventViewerController = eventManagementLoader.getController();
-					viewerScene = new Scene(rootScene);
-	    		} else {
-					System.out.println("eventViewerController not null");
-					eventManagementLoader.setController(eventViewerController);
-	    		}
-
-			}
-			viewerStage.setTitle(currentUser.getUsername() + "'s Events");
-			viewerStage.setScene(viewerScene);
-			
-			eventViewerController.makeTree();
-			viewerStage.show();
-			    		
-    	} catch (Exception e) { e.printStackTrace(); }
-	}
-	
 	/** A static method that triggers the initialization of EventMakerView.fxml. <p>
 	 * 
 	 * Creates a new FXMLLoader, checks for whether there is a pre-existing eventManagementController instance stored as a static
@@ -292,6 +244,49 @@ public abstract class ApplicationController {
 			eventManagerController.setEvent(selectedEvent);
 			managerStage.setScene(managerScene);
 			managerStage.show();
+			    		
+    	} catch (Exception e) { e.printStackTrace(); }
+	}
+	
+	/** A static method that triggers the initialization of EventViewerView.fxml. <p>
+	 * 
+	 * Creates a new FXMLLoader, checks for whether there is a pre-existing eventViewerController instance stored as a static
+	 * variable in ApplicationController, and sets/creates a new instance of eventViewerController as appropriate (i.e., if 
+	 * null, create new instance and store in ApplicationController).
+	 */
+	protected static void initializeEventViewerView() {
+    	System.out.println("initializeEventViewerView: Attempting to initialize EventViewerView...");
+    	
+    	try {
+    		// Create new stage (window) for EventViewerView
+    		if (viewerStage == null) {
+    			viewerStage = new Stage();
+    			viewerStage.setResizable(false);
+    			viewerStage.initModality(Modality.APPLICATION_MODAL);
+    		}
+			
+			if (viewerScene == null) {
+				System.out.print("viewerScene null");
+				
+				FXMLLoader eventManagementLoader = new FXMLLoader();
+	    		Parent rootScene = eventManagementLoader.load(new FileInputStream("src/application/FXML/EventsViewerView.fxml"));
+				
+				// Setting appropriate static controller to prevent the creation of additional instances.
+				if (eventViewerController == null) {
+					System.out.println("eventViewerController null");
+					eventViewerController = eventManagementLoader.getController();
+					viewerScene = new Scene(rootScene);
+	    		} else {
+					System.out.println("eventViewerController not null");
+					eventManagementLoader.setController(eventViewerController);
+	    		}
+
+			}
+			viewerStage.setTitle(currentUser.getUsername() + "'s Events");
+			viewerStage.setScene(viewerScene);
+			
+			eventViewerController.makeTree();
+			viewerStage.show();
 			    		
     	} catch (Exception e) { e.printStackTrace(); }
 	}
