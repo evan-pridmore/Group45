@@ -56,7 +56,7 @@ public class EventManagerController extends ApplicationController {
 	private Border errorBorder = new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT),new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT),new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT),new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT));
 
     @FXML
-    public void deleteEvent(ActionEvent deleteEvent) {
+    private void deleteEvent(ActionEvent deleteEvent) {
     	eventStartDate.setBorder(null);
 		eventStartHour.setBorder(null);
 		eventStartMinute.setBorder(null);
@@ -75,7 +75,7 @@ public class EventManagerController extends ApplicationController {
     }
 
     @FXML
-    public void saveEvent(ActionEvent replaceEvent) throws NullEventEndPointException, EventOutsideTimeUnitException {
+    private void saveEvent(ActionEvent replaceEvent) throws NullEventEndPointException, EventOutsideTimeUnitException {
     	eventStartDate.setBorder(null);
 		eventStartHour.setBorder(null);
 		eventStartMinute.setBorder(null);
