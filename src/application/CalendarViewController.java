@@ -36,9 +36,9 @@ import javafx.scene.shape.StrokeType;
  */
 public class CalendarViewController extends ApplicationController  {
 	
-	public DateTimeFormatter dateLabelFormat = DateTimeFormatter.ofPattern("EEEE, MMMM d, YYYY");
-	public DateTimeFormatter simpleDateLabelFormat = DateTimeFormatter.ofPattern("d");
-	public DateTimeFormatter eventDetailsFormat = DateTimeFormatter.ofPattern("h:mm a MMM d, YYYY");
+	private DateTimeFormatter dateLabelFormat = DateTimeFormatter.ofPattern("EEEE, MMMM d, YYYY");
+	private DateTimeFormatter simpleDateLabelFormat = DateTimeFormatter.ofPattern("d");
+	private DateTimeFormatter eventDetailsFormat = DateTimeFormatter.ofPattern("h:mm a MMM d, YYYY");
 
 	// Upcoming events nodes:
 	@FXML
@@ -130,42 +130,42 @@ public class CalendarViewController extends ApplicationController  {
     }
     
     @FXML
-    private void dayBackDate(ActionEvent backDateEvent) {
+    private void dayBackDate(ActionEvent changeDateEvent) {
     	setSelectedDate(getSelectedDate().minusDays(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    private void dayForwardDate(ActionEvent backDateEvent) {
+    private void dayForwardDate(ActionEvent changeDateEvent) {
     	setSelectedDate(getSelectedDate().plusDays(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    private void weekBackDate(ActionEvent backDateEvent) {
+    private void weekBackDate(ActionEvent changeDateEvent) {
     	setSelectedDate(getSelectedDate().minusWeeks(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    private void weekForwardDate(ActionEvent backDateEvent) {
+    private void weekForwardDate(ActionEvent changeDateEvent) {
     	setSelectedDate(getSelectedDate().plusWeeks(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    private void monthBackDate(ActionEvent backDateEvent) {
+    private void monthBackDate(ActionEvent changeDateEvent) {
     	setSelectedDate(getSelectedDate().minusMonths(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
     }
     
     @FXML
-    private void monthForwardDate(ActionEvent backDateEvent) {
+    private void monthForwardDate(ActionEvent changeDateEvent) {
     	setSelectedDate(getSelectedDate().plusMonths(1));
     	updateDateLabels(getSelectedDate());
     	updateCalendarGUI();
@@ -189,16 +189,7 @@ public class CalendarViewController extends ApplicationController  {
         System.out.println("--> Selected updated to '"+ datePickerDate + "'.");  
     	updateCalendarGUI();
     }
-    
-    @FXML
-    private void openAdminPreferences(ActionEvent openAdminPreferencesEvent) {
-    	System.out.println("openAdminPreferences: Initializing tests...");
-    	
-     	getCurrentUser().dumpEvents();
-		updateMonthView();
-		updateCalendarGUI();
-    }
-    
+       
     // GUI update methods.
     /**A method that updates the GUI specifically in {@link CalendarView.fxml} through the {@link CalendarViewController} class. <p>
      * 
@@ -389,7 +380,7 @@ public class CalendarViewController extends ApplicationController  {
      		upcomingEventsVBox.getChildren().add(noUpcomingEventsLabel);
      	}
     }
-    void updateDayPane(ZonedDateTime inputDay, AnchorPane inputPane, int inputWidth) {
+    private void updateDayPane(ZonedDateTime inputDay, AnchorPane inputPane, int inputWidth) {
 
     	// Gets the specified weekOfYear and dayOfWeek (Requires translating between ChronoField definition of dayOfWeek and TimeUnit definition of dayOfWeek)...
     	// (ChronoField: Monday = 1, Sunday = 7 --> TimeUnit: Sunday = 1, Saturday = 7) 
@@ -461,7 +452,7 @@ public class CalendarViewController extends ApplicationController  {
 	 	    	});
 	 		
 	 		// Adding StackPane to AnchorPane...
-	 		inputPane.setTopAnchor(eventBlockPane, startPos);
+	 		AnchorPane.setTopAnchor(eventBlockPane, startPos);
 	 		inputPane.getChildren().add(eventBlockPane);
 	 		
 		} else if (inputEvent instanceof InstantEvent) {
@@ -503,7 +494,7 @@ public class CalendarViewController extends ApplicationController  {
 	 	    	});
 	 		
 	 		// Adding StackPane to AnchorPane...
-	 		inputPane.setTopAnchor(eventBlockPane, startPos);
+	 		AnchorPane.setTopAnchor(eventBlockPane, startPos);
 	 		inputPane.getChildren().add(eventBlockPane);
 	 		
 		} else {
@@ -515,7 +506,6 @@ public class CalendarViewController extends ApplicationController  {
     	// Month view: VBox (120, 200), EventBlock (110, 14)
     	// Upcoming View: VBox (200, 690), EventBlock (190, 64)
     	Insets eventBlockLabelInsets = new Insets(0, 5, 0, 5);
-    	Insets eventBlockInsets = new Insets(2, 5, 2, 5);
     	 		
  		Label eventBlockLabel = new Label(inputEvent.getName());
  		eventBlockLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
