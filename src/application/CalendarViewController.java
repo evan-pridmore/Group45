@@ -23,7 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Font;
+
 
 /**A controller that manages {@link CalendarView.fxml} and is associated GUI components (e.g., buttons, labels, textfields, etc.)
  * 
@@ -318,26 +318,27 @@ public class CalendarViewController extends ApplicationController  {
 	     	int dayOfWeek = getConvertedDayOfWeek(dayOfMonth);	
            	for (Week w: getCurrentUser().getEvents()) {
          		if (w.getWeekNum() == weekOfYear) {
-         			
          			// Getting the specified day in the specified week.
-         			Day dayTemp = w.getDay(dayOfWeek); 
-         	    	for (Event e : dayTemp.getEvents()) {
-         	    			if (eventCount <= 7) {
-                 				addSimpleEventBlock(e, dayVBox);
-                 				eventCount ++;
-         	    			} else {
-         	    				StackPane overflowPane = new StackPane();
-         	    				Rectangle overflowRectangle = new Rectangle(110, 14, Color.LIGHTGRAY);
-         	    	    		overflowRectangle.setArcHeight(10);
-         	    	    		overflowRectangle.setArcWidth(10);
-         	    				Label overflowLabel = new Label("...");
-         	    				overflowLabel.setAlignment(Pos.CENTER);
-         	    				overflowLabel.setMinWidth(100);
-         	    				overflowPane.getChildren().addAll(overflowRectangle, overflowLabel);
-         	    				
-         	    				dayVBox.getChildren().add(overflowPane);
-         	    				break;
+         			Day dayTemp = w.getDay(dayOfWeek);
+         			if (dayTemp.getStart().getYear() == dayOfMonth.getYear()) {
+	         	    	for (Event e : dayTemp.getEvents()) {
+	         	    			if (eventCount <= 7) {
+	                 				addSimpleEventBlock(e, dayVBox);
+	                 				eventCount ++;
+	         	    			} else {
+	         	    				StackPane overflowPane = new StackPane();
+	         	    				Rectangle overflowRectangle = new Rectangle(110, 14, Color.LIGHTGRAY);
+	         	    	    		overflowRectangle.setArcHeight(10);
+	         	    	    		overflowRectangle.setArcWidth(10);
+	         	    				Label overflowLabel = new Label("...");
+	         	    				overflowLabel.setAlignment(Pos.CENTER);
+	         	    				overflowLabel.setMinWidth(100);
+	         	    				overflowPane.getChildren().addAll(overflowRectangle, overflowLabel);
+	         	    				
+	         	    				dayVBox.getChildren().add(overflowPane);
+	         	    				break;
          	    			}
+         				}
          			}
      	    	}
      		}  
@@ -367,11 +368,13 @@ public class CalendarViewController extends ApplicationController  {
          			// Getting the specified day in the specified week.
          			for (int dayCount = 1; dayCount <= 7; dayCount ++) {
              			Day dayTemp = w.getDay(dayCount); 
+	             		if (dayTemp.getStart().getYear() == currentDate.getYear()) {
              			System.out.println("	--> Attempting to get '" + dayTemp.getEvents().size() + "' events from day '" + dayOfWeek + "' of the '" + weekOfYear + "' week of the year...");
-             	    	for (Event e : dayTemp.getEvents()) {
-                 			if (eventCount < 10) {
-                 				addSimpleEventBlock(e, upcomingEventsVBox);
-                 				eventCount ++;
+	             	    	for (Event e : dayTemp.getEvents()) {
+	                 			if (eventCount < 10) {
+	                 				addSimpleEventBlock(e, upcomingEventsVBox);
+	                 				eventCount ++;
+	                 			}
                  			}
              	    	}
          			}
@@ -400,9 +403,11 @@ public class CalendarViewController extends ApplicationController  {
        	for (Week w: getCurrentUser().getEvents()) {
      		if (w.getWeekNum() == weekOfYear) {
      			// Getting the specified day in the specified week.
-     			Day dayTemp = w.getDay(dayOfWeek); 
-     	    	for (Event e : dayTemp.getEvents()) {
-     	        	addScheduledEventBlock(e, inputPane);
+     			Day dayTemp = w.getDay(dayOfWeek);
+     			if (dayTemp.getStart().getYear() == inputDay.getYear()) {
+     				for (Event e : dayTemp.getEvents()) {
+     					addScheduledEventBlock(e, inputPane);
+     				}
      	    	}
      		}
        	}
