@@ -36,7 +36,7 @@ import javafx.scene.shape.StrokeType;
  */
 public class CalendarViewController extends ApplicationController  {
 	
-	public DateTimeFormatter dateLabelFormat = DateTimeFormatter.ofPattern("EEEE, MMMM d");
+	public DateTimeFormatter dateLabelFormat = DateTimeFormatter.ofPattern("EEEE, MMMM d, YYYY");
 	public DateTimeFormatter simpleDateLabelFormat = DateTimeFormatter.ofPattern("d");
 	public DateTimeFormatter eventDetailsFormat = DateTimeFormatter.ofPattern("h:mm a MMM d, YYYY");
 
