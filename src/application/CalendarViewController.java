@@ -10,12 +10,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.AnchorPane;
@@ -25,12 +22,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-import javafx.scene.web.HTMLEditor;
-
+import javafx.scene.shape.StrokeType;
 
 /**A controller that manages {@link CalendarView.fxml} and is associated GUI components (e.g., buttons, labels, textfields, etc.)
  * 
@@ -435,12 +427,12 @@ public class CalendarViewController extends ApplicationController  {
 			}
 			eventBlock.setArcHeight(10);
 			eventBlock.setArcWidth(10);
+	 		eventBlock.setStrokeType(StrokeType.INSIDE);
+	  		eventBlock.setStrokeWidth(2.0);
+	  		eventBlock.setStroke(inputEvent.getColour().deriveColor(1.0, 1.0, 0.25, 0.5));
+			eventBlock.setBlendMode(BlendMode.COLOR_BURN);
 			
 	 		Label eventBlockLabel = new Label(inputEvent.getName());
-	 		
-	 		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
-	 		
-	 		// Setting label font and colour...
 	 		eventBlockLabel.setWrapText(true);
 	 		eventBlockLabel.setMaxWidth(eventBlock.getWidth() - 5);
 	 		eventBlockLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
@@ -478,13 +470,12 @@ public class CalendarViewController extends ApplicationController  {
 			}
 			eventBlock.setArcHeight(10);
 			eventBlock.setArcWidth(10);
-
-			Label eventBlockLabel = new Label(inputEvent.getName());
-
+	 		eventBlock.setStrokeType(StrokeType.INSIDE);
+	  		eventBlock.setStrokeWidth(2.0);
+	  		eventBlock.setStroke(inputEvent.getColour().deriveColor(1.0, 1.0, 0.25, 0.5));
 	 		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
 	 		
-	 		// Setting label font and colour...
-	 		eventBlockLabel.setStyle("-fx-font-weight: Bold");
+			Label eventBlockLabel = new Label(inputEvent.getName());	 		
 	 		eventBlockLabel.setMaxWidth(eventBlock.getWidth() - 5);
 	 		eventBlockLabel.setTextOverrun(OverrunStyle.ELLIPSIS);
 	 		eventBlockLabel.setAlignment(Pos.TOP_CENTER);
@@ -542,8 +533,11 @@ public class CalendarViewController extends ApplicationController  {
     		eventBlock.setArcWidth(10);
     	}
  		eventBlockLabel.setMaxWidth(eventBlock.getWidth() - 10);
+ 		eventBlock.setStrokeType(StrokeType.INSIDE);
+  		eventBlock.setStrokeWidth(2.0);
+  		eventBlock.setStroke(inputEvent.getColour().deriveColor(1.0, 1.0, 0.25, 0.5));
  		eventBlock.setBlendMode(BlendMode.COLOR_BURN);
- 		
+
  		StackPane eventBlockPane = new StackPane(eventBlock, eventBlockLabel);
  		StackPane.setAlignment(eventBlockLabel, Pos.TOP_CENTER);
  		eventBlockPane.setOnMouseClicked(mouseEvent -> {
@@ -568,9 +562,13 @@ public class CalendarViewController extends ApplicationController  {
 			detailsVBox.setSpacing(10);
 			
 			Rectangle eventDetailsBlock = new Rectangle(detailsVBox.getPrefWidth() - 15, 200, inputEvent.getColour().deriveColor(1.0, 1.0, 1.0, 0.5));
-	 		eventDetailsBlock.setBlendMode(BlendMode.COLOR_BURN);
 	 		eventDetailsBlock.setArcWidth(15);
-	 		eventDetailsBlock.setArcHeight(15);
+	 		eventDetailsBlock.setArcHeight(15); 		
+	 		eventDetailsBlock.setStrokeType(StrokeType.INSIDE);
+	 		eventDetailsBlock.setStrokeWidth(2.0);
+	  		eventDetailsBlock.setStroke(inputEvent.getColour().deriveColor(1.0, 1.0, 0.25, 0.5));
+	 		eventDetailsBlock.setBlendMode(BlendMode.COLOR_BURN);
+
 	 		
 	 		Label eventDetailsLabel = null;
 	 		if (inputEvent instanceof TimedEvent) {
