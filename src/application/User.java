@@ -43,15 +43,16 @@ public class User implements Serializable {
 	/**A constructor that creates a new instance of User and assigns values to the instance variables username and
 	 * password.
 	 * 
-	 * @param usernameInput
-	 * @param passwordInput
-	 * @throws InvalidUsernameException Thrown if the username provided is null or otherwise invalid.
+	 * @param usernameInput The provided username.
+	 * @param passwordInput The provided password.
+	 * 
 	 * @throws UserAlreadyExistsException Thrown if a user has already been created under the provided user. 
-	 * @throws InvalidPasswordException 
-	 * @throws PasswordTooShortException 
-	 * @throws UsernameTooShortException 
-	 * @throws UsernameTooLongException 
-	 * @throws PasswordTooLongException 
+	 * @throws InvalidUsernameException Thrown if the username provided is null or otherwise invalid.
+	 * @throws InvalidPasswordException Thrown if the username provided is null or otherwise invalid.
+	 * @throws UsernameTooShortException Thrown if the username provided is less than 2 characters.
+	 * @throws PasswordTooShortException Thrown if the password provided is less than 4 characters.
+	 * @throws UsernameTooLongException  Thrown if the username provided is greater than 15 characters.
+	 * @throws PasswordTooLongException  Thrown if the passowrd provided is greater than 15 characters.
 	 */
 	User(String usernameInput, String passwordInput) throws InvalidUsernameException, UserAlreadyExistsException, InvalidPasswordException, PasswordTooShortException, UsernameTooLongException, UsernameTooShortException, PasswordTooLongException {
 		if (!userAlreadyExists(usernameInput)) {
@@ -76,6 +77,16 @@ public class User implements Serializable {
 		return new String(password);
 	}
 	
+	/**Sets the username of a new user, if the input meets the following criteria:
+	 * <br><tab>--> Is not null or contains only white space.
+	 * <br><tab>--> Has a length greater than or equal to 2
+	 * <br><tab>--> Has a length less than or equal to 15.
+	 * 
+	 * @param usernameInput
+	 * @throws InvalidUsernameException
+	 * @throws UsernameTooLongException
+	 * @throws UsernameTooShortException
+	 */
 	public void setUsername(String usernameInput) throws InvalidUsernameException, UsernameTooLongException, UsernameTooShortException {
 		// Checks if the provided username is null (Additional username restrictions can be added here).
 		if ((usernameInput != null && !(usernameInput.trim().isEmpty())) && usernameInput.length() >= 2 && usernameInput.length() <= 15) {
@@ -95,6 +106,16 @@ public class User implements Serializable {
 			}
 	}
 	
+	/**Sets the password of a new user, if the input meets the following criteria:
+	 * <br><tab>--> Is not null or contains only white space.
+	 * <br><tab>--> Has a length greater than or equal to 4.
+	 * <br><tab>--> Has a length less than or equal to 15.
+	 * 
+	 * @param passwordInput
+	 * @throws InvalidPasswordException
+	 * @throws PasswordTooShortException
+	 * @throws PasswordTooLongException
+	 */
 	public void setPassword(String passwordInput) throws InvalidPasswordException, PasswordTooShortException, PasswordTooLongException {
 		// Checks if the provided password is null (Additional password restrictions can be added here).
 		if ((passwordInput != null && !(passwordInput.trim().isEmpty())) && passwordInput.length() >= 4 && passwordInput.length() <= 15) {
@@ -118,6 +139,10 @@ public class User implements Serializable {
 		return userEvents;
 	}
 	
+	/** A method used to display <b>all</b> events stored in a user in the console.
+	 * 
+	 * <p><u>Only used for diagnostic purposes in the console.</u>
+	 */
 	public void dumpEvents() {
 		System.out.println(String.format("%ndumpEvents: Printing all events for user %s...", this.getUsername()));
     	for (Week w : this.getEvents()) {

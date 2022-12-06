@@ -27,7 +27,6 @@ import javafx.stage.Stage;
 public abstract class ApplicationController {
 
 // Define static 'class variables'.
-	// private static ApplicationController appController;
 	private static CalendarViewController calendarController;
 	private static EventMakerController eventMakerController;
 	private static EventManagerController eventManagerController;
@@ -57,7 +56,7 @@ public abstract class ApplicationController {
 		calendarController = inputController;
 	}
 	
-	// Define components of GUI to standardize across instances.
+// Define components of GUI to standardize across instances.
 	protected static void setAppStage(Stage inputStage) {
 		// This is the general application window, used by CalendarView and LoginView
 		appStage = inputStage;
@@ -76,7 +75,6 @@ public abstract class ApplicationController {
 	}
 	
 	protected static Stage getViewerStage() {
-		// This stage is specific to the 'event management' windows.
 		return viewerStage;
 	}
 	
@@ -92,7 +90,7 @@ public abstract class ApplicationController {
 		return selectedDate;
 	}
 	
-	// Define current logged in user across application and provide access to currentUser across controllers.
+// Define current logged in user across application and provide access to currentUser across controllers.
 	protected static void setCurrentUser(User inputUser) {
 		currentUser = inputUser;
 	}
@@ -104,9 +102,9 @@ public abstract class ApplicationController {
 	}
 	
 // Define 'initialize' methods for each distinct FXML view.
-	/** A static method that triggers the initialization of LoginView.fxml. <p>
+	/** A static method that triggers the initialization of LoginView.fxml.
 	 * 
-	 * Creates a new FXMLLoader, checks for whether there is a pre-existing loginViewController instance stored as a static
+	 * <p>Creates a new FXMLLoader, checks for whether there is a pre-existing loginViewController instance stored as a static
 	 * variable in ApplicationController, and sets/creates a new instance of loginViewController as appropriate (i.e., if 
 	 * null, create new instance and store in ApplicationController).
 	 */
@@ -116,6 +114,7 @@ public abstract class ApplicationController {
 			FXMLLoader loginLoader = new FXMLLoader();
 			Parent rootScene = loginLoader.load(new FileInputStream("src/application/FXML/LoginView.fxml"));
 			
+			// Checks if a pre-existing controller exists, and generates on if null.
 			if (loginController == null) {
 				System.out.println("loginController null");
 				loginController = loginLoader.getController();
@@ -147,6 +146,7 @@ public abstract class ApplicationController {
     	System.out.println("initializeCalendarView: Attempting to initialize CalendarView...");
 		try {
 			
+			// Checks if a pre-existing scene exists, and generates on if null.
 			if (calendarScene == null) {
 				System.out.println("calendarScene null");
 				FXMLLoader calendarLoader = new FXMLLoader();
@@ -154,6 +154,7 @@ public abstract class ApplicationController {
 				
 				calendarScene = new Scene(rootScene);
 				
+				// Checks if a pre-existing controller exists, and generates on if null.
 				if (calendarController == null) {
 					System.out.println("calendarController null");
 					calendarController = calendarLoader.getController();
@@ -163,6 +164,7 @@ public abstract class ApplicationController {
 				}
 			}
 			
+			// Updates the calendar GUI on initialization.
 			calendarController.updateCalendarGUI();
 			
 			appStage.setTitle(String.format("%s's Calendar", currentUser.getUsername()));
@@ -173,9 +175,9 @@ public abstract class ApplicationController {
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
-	/** A static method that triggers the initialization of EventMakerView.fxml. <p>
+	/** A static method that triggers the initialization of EventMakerView.fxml.
 	 * 
-	 * Creates a new FXMLLoader, checks for whether there is a pre-existing eventManagementController instance stored as a static
+	 * <p> Creates a new FXMLLoader, checks for whether there is a pre-existing eventManagementController instance stored as a static
 	 * variable in ApplicationController, and sets/creates a new instance of eventManagementController as appropriate (i.e., if 
 	 * null, create new instance and store in ApplicationController).
 	 */
@@ -183,6 +185,7 @@ public abstract class ApplicationController {
     	System.out.println("intializeEventMakerView: Attempting to initialize EventMakerView...");
 		
 		try {
+			// Checks if a pre-existing makerStage exists, and generates on if null.
 			if (makerStage == null) {
     			System.out.println("makerStage null");
     			makerStage = new Stage();

@@ -14,8 +14,11 @@ public class Main extends Application {
 		
 		primaryStage.setResizable(false);
 		
+		// Assigns references/data to static variables in the ApplicationController class.
 		ApplicationController.setAppStage(primaryStage);
 		ApplicationController.setSelectedDate(ZonedDateTime.now());
+		
+		// Triggers the initialization of the Login View.
 		ApplicationController.initializeLoginView();
 	}
 	
