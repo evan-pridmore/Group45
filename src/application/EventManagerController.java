@@ -89,6 +89,12 @@ public class EventManagerController extends ApplicationController {
     }
     
     public void setEvent(Event selectedEvent) {
+    	//Set the Spinners back to zero.
+    	eventStartHour.decrement(24);
+    	eventStartMinute.decrement(60);
+    	eventEndHour.decrement(24);
+    	eventEndMinute.decrement(60);
+    	
     	viewedEvent = selectedEvent;
     	
     	if (selectedEvent instanceof InstantEvent) {
