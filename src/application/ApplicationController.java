@@ -211,7 +211,7 @@ public abstract class ApplicationController {
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
-	protected static void initializeEventManagerView(Event selectedEvent) {
+	protected static void initializeEventManagerView(Event selectedEvent, boolean direct) {
 		System.out.println("initializeEventManagerView: Attemptng to intialize EventManagerView...");
 		
 		try {
@@ -240,7 +240,7 @@ public abstract class ApplicationController {
 
 			managerStage.setTitle(selectedEvent.getName());
 			
-			eventManagerController.setEvent(selectedEvent);
+			eventManagerController.setEvent(selectedEvent, direct);
 			managerStage.setScene(managerScene);
 			managerStage.show();
 			    		

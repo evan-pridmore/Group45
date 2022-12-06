@@ -585,7 +585,7 @@ public class CalendarViewController extends ApplicationController  {
 			
 			Button editButton = new Button("Edit");
 	 		editButton.setOnMouseClicked(mouseEvent -> {
-	 			super.initializeEventManagerView(inputEvent);
+	 			super.initializeEventManagerView(inputEvent, true);
 	 	    	});
 			
 			detailsVBox.getChildren().addAll(eventDetailsPane, editButton);

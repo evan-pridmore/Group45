@@ -44,10 +44,13 @@ public class EventManagerController extends ApplicationController {
     
     private Event viewedEvent;
     
+    private boolean directClick;
+    
     @FXML
     public void deleteEvent(ActionEvent deleteEvent) {
     	getCurrentUser().removeEvent(viewedEvent);
-    	// initializeEventViewerView();
+    	if (!directClick)
+    		initializeEventViewerView();
     	User.serializeUser(getCurrentUser());
     	getCalendarController().updateCalendarGUI();
     	getManagerStage().close();
@@ -82,20 +85,24 @@ public class EventManagerController extends ApplicationController {
     		getCurrentUser().addEvent(newEvent);
 
     	}
-    	// initializeEventViewerView();
+    	if (!directClick)
+    		initializeEventViewerView();
     	User.serializeUser(getCurrentUser());
     	getCalendarController().updateCalendarGUI();
     	getManagerStage().close();
     }
     
-    public void setEvent(Event selectedEvent) {
+    public void setEvent(Event selectedEvent, boolean direct) {
     	//Set the Spinners back to zero.
     	eventStartHour.decrement(24);
     	eventStartMinute.decrement(60);
     	eventEndHour.decrement(24);
     	eventEndMinute.decrement(60);
     	
+    	directClick = direct;
+    	
     	viewedEvent = selectedEvent;
+    	System.out.println(selectedEvent.getStart());
     	
     	if (selectedEvent instanceof InstantEvent) {
     		if (rootVBox.getChildren().contains(endVBox))
