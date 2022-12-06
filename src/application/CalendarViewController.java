@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
 
 /**A controller that manages {@link CalendarView.fxml} and is associated GUI components (e.g., buttons, labels, textfields, etc.)
  * 
@@ -306,6 +307,8 @@ public class CalendarViewController extends ApplicationController  {
 			// On every day, a date label is added to each day of month.
 			Label dayOfMonthLabel = new Label(dayOfMonth.format(simpleDateLabelFormat));
 			dayOfMonthLabel.setOpacity(0.6);
+			VBox.setMargin(dayOfMonthLabel, new Insets(0,4,0,0));
+			
 			dayVBox.setAlignment(Pos.TOP_RIGHT);
 			dayVBox.getChildren().add(dayOfMonthLabel);
 			

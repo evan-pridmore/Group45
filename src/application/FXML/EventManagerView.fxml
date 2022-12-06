@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="275.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EventManagerController">
    <children>
-      <VBox fx:id="rootVBox" alignment="CENTER" prefHeight="275.0" prefWidth="275.0">
+      <VBox fx:id="rootVBox" alignment="CENTER" prefHeight="280.0" prefWidth="280.0">
          <children>
             <VBox alignment="CENTER">
                <children>
