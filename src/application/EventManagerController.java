@@ -14,6 +14,11 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -41,13 +46,25 @@ public class EventManagerController extends ApplicationController {
     private TextField eventName;
     @FXML
     private Label startLabel;
+    @FXML
+    private Label errorLabel;
     
     private Event viewedEvent;
     
     private boolean directClick;
     
+	private Border errorBorder = new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT),new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT),new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT),new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT));
+
     @FXML
     public void deleteEvent(ActionEvent deleteEvent) {
+    	eventStartDate.setBorder(null);
+		eventStartHour.setBorder(null);
+		eventStartMinute.setBorder(null);
+		eventEndDate.setBorder(null);
+		eventEndHour.setBorder(null);
+		eventEndMinute.setBorder(null);
+    	errorLabel.setVisible(false);
+    	
     	getCurrentUser().removeEvent(viewedEvent);
     	if (!directClick)
     		initializeEventViewerView();
@@ -59,6 +76,14 @@ public class EventManagerController extends ApplicationController {
 
     @FXML
     public void saveEvent(ActionEvent replaceEvent) throws NullEventEndPointException, EventOutsideTimeUnitException {
+    	eventStartDate.setBorder(null);
+		eventStartHour.setBorder(null);
+		eventStartMinute.setBorder(null);
+		eventEndDate.setBorder(null);
+		eventEndHour.setBorder(null);
+		eventEndMinute.setBorder(null);
+    	errorLabel.setVisible(false);
+    	boolean error = false;
     	getCurrentUser().removeEvent(viewedEvent);
     	
     	if (viewedEvent instanceof InstantEvent) {
@@ -80,16 +105,38 @@ public class EventManagerController extends ApplicationController {
     		String name = eventName.getText();
     		
     		Color colour = eventColour.getValue();
-    		
-    		TimedEvent newEvent = new TimedEvent(start, end, name, colour);
-    		getCurrentUser().addEvent(newEvent);
-
+    		  		
+    		if(start.isAfter(end)) {
+    			error = true;
+				if(eventStartDate.getValue().isAfter(eventEndDate.getValue())) {
+					eventStartDate.setBorder(errorBorder);
+					eventEndDate.setBorder(errorBorder);
+				 }else if (eventStartDate.getValue().equals(eventEndDate.getValue())) {
+					 System.out.println(eventStartHour.getValue() + " " + eventEndHour.getValue());
+					if(eventStartHour.getValue() > eventEndHour.getValue()) {
+						eventStartHour.setBorder(errorBorder);
+						eventEndHour.setBorder(errorBorder);
+						eventStartMinute.setBorder(errorBorder);
+						eventEndMinute.setBorder(errorBorder);
+					} else if (eventStartMinute.getValue() > eventEndMinute.getValue()) {
+						eventStartMinute.setBorder(errorBorder);
+						eventEndMinute.setBorder(errorBorder);
+					}
+				 }
+				errorLabel.setVisible(true);	
+			}
+    		if (!error) {
+    			TimedEvent newEvent = new TimedEvent(start, end, name, colour);
+    			getCurrentUser().addEvent(newEvent);
+    		}
     	}
-    	if (!directClick)
-    		initializeEventViewerView();
-    	User.serializeUser(getCurrentUser());
-    	getCalendarController().updateCalendarGUI();
-    	getManagerStage().close();
+    	if (!error) {
+	    	if (!directClick)
+	    		initializeEventViewerView();
+	    	User.serializeUser(getCurrentUser());
+	    	getCalendarController().updateCalendarGUI();
+	    	getManagerStage().close();
+    	}
     }
     
     public void setEvent(Event selectedEvent, boolean direct) {

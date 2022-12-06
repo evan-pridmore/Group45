@@ -98,6 +98,7 @@
                   <Button mnemonicParsing="false" onAction="#deleteEvent" prefHeight="25.0" text="DELETE" textFill="RED" />
                </children>
             </HBox>
+            <Label fx:id="errorLabel" text="Event start cannot be before event end." />
          </children>
       </VBox>
    </children>

@@ -65,9 +65,16 @@ public class EventMakerController extends ApplicationController {
 
 	@FXML
 	private void addTimedEvent(ActionEvent event) throws NullEventEndPointException, EventOutsideTimeUnitException {
+		//Reset.
 		boolean error = false;
 		eventStartDate.setBorder(null);
+		eventStartHour.setBorder(null);
+		eventStartMinute.setBorder(null);
 		eventEndDate.setBorder(null);
+		eventEndHour.setBorder(null);
+		eventEndMinute.setBorder(null);
+		eventErrorLabel.setText("Highlighted date(s) are not of valid format.");
+		eventErrorLabel.setVisible(false);
 		
 		
 		if (eventStartDate.getValue() == null) {
@@ -88,13 +95,36 @@ public class EventMakerController extends ApplicationController {
 			LocalDateTime end = eventEndDate.getValue().atStartOfDay().plusHours(eventEndHour.getValue()).plusMinutes(eventEndMinute.getValue());
 			if (end.minusDays(1).equals(start))
 				end = end.minusNanos(1000000000);
-			TimedEvent newEvent = new TimedEvent(start, end, name, colour);
-			getCurrentUser().addEvent(newEvent);
 			
-      System.out.println("addTimedEvent: Event created (" + newEvent.toString() + ")");
-			getMakerStage().close();
-			User.serializeUser(getCurrentUser());
-	    	getCalendarController().updateCalendarGUI();
+			if(start.isAfter(end)) {
+				if(eventStartDate.getValue().isAfter(eventEndDate.getValue())) {
+					eventStartDate.setBorder(errorBorder);
+					eventEndDate.setBorder(errorBorder);
+				 }else if (eventStartDate.getValue().equals(eventEndDate.getValue())) {
+					 System.out.println(eventStartHour.getValue() + " " + eventEndHour.getValue());
+					if(eventStartHour.getValue() > eventEndHour.getValue()) {
+						eventStartHour.setBorder(errorBorder);
+						eventEndHour.setBorder(errorBorder);
+						eventStartMinute.setBorder(errorBorder);
+						eventEndMinute.setBorder(errorBorder);
+					} else if (eventStartMinute.getValue() > eventEndMinute.getValue()) {
+						eventStartMinute.setBorder(errorBorder);
+						eventEndMinute.setBorder(errorBorder);
+					}
+				 }
+						
+				eventErrorLabel.setText("Event start cannot be before event end.");
+				eventErrorLabel.setVisible(true);
+				
+			} else {
+				TimedEvent newEvent = new TimedEvent(start, end, name, colour);
+				getCurrentUser().addEvent(newEvent);
+				
+				System.out.println("addTimedEvent: Event created (" + newEvent.toString() + ")");
+				getMakerStage().close();
+				User.serializeUser(getCurrentUser());
+		    	getCalendarController().updateCalendarGUI();
+			}
 		} else {
 			eventErrorLabel.setVisible(true);
 		}

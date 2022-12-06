@@ -125,7 +125,7 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Button>
-                              <Label fx:id="eventErrorLabel" text="Highlighted date(s) are not of valid format." visible="false">
+                              <Label fx:id="eventErrorLabel" visible="false">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
