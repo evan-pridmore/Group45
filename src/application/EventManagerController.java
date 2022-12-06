@@ -145,6 +145,7 @@ public class EventManagerController extends ApplicationController {
     	eventStartMinute.decrement(60);
     	eventEndHour.decrement(24);
     	eventEndMinute.decrement(60);
+    	errorLabel.setVisible(false);
     	
     	directClick = direct;
     	

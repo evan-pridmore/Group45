@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="250.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EventManagerController">
+<AnchorPane prefHeight="275.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EventManagerController">
    <children>
       <VBox fx:id="rootVBox" alignment="CENTER" prefHeight="275.0" prefWidth="275.0">
          <children>
