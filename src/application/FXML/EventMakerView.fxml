@@ -125,7 +125,7 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Button>
-                              <Label fx:id="eventErrorLabel" visible="false">
+                              <Label fx:id="eventErrorLabel" textFill="RED" visible="false">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>
@@ -206,7 +206,7 @@
                                     <Insets top="5.0" />
                                  </VBox.margin>
                               </Button>
-                              <Label fx:id="deadlineErrorLabel" text="Date is not of valid format." visible="false">
+                              <Label fx:id="deadlineErrorLabel" text="Date is not of valid format." textFill="RED" visible="false">
                                  <VBox.margin>
                                     <Insets top="5.0" />
                                  </VBox.margin>

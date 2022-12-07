@@ -74,7 +74,6 @@ public class EventMakerController extends ApplicationController {
 		eventEndHour.setBorder(null);
 		eventEndMinute.setBorder(null);
 		eventErrorLabel.setText("Highlighted date(s) are not of valid format.");
-		eventErrorLabel.setTextFill(Color.RED);
 		eventErrorLabel.setVisible(false);
 		
 		
@@ -135,7 +134,6 @@ public class EventMakerController extends ApplicationController {
 	private void addInstantEvent(ActionEvent event) throws NullEventEndPointException, EventOutsideTimeUnitException {
 		boolean error = false;
 		deadlineTimeDate.setBorder(null);
-		deadlineErrorLabel.setTextFill(Color.RED);
 
 		if (deadlineTimeDate.getValue() == null) {
 			deadlineTimeDate.setBorder(errorBorder);

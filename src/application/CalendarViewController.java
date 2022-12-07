@@ -690,9 +690,9 @@ public class CalendarViewController extends ApplicationController  {
 	 		// (i.e, Instant event does NOT have an end date).
 	 		Label eventDetailsLabel = null;
 	 		if (inputEvent instanceof TimedEvent) {
-	 			eventDetailsLabel = new Label(String.format("Name: %s%nEvent Type: Deadline%nStart Date: %s%nEnd Date: %s%n", inputEvent.getName(), inputEvent.getStart().format(eventDetailsFormat), inputEvent.getEnd().format(eventDetailsFormat)));
+	 			eventDetailsLabel = new Label(String.format("Name: %s%nEvent Type: Timed Event%nStart Date: %s%nEnd Date: %s%n", inputEvent.getName(), inputEvent.getStart().format(eventDetailsFormat), inputEvent.getEnd().format(eventDetailsFormat)));
 	 		} else if (inputEvent instanceof InstantEvent){
-	 			eventDetailsLabel = new Label(String.format("Name: %s%nEvent Type: Timed Event%nTime: %s%n", inputEvent.getName(), inputEvent.getStart().format(eventDetailsFormat)));
+	 			eventDetailsLabel = new Label(String.format("Name: %s%nEvent Type: Deadline%nTime: %s%n", inputEvent.getName(), inputEvent.getStart().format(eventDetailsFormat)));
 	 		}
 
 	 		eventDetailsLabel.setMaxSize(eventDetailsBlock.getWidth() - 15, eventDetailsBlock.getHeight() - 15);
