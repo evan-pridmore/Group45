@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 /**A class that manages each of the controllers for each FXML file present of the application.
  *This manages the references to instances relevant to the creation of controllers, the current logged in user, etc.
  *
- *<p>Important:
+ *<p><b>Important:</b><p>
  *--> When creating a new controller/FXML file, create a new 'initialize' method and a new static controller variable,
  *specific to the type of controller class managing the FXML file. <br>
  *--> Any new controller should have an INDEPENDENT controller class, which should EXTEND application controller. <br>
@@ -134,13 +134,13 @@ public abstract class ApplicationController {
 		}
 	
 
-	/** A static method that triggers the initialization of CalendarView.fxml. <p>
+	/** A static method that triggers the initialization of CalendarView.fxml.
 	 * 
-	 * Creates a new FXMLLoader, checks for whether there is a pre-existing calendarViewController instance stored as a static
-	 * variable in ApplicationController, and sets/creates a new instance of calendarViewController as appropriate (i.e., if 
-	 * null, create new instance and store in ApplicationController).
+	 * <p> Checks if a FXMLLoader and scene has already been created, checks for whether there is a pre-existing 
+	 * calendarViewController instance stored as a static variable in ApplicationController, and sets/creates a new 
+	 * instance of calendarViewController as appropriate (i.e., if null, create new instance and store in ApplicationController).
 	 * 
-	 * Opens a new application window depending on the user that has logged-in from the loginView.
+	 * <p> Opens a new application window depending on the user that has logged-in from the loginView.
 	 */
 	protected static void initializeCalendarView() {
     	System.out.println("initializeCalendarView: Attempting to initialize CalendarView...");
@@ -214,6 +214,12 @@ public abstract class ApplicationController {
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
+	/** A static method that triggers the initialization of EventManagerView.fxml. <p>
+	 * 
+	 * Creates a new FXMLLoader, checks for whether there is a pre-existing eventManagerController instance stored as a static
+	 * variable in ApplicationController, and sets/creates a new instance of eventManagerController as appropriate (i.e., if 
+	 * null, create new instance and store in ApplicationController).
+	 */
 	protected static void initializeEventManagerView(Event selectedEvent, boolean direct) {
 		System.out.println("initializeEventManagerView: Attemptng to intialize EventManagerView...");
 		

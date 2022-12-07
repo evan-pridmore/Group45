@@ -28,8 +28,9 @@ import application.TimeUnits.Week;
 /**A class that creates objects which represent user profiles. The data stored in this class can be saved through the 
  * {@link #serializeUser(User)} and {@link #deserializeUser(String)} methods.
  * 
+ * <p> Implements {@link Serializable}.
+ * 
  * @author evan-pridmore
- *
  */
 public class User implements Serializable {
 

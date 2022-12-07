@@ -11,6 +11,8 @@ import application.Exceptions.NullEventEndPointException;
 /**
  * The basic class from which all other time units are created. Should never be directly constructed.
  * Stores a start and end time. End time may be null.
+ * 
+ * <p> Implements {@link Serializable}.
 */
 abstract class TimeUnit implements Serializable {
 	private static final long serialVersionUID = -2458286694103395827L;
