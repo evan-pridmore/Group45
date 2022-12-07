@@ -423,6 +423,7 @@ public class CalendarViewController extends ApplicationController  {
              			// Gets the events in the specified day.
              			for (Event e : dayTemp.getEvents()) {
              				
+             					System.out.println(String.format("Found event '%s' with start date '%s' and end date '%s'.", e.getName(), e.getStart(), e.getEnd()));
              					// Aforementioned event limiter.
 	                 			if (eventCount < 10) {
 	                 				addSimpleEventBlock(e, upcomingEventsVBox);
@@ -542,7 +543,7 @@ public class CalendarViewController extends ApplicationController  {
 	 	    	getCalendarController().showEventDetails(inputEvent, inputPane);
 	 	    	});
 	 		
-	 		// Adding StackPane to AnchorPane
+	 		// Adding StackPane to AnchorPane, off-setting the position of the event block to reflect the scheduled time.
 	 		AnchorPane.setTopAnchor(eventBlockPane, startPos);
 	 		inputPane.getChildren().add(eventBlockPane);
 	 		
