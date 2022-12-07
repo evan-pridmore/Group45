@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="275.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EventManagerController">
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EventManagerController">
    <children>
-      <VBox fx:id="rootVBox" alignment="CENTER" prefHeight="280.0" prefWidth="280.0">
+      <VBox fx:id="rootVBox" alignment="CENTER" prefHeight="290.0" prefWidth="290.0">
          <children>
             <VBox alignment="CENTER">
                <children>
@@ -98,7 +98,7 @@
                   <Button mnemonicParsing="false" onAction="#deleteEvent" prefHeight="25.0" text="DELETE" textFill="RED" />
                </children>
             </HBox>
-            <Label fx:id="errorLabel" text="Event start cannot be before event end." />
+            <Label fx:id="errorLabel" text="Event end must be after start." textFill="RED" />
          </children>
       </VBox>
    </children>

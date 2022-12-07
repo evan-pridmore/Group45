@@ -114,6 +114,17 @@ public class EventMakerController extends ApplicationController {
 				eventErrorLabel.setText("Event start cannot be before event end.");
 				eventErrorLabel.setVisible(true);
 				
+			} else if(start.equals(end)) {
+				eventStartDate.setBorder(errorBorder);
+				eventEndDate.setBorder(errorBorder);
+				eventStartHour.setBorder(errorBorder);
+				eventEndHour.setBorder(errorBorder);
+				eventStartMinute.setBorder(errorBorder);
+				eventEndMinute.setBorder(errorBorder);
+				
+				eventErrorLabel.setText("Start and end at the same time, consider a deadline?");
+				eventErrorLabel.setVisible(true);
+				
 			} else {
 				TimedEvent newEvent = new TimedEvent(start, end, name, colour);
 				getCurrentUser().addEvent(newEvent);

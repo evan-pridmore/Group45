@@ -104,7 +104,7 @@ public class EventManagerController extends ApplicationController {
     		
     		Color colour = eventColour.getValue();
     		  		
-    		if(start.isAfter(end)) {
+    		if(start.isAfter(end) || start.equals(end)) {
     			error = true;
 				if(eventStartDate.getValue().isAfter(eventEndDate.getValue())) {
 					eventStartDate.setBorder(errorBorder);
@@ -117,6 +117,13 @@ public class EventManagerController extends ApplicationController {
 						eventStartMinute.setBorder(errorBorder);
 						eventEndMinute.setBorder(errorBorder);
 					} else if (eventStartMinute.getValue() > eventEndMinute.getValue()) {
+						eventStartMinute.setBorder(errorBorder);
+						eventEndMinute.setBorder(errorBorder);
+					} else { 
+						eventStartDate.setBorder(errorBorder);
+						eventEndDate.setBorder(errorBorder);
+						eventStartHour.setBorder(errorBorder);
+						eventEndHour.setBorder(errorBorder);
 						eventStartMinute.setBorder(errorBorder);
 						eventEndMinute.setBorder(errorBorder);
 					}
