@@ -15,7 +15,7 @@ public abstract class Event extends TimeUnit {
 	
 	protected Event(ZonedDateTime start, ZonedDateTime end, String aName, Color aColour) throws NullEventEndPointException {
 		super(start, end);
-		if (end.minusDays(1).equals(start)) {
+		if (end != null && end.minusDays(1).equals(start)) {
 			setEnd(end.minusNanos(1000000000).toLocalDateTime());
 		}
 		setName(aName);
@@ -24,7 +24,7 @@ public abstract class Event extends TimeUnit {
 		
 	protected Event(LocalDateTime start, LocalDateTime end, String aName, Color aColour) throws NullEventEndPointException {
 		super(start, end);
-		if (end.minusDays(1).equals(start))
+		if (end != null && end.minusDays(1).equals(start))
 			setEnd(end.minusNanos(1000000000));
 		setName(aName);
 		setColour(aColour);
