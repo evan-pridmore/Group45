@@ -1,6 +1,7 @@
 package application;
 
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import javafx.application.Application;
@@ -16,7 +17,7 @@ public class Main extends Application {
 		
 		// Assigns references/data to static variables in the ApplicationController class.
 		ApplicationController.setAppStage(primaryStage);
-		ApplicationController.setSelectedDate(ZonedDateTime.now());
+		ApplicationController.setSelectedDate(ZonedDateTime.now().toLocalDate().atStartOfDay(ZoneId.systemDefault()));
 		
 		// Triggers the initialization of the Login View.
 		ApplicationController.initializeLoginView();

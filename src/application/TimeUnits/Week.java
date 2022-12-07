@@ -7,7 +7,7 @@ import application.Exceptions.EventOutsideTimeUnitException;
 import application.Exceptions.NullEventEndPointException;
 
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoField;
+import java.time.temporal.WeekFields;
 import java.util.Calendar;
 
 
@@ -30,13 +30,13 @@ public class Week extends TimeUnit {
 		//Set the start of the week to the start of the first day.
 		setStart(chosenDate.toLocalDateTime());
 		//Set the end of the week to the end of the last day.
-		setEnd(chosenDate.plusWeeks(1).minusNanos(1000000000).toLocalDateTime());
+		setEnd(chosenDate.plusWeeks(1).minusNanos(1).toLocalDateTime());
 		
 		//Create the days in the week.
 		generateDays();
 		
 		//Set weekNum to the number week of the year.
-		weekNum = chosenDate.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+		weekNum = getStart().get(WeekFields.SUNDAY_START.weekOfWeekBasedYear());
 	}
 
 	private void generateDays() throws NullEventEndPointException {
