@@ -8,10 +8,16 @@ import application.TimeUnits.InstantEvent;
 import application.TimeUnits.TimedEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
 /**A controller that manages {@link EventMakerView.fxml} and is associated GUI components (e.g., buttons, labels, textfields, etc.)
@@ -27,21 +33,21 @@ public class EventMakerController extends ApplicationController {
 	@FXML
 	private DatePicker eventStartDate;
 	@FXML
-	private ChoiceBox<Integer> eventStartHour;
+	private Spinner<Integer> eventStartHour;
 	@FXML
-	private ChoiceBox<Integer> eventStartMinute;
+	private Spinner<Integer> eventStartMinute;
 	@FXML
 	private DatePicker eventEndDate;
 	@FXML
-	private ChoiceBox<Integer> eventEndHour;
+	private Spinner<Integer> eventEndHour;
 	@FXML
-	private ChoiceBox<Integer> eventEndMinute;
+	private Spinner<Integer> eventEndMinute;
 	@FXML
 	private DatePicker deadlineTimeDate;
 	@FXML
-	private ChoiceBox<Integer> deadlineTimeHour;
+	private Spinner<Integer> deadlineTimeHour;
 	@FXML
-	private ChoiceBox<Integer> deadlineTimeMinute;
+	private Spinner<Integer> deadlineTimeMinute;
 	@FXML
 	private TextField eventName;
 	@FXML
@@ -50,43 +56,124 @@ public class EventMakerController extends ApplicationController {
 	private ColorPicker eventColour;
 	@FXML
 	private ColorPicker deadlineColour;
+	@FXML
+	private Label eventErrorLabel;
+	@FXML
+	private Label deadlineErrorLabel;
+	
+	private Border errorBorder = new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT),new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT),new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT),new BorderStroke(Color.RED, BorderStrokeStyle.SOLID ,new CornerRadii(3), BorderWidths.DEFAULT));
 
 	@FXML
 	private void addTimedEvent(ActionEvent event) throws NullEventEndPointException, EventOutsideTimeUnitException {
-		LocalDateTime start = eventStartDate.getValue().atStartOfDay().plusHours(eventStartHour.getValue()).plusMinutes(eventStartMinute.getValue());
+		//Reset.
+		boolean error = false;
+		eventStartDate.setBorder(null);
+		eventStartHour.setBorder(null);
+		eventStartMinute.setBorder(null);
+		eventEndDate.setBorder(null);
+		eventEndHour.setBorder(null);
+		eventEndMinute.setBorder(null);
+		eventErrorLabel.setText("Highlighted date(s) are not of valid format.");
+		eventErrorLabel.setVisible(false);
 		
-		LocalDateTime end = eventEndDate.getValue().atStartOfDay().plusHours(eventEndHour.getValue()).plusMinutes(eventEndMinute.getValue());
-	
+		
+		if (eventStartDate.getValue() == null) {
+			eventStartDate.setBorder(errorBorder);
+			error = true;
+		} if (eventEndDate.getValue() == null) {
+			eventEndDate.setBorder(errorBorder);
+			error = true;
+		}
+		
 		String name = eventName.getText();
-		
+
 		Color colour = eventColour.getValue();
+
 		
-		TimedEvent newEvent = new TimedEvent(start, end, name, colour);
-		getCurrentUser().addEvent(newEvent);
-		
-		getEventsStage().close();
-		User.serializeUser(getCurrentUser());
-		
+		if (!error) {
+			LocalDateTime start = eventStartDate.getValue().atStartOfDay().plusHours(eventStartHour.getValue()).plusMinutes(eventStartMinute.getValue());
+			LocalDateTime end = eventEndDate.getValue().atStartOfDay().plusHours(eventEndHour.getValue()).plusMinutes(eventEndMinute.getValue());
+			
+			if(start.isAfter(end)) {
+				if(eventStartDate.getValue().isAfter(eventEndDate.getValue())) {
+					eventStartDate.setBorder(errorBorder);
+					eventEndDate.setBorder(errorBorder);
+				 }else if (eventStartDate.getValue().equals(eventEndDate.getValue())) {
+					 System.out.println(eventStartHour.getValue() + " " + eventEndHour.getValue());
+					if(eventStartHour.getValue() > eventEndHour.getValue()) {
+						eventStartHour.setBorder(errorBorder);
+						eventEndHour.setBorder(errorBorder);
+						eventStartMinute.setBorder(errorBorder);
+						eventEndMinute.setBorder(errorBorder);
+					} else if (eventStartMinute.getValue() > eventEndMinute.getValue()) {
+						eventStartMinute.setBorder(errorBorder);
+						eventEndMinute.setBorder(errorBorder);
+					}
+				 }
+						
+				eventErrorLabel.setText("Event start cannot be before event end.");
+				eventErrorLabel.setVisible(true);
+				
+			} else if(start.equals(end)) {
+				eventStartDate.setBorder(errorBorder);
+				eventEndDate.setBorder(errorBorder);
+				eventStartHour.setBorder(errorBorder);
+				eventEndHour.setBorder(errorBorder);
+				eventStartMinute.setBorder(errorBorder);
+				eventEndMinute.setBorder(errorBorder);
+				
+				eventErrorLabel.setText("Start and end at the same time, consider a deadline?");
+				eventErrorLabel.setVisible(true);
+				
+			} else {
+				TimedEvent newEvent = new TimedEvent(start, end, name, colour);
+				getCurrentUser().addEvent(newEvent);
+				
+				System.out.println("addTimedEvent: Event created (" + newEvent.toString() + ")");
+				getMakerStage().close();
+				User.serializeUser(getCurrentUser());
+		    	getCalendarController().updateCalendarGUI();
+			}
+		} else {
+			eventErrorLabel.setVisible(true);
+		}
 	}
 	
 	@FXML
 	private void addInstantEvent(ActionEvent event) throws NullEventEndPointException, EventOutsideTimeUnitException {
-		LocalDateTime time = deadlineTimeDate.getValue().atStartOfDay().plusHours(deadlineTimeHour.getValue()).plusMinutes(deadlineTimeMinute.getValue());
+		boolean error = false;
+		deadlineTimeDate.setBorder(null);
+
+		if (deadlineTimeDate.getValue() == null) {
+			deadlineTimeDate.setBorder(errorBorder);
+			error = true;
+		}
+			
 
 		String name = deadlineName.getText();
 		
 		Color colour = deadlineColour.getValue();
+	
 		
-		InstantEvent newEvent = new InstantEvent(time, name, colour);
-		getCurrentUser().addEvent(newEvent);
 		
-		System.out.println(getCurrentUser().getEvents().size());
-		getEventsStage().close();
-		User.serializeUser(getCurrentUser());
+		if (!error) {
+			LocalDateTime time = deadlineTimeDate.getValue().atStartOfDay().plusHours(deadlineTimeHour.getValue()).plusMinutes(deadlineTimeMinute.getValue());
+			InstantEvent newEvent = new InstantEvent(time, name, colour);
+			getCurrentUser().addEvent(newEvent);
+			
+      System.out.println("addInstantEvent: Event created (" + newEvent.toString() + ")");
+			getMakerStage().close();
+			User.serializeUser(getCurrentUser());
+	    	getCalendarController().updateCalendarGUI();
+		} else {
+			deadlineErrorLabel.setVisible(true);
+		}
 	}
 	
-	void closeEventMaker() {
-		System.out.println("Test");
-	}
-	
+	public void setRandomColour() {
+		Color randomColour = new Color(Math.random(),Math.random(),Math.random(), Math.random());
+		eventColour.setValue(randomColour);
+		deadlineColour.setValue(randomColour);
+	} 
+
 }

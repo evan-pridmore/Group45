@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -10,11 +12,10 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CalendarViewController">
+<AnchorPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CalendarViewController">
    <children>
       <TabPane layoutX="268.0" layoutY="8.0" prefHeight="720.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
         <tabs>
@@ -22,156 +23,185 @@
                <content>
                   <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1000.0">
                      <children>
-                        <Label fx:id="dayDateLabel" text="Date">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
+                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="603.0">
                            <children>
-                              <ScrollPane id="DayViewScrollPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" style="-fx-vbar-policy: NEVER; -fx-hbar-policy: NEVER; -fx-background-color: #ebebeb; -fx-border-width: 0;">
+                              <Button fx:id="dayBackDateButton" layoutX="42.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#dayBackDate" prefHeight="20.0" text="←">
+                                 <HBox.margin>
+                                    <Insets left="150.0" right="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="dayDateLabel" alignment="CENTER" prefWidth="225.0" text="Date">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="dayForwardDateButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#dayForwardDate" prefHeight="20.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Button>
+                              <DatePicker fx:id="dayViewDatePicker" minHeight="-Infinity" minWidth="-Infinity" onAction="#viewDatePicked" pickOnBounds="false" prefHeight="20.0" prefWidth="25.0">
+                                 <HBox.margin>
+                                    <Insets left="125.0" />
+                                 </HBox.margin>
+                              </DatePicker>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="603.0" style="-fx-background-color: #d1d1d1;" />
+                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0">
+                           <children>
+                              <ScrollPane id="DayViewScrollPane" fitToWidth="true" hbarPolicy="NEVER" hvalue="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" style="-fx-vbar-policy: NEVER; -fx-hbar-policy: NEVER; -fx-background-color: #ebebeb; -fx-border-width: 0.25; -fx-border-color: #b8b8b8;" vbarPolicy="NEVER">
                                  <content>
-                                    <Pane>
+                                    <HBox maxWidth="-Infinity" minHeight="623.0" minWidth="-Infinity">
                                        <children>
-                                          <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #ebebeb;">
+                                          <VBox alignment="TOP_RIGHT" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #dedede; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;">
                                              <children>
-                                                <Label alignment="CENTER" layoutX="14.0" layoutY="950.0" text="12:00 AM">
+                                                <Label alignment="CENTER" layoutX="14.0" layoutY="950.0" text="12:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" text="1:00 AM">
+                                                <Label alignment="CENTER" text="1:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="2:00 AM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="2:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="3:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="3:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="4:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="4:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="5:00 AM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="5:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="6:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="6:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="7:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="7:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="61.0" text="8:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="61.0" text="8:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="9:00 AM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="9:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="10:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="10:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="11:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="11:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="61.0" text="12:00 PM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="61.0" text="12:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="78.0" text="1:00 PM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="78.0" text="1:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="95.0" text="2:00 PM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="95.0" text="2:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="112.0" text="3:00 PM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="112.0" text="3:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="129.0" text="4:00 PM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="129.0" text="4:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="34.0" layoutY="197.0" text="5:00 PM">
+                                                <Label alignment="CENTER" layoutX="34.0" layoutY="197.0" text="5:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="38.0" layoutY="214.0" text="6:00 PM">
+                                                <Label alignment="CENTER" layoutX="38.0" layoutY="214.0" text="6:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="231.0" text="7:00 PM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="231.0" text="7:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="248.0" text="8:00 PM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="248.0" text="8:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="265.0" text="9:00 PM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="265.0" text="9:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="13.0" layoutY="809.0" text="10:00 PM">
+                                                <Label alignment="CENTER" layoutX="13.0" layoutY="809.0" text="10:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="14.0" layoutY="856.0" text="11:00 PM">
+                                                <Label alignment="CENTER" layoutX="14.0" layoutY="856.0" text="11:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
                                              </children>
+                                             <padding>
+                                                <Insets right="5.0" />
+                                             </padding>
                                           </VBox>
-                                          <VBox fx:id="dayViewVBox" layoutX="54.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="250.0" style="-fx-background-color: #ebebeb;">
-                                             <children>
-                                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="This is a test  (Try scrolling!)" />
-                                             </children>
-                                          </VBox>
+                                          <AnchorPane fx:id="dayViewAnchorPane" maxWidth="-Infinity" minHeight="623.0" minWidth="-Infinity" prefWidth="240.0" style="-fx-background-color: #ebebeb;" />
                                        </children>
-                                    </Pane>
+                                    </HBox>
                                  </content>
                               </ScrollPane>
-                              <VBox fx:id="dayViewEventDetails" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="300.0" style="-fx-background-color: #ebebeb; -fx-border-image-width: 0;">
+                              <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="300.0" style="-fx-border-color: #b8b8b8; -fx-border-width: 0.25; -fx-background-color: #dedede;">
                                  <children>
-                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="Event Details" />
+                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="Event Details" textFill="#00000099" />
+                                    <VBox fx:id="dayViewEventDetails" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="300.0" style="-fx-border-color: #b8b8b8; -fx-border-width: 0.25;">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin></VBox>
                                  </children>
                               </VBox>
                            </children>
@@ -183,225 +213,226 @@
                <content>
                   <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1050.0">
                      <children>
-                        <Label fx:id="weekDateLabel" text="Date">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <HBox alignment="BASELINE_LEFT" layoutX="37.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="1026.0" style="-fx-background-color: #ebebeb;">
+                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
                            <children>
-                              <Label fx:id="weekDayLabelSun" alignment="CENTER" layoutX="254.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Sunday">
+                              <Button fx:id="weekBackDateButton" layoutX="42.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#weekBackDate" prefHeight="20.0" text="←">
                                  <HBox.margin>
-                                    <Insets left="54.0" />
+                                    <Insets left="150.0" right="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="weekDateLabel" alignment="CENTER" prefWidth="225.0" text="Date">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="weekForwardDateButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#weekForwardDate" prefHeight="20.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Button>
+                              <DatePicker fx:id="weekViewDatePicker" minHeight="-Infinity" minWidth="-Infinity" onAction="#viewDatePicked" pickOnBounds="false" prefHeight="20.0" prefWidth="25.0">
+                                 <HBox.margin>
+                                    <Insets left="125.0" />
+                                 </HBox.margin>
+                              </DatePicker>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="BASELINE_LEFT" layoutX="37.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="1053.0" style="-fx-background-color: #d1d1d1;">
+                           <children>
+                              <Label fx:id="weekDayLabelSun" alignment="CENTER" layoutX="254.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="113.0" text="Sunday" textFill="#00000099">
+                                 <HBox.margin>
+                                    <Insets left="60.0" />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelMon" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Monday">
+                              <Label fx:id="weekDayLabelMon" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="113.0" text="Monday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelTue" alignment="CENTER" layoutX="10.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Tuesday">
+                              <Label fx:id="weekDayLabelTue" alignment="CENTER" layoutX="10.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="113.0" text="Tuesday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelWed" alignment="CENTER" layoutX="55.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Wednesday">
+                              <Label fx:id="weekDayLabelWed" alignment="CENTER" layoutX="55.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="113.0" text="Wednesday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelThu" alignment="CENTER" layoutX="103.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Thursday">
+                              <Label fx:id="weekDayLabelThu" alignment="CENTER" layoutX="103.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="113.0" text="Thursday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelFri" alignment="CENTER" layoutX="168.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Friday">
+                              <Label fx:id="weekDayLabelFri" alignment="CENTER" layoutX="168.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="113.0" text="Friday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelSat" alignment="CENTER" layoutX="220.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Saturday">
+                              <Label fx:id="weekDayLabelSat" alignment="CENTER" layoutX="220.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="113.0" text="Saturday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0" prefWidth="1026.0">
+                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0">
                            <children>
-                              <ScrollPane id="DayViewScrollPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" style="-fx-vbar-policy: NEVER; -fx-hbar-policy: NEVER; -fx-background-color: #ebebeb; -fx-border-width: 0;">
+                              <ScrollPane id="DayViewScrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" style="-fx-vbar-policy: NEVER; -fx-hbar-policy: NEVER; -fx-background-color: #ebebeb; -fx-border-width: 0;">
                                  <content>
-                                    <HBox>
+                                    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0">
                                        <children>
-                                          <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #ebebeb;">
+                                          <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="60.0" style="-fx-background-color: #dedede; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;">
                                              <children>
-                                                <Label alignment="CENTER" layoutX="14.0" layoutY="950.0" text="12:00 AM">
+                                                <Label alignment="CENTER" layoutX="14.0" layoutY="950.0" text="12:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" text="1:00 AM">
+                                                <Label alignment="CENTER" text="1:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="2:00 AM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="2:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="3:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="3:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="4:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="4:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="5:00 AM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="5:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="6:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="6:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="7:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="7:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="61.0" text="8:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="61.0" text="8:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="9:00 AM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="10.0" text="9:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="10:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="27.0" text="10:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="11:00 AM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="44.0" text="11:00 AM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="61.0" text="12:00 PM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="61.0" text="12:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="78.0" text="1:00 PM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="78.0" text="1:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="95.0" text="2:00 PM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="95.0" text="2:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="112.0" text="3:00 PM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="112.0" text="3:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="36.0" layoutY="129.0" text="4:00 PM">
+                                                <Label alignment="CENTER" layoutX="36.0" layoutY="129.0" text="4:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="34.0" layoutY="197.0" text="5:00 PM">
+                                                <Label alignment="CENTER" layoutX="34.0" layoutY="197.0" text="5:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="38.0" layoutY="214.0" text="6:00 PM">
+                                                <Label alignment="CENTER" layoutX="38.0" layoutY="214.0" text="6:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="231.0" text="7:00 PM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="231.0" text="7:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="248.0" text="8:00 PM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="248.0" text="8:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="37.0" layoutY="265.0" text="9:00 PM">
+                                                <Label alignment="CENTER" layoutX="37.0" layoutY="265.0" text="9:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="13.0" layoutY="809.0" text="10:00 PM">
+                                                <Label alignment="CENTER" layoutX="13.0" layoutY="809.0" text="10:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label alignment="CENTER" layoutX="14.0" layoutY="856.0" text="11:00 PM">
+                                                <Label alignment="CENTER" layoutX="14.0" layoutY="856.0" text="11:00 PM" textFill="#00000080">
                                                    <VBox.margin>
                                                       <Insets bottom="43.0" />
                                                    </VBox.margin>
                                                 </Label>
                                              </children>
+                                             <padding>
+                                                <Insets right="5.0" />
+                                             </padding>
                                           </VBox>
-                                          <VBox fx:id="weekViewVbox1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="110.0" style="-fx-background-color: #ebebeb;">
-                                             <children>
-                                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="This is a test  (Try scrolling!)" />
-                                             </children>
-                                          </VBox>
-                                          <VBox fx:id="weekViewVbox2" layoutX="64.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="110.0" style="-fx-background-color: #ebebeb;">
-                                             <children>
-                                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="This is a test  (Try scrolling!)" />
-                                             </children>
-                                          </VBox>
-                                          <VBox fx:id="weekViewVbox3" layoutX="314.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="110.0" style="-fx-background-color: #ebebeb;">
-                                             <children>
-                                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="This is a test  (Try scrolling!)" />
-                                             </children>
-                                          </VBox>
-                                          <VBox fx:id="weekViewVbox4" layoutX="564.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="110.0" style="-fx-background-color: #ebebeb;">
-                                             <children>
-                                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="This is a test  (Try scrolling!)" />
-                                             </children>
-                                          </VBox>
-                                          <VBox fx:id="weekViewVbox5" layoutX="64.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="110.0" style="-fx-background-color: #ebebeb;">
-                                             <children>
-                                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="This is a test  (Try scrolling!)" />
-                                             </children>
-                                          </VBox>
-                                          <VBox fx:id="weekViewVbox6" layoutX="189.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="110.0" style="-fx-background-color: #ebebeb;">
-                                             <children>
-                                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="This is a test  (Try scrolling!)" />
-                                             </children>
-                                          </VBox>
-                                          <VBox fx:id="weekViewVbox7" layoutX="439.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="110.0" style="-fx-background-color: #ebebeb;">
-                                             <children>
-                                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="This is a test  (Try scrolling!)" />
-                                             </children>
-                                          </VBox>
+                                          <AnchorPane fx:id="weekViewAnchorPane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="113.0" style="-fx-background-color: #ebebeb; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;" />
+                                          <AnchorPane fx:id="weekViewAnchorPane2" layoutX="840.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="113.0" style="-fx-background-color: #ebebeb; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;" />
+                                          <AnchorPane fx:id="weekViewAnchorPane3" layoutX="840.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="113.0" style="-fx-background-color: #ebebeb; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;" />
+                                          <AnchorPane fx:id="weekViewAnchorPane4" layoutX="950.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="113.0" style="-fx-background-color: #ebebeb; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;" />
+                                          <AnchorPane fx:id="weekViewAnchorPane5" layoutX="840.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="113.0" style="-fx-background-color: #ebebeb; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;" />
+                                          <AnchorPane fx:id="weekViewAnchorPane6" layoutX="950.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="113.0" style="-fx-background-color: #ebebeb; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;" />
+                                          <AnchorPane fx:id="weekViewAnchorPane7" layoutX="1060.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1440.0" prefWidth="113.0" style="-fx-background-color: #ebebeb; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;" />
                                        </children>
                                     </HBox>
                                  </content>
                               </ScrollPane>
-                              <VBox fx:id="weekViewEventDetails" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="200.0" style="-fx-background-color: #ebebeb; -fx-border-image-width: 0;">
+                              <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="200.0" style="-fx-background-color: #dedede; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;">
                                  <children>
-                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="Event Details" />
+                                    <Label alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="200.0" text="Event Details" textFill="#00000099" />
+                                    <VBox fx:id="weekViewEventDetails" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="200.0" style="-fx-background-color: #dedede; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;" />
                                  </children>
                               </VBox>
                            </children>
@@ -413,83 +444,115 @@
                <content>
                   <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1050.0">
                      <children>
-                        <Label fx:id="monthDateLabel" text="Date">
-                           <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <HBox alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="1026.0" style="-fx-background-color: #ebebeb;">
+                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
                            <children>
-                              <Label fx:id="weekDayLabelSun1" alignment="CENTER" layoutX="254.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Sunday">
+                              <Button fx:id="monthBackDateButton" layoutX="42.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#monthBackDate" prefHeight="20.0" text="←">
                                  <HBox.margin>
-                                    <Insets left="54.0" />
+                                    <Insets left="150.0" right="15.0" />
                                  </HBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="monthDateLabel" alignment="CENTER" prefWidth="225.0" text="Date">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
                               </Label>
-                              <Label fx:id="weekDayLabelMon1" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Monday">
+                              <Button fx:id="monthForwardDateButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#monthForwardDate" prefHeight="20.0" text="→">
+                                 <HBox.margin>
+                                    <Insets left="15.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Button>
+                              <DatePicker fx:id="monthViewDatePicker" minHeight="-Infinity" minWidth="-Infinity" onAction="#viewDatePicked" pickOnBounds="false" prefHeight="20.0" prefWidth="25.0">
+                                 <HBox.margin>
+                                    <Insets left="125.0" />
+                                 </HBox.margin>
+                              </DatePicker>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="BASELINE_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="1053.0" style="-fx-background-color: #d1d1d1;">
+                           <children>
+                              <Label fx:id="weekDayLabelSun1" alignment="CENTER" layoutX="254.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="121.1" text="Sunday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelTue1" alignment="CENTER" layoutX="10.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Tuesday">
+                              <Label fx:id="weekDayLabelMon1" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="121.1" text="Monday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelWed1" alignment="CENTER" layoutX="55.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Wednesday">
+                              <Label fx:id="weekDayLabelTue1" alignment="CENTER" layoutX="10.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="121.1" text="Tuesday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelThu1" alignment="CENTER" layoutX="103.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Thursday">
+                              <Label fx:id="weekDayLabelWed1" alignment="CENTER" layoutX="55.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="121.1" text="Wednesday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelFri1" alignment="CENTER" layoutX="168.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Friday">
+                              <Label fx:id="weekDayLabelThu1" alignment="CENTER" layoutX="103.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="121.1" text="Thursday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Label fx:id="weekDayLabelSat1" alignment="CENTER" layoutX="220.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="110.0" text="Saturday">
+                              <Label fx:id="weekDayLabelFri1" alignment="CENTER" layoutX="168.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="121.1" text="Friday" textFill="#00000099">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="weekDayLabelSat1" alignment="CENTER" layoutX="220.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="121.1" text="Saturday" textFill="#00000099">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="633.0" prefWidth="1026.0" style="-fx-border-width: 0;">
+                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="1053.0" style="-fx-border-width: 0;">
                            <children>
-                              <ScrollPane id="DayViewScrollPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="824.0" style="-fx-vbar-policy: NEVER; -fx-hbar-policy: NEVER; -fx-border-width: 0; -fx-background-color: #ebebeb;">
+                              <ScrollPane id="DayViewScrollPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" style="-fx-vbar-policy: NEVER; -fx-hbar-policy: NEVER; -fx-border-width: 0; -fx-background-color: #ebebeb;">
                                  <content>
-                                    <VBox fx:id="monthViewVBox" prefHeight="1440.0" prefWidth="824.0" style="-fx-border-width: 0; -fx-background-color: #ebebeb;">
-                                       <children>
-                                          <Label text="This is a test (try scrolling!)" />
-                                       </children></VBox>
+                                    <VBox fx:id="monthViewVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="620.0" minWidth="-Infinity" prefWidth="850.0" style="-fx-border-width: 0; -fx-background-color: #ebebeb;" />
                                  </content>
                               </ScrollPane>
-                              <VBox fx:id="monthViewEventDetails" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="200.0" style="-fx-background-color: #ebebeb; -fx-border-image-width: 0;">
+                              <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="200.0" style="-fx-background-color: #dedede; -fx-border-image-width: 0;">
                                  <children>
-                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="314.0" text="Event Details" />
+                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="200.0" text="Event Details" textFill="#00000099" />
+                                    <VBox fx:id="monthViewEventDetails" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="200.0" style="-fx-background-color: #dedede; -fx-border-color: #b8b8b8; -fx-border-width: 0.25;" />
                                  </children>
                               </VBox>
                            </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
                         </HBox>
                      </children>
                   </VBox>
                </content></Tab>
         </tabs>
       </TabPane>
-      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
+      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefWidth="200.0" style="-fx-border-color: #b8b8b8; -fx-border-width: 0.25;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
          <children>
             <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                <children>
-                  <VBox fx:id="upcomingEventsVBox" prefHeight="690.0" prefWidth="200.0">
+                  <VBox fx:id="upcomingEventsVBox" alignment="TOP_CENTER" prefHeight="690.0" prefWidth="200.0" spacing="5.0">
                      <children>
-                        <Label fx:id="upcomingEventsLabel" alignment="CENTER" prefHeight="38.0" prefWidth="200.0" text="No upcoming events." textAlignment="CENTER" wrapText="true" />
+                        <Label fx:id="upcomingEventsLabel" alignment="CENTER" prefWidth="200.0" text="No upcoming events." textAlignment="CENTER" wrapText="true">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin></Label>
                      </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
                   </VBox>
                </children>
             </VBox>
@@ -511,8 +574,7 @@
             <Menu fx:id="EditMenu" mnemonicParsing="false" text="Edit">
                <items>
                   <MenuItem accelerator="Ctrl+N" mnemonicParsing="false" onAction="#addEventMenu" text="Add Event" />
-                  <MenuItem accelerator="Ctrl+Delete" mnemonicParsing="false" onAction="#removeEventMenu" text="Remove Event" />
-                  <MenuItem accelerator="Ctrl+Delete" mnemonicParsing="false" onAction="#openAdminPreferences" text="Admin Preferences" />
+                  <MenuItem accelerator="Ctrl+M" mnemonicParsing="false" onAction="#manageEventsMenu" text="Manage Events" />
                </items>
             </Menu>
         </menus>
