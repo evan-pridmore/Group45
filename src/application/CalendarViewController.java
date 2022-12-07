@@ -4,6 +4,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
+import java.time.temporal.WeekFields;
 
 import application.TimeUnits.*;
 import javafx.event.ActionEvent;
@@ -276,6 +277,8 @@ public class CalendarViewController extends ApplicationController  {
      	// Calculating the beginning date of a week...
      	ZonedDateTime weekStart = getSelectedDate().minusDays(dayOfWeek - 1);
      	
+     	System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + weekStart);
+     	
      	updateDayPane(weekStart, weekViewAnchorPane1, 110);
      	updateDayPane(weekStart.plusDays(1), weekViewAnchorPane2, 110);
      	updateDayPane(weekStart.plusDays(2), weekViewAnchorPane3, 110);
@@ -338,7 +341,7 @@ public class CalendarViewController extends ApplicationController  {
 			
 			// Gets events for every day in the specified month. eventCount is used to limit the number of events added to 8 in order to to prevent overlap.
 			int eventCount = 0;
-			int weekOfYear = dayOfMonth.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+			int weekOfYear = dayOfMonth.get(WeekFields.SUNDAY_START.weekOfWeekBasedYear());
 	     	int dayOfWeek = getConvertedDayOfWeek(dayOfMonth);	
 	     	
 	     	// Getting the specified span of weeks in the specified month.
@@ -399,8 +402,8 @@ public class CalendarViewController extends ApplicationController  {
      	// Clears VBox to prevent the addition of duplicate event blocks.   	
      	upcomingEventsVBox.getChildren().clear();
     	
-    	ZonedDateTime currentDate = ZonedDateTime.now();
-    	int weekOfYear = currentDate.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+    	ZonedDateTime currentDate = ZonedDateTime.now().toLocalDate().atStartOfDay(ZoneId.systemDefault());
+    	int weekOfYear = currentDate.get(WeekFields.SUNDAY_START.weekOfWeekBasedYear());
      	int dayOfWeek = getConvertedDayOfWeek(currentDate);	
      	
     	int eventCount = 0;
@@ -456,7 +459,8 @@ public class CalendarViewController extends ApplicationController  {
      */
     
     private void updateDayPane(ZonedDateTime inputDate, AnchorPane inputPane, int inputWidth) {
-    	int weekOfYear = inputDate.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+//    	int weekOfYear = inputDate.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+    	int weekOfYear = inputDate.get(WeekFields.SUNDAY_START.weekOfWeekBasedYear());
      	int dayOfWeek = getConvertedDayOfWeek(inputDate);	
 
     	// Clears VBox to prevent duplicate event blocks from being added.   	
